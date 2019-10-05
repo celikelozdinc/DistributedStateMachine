@@ -27,6 +27,7 @@ public class Application implements CommandLineRunner {
         /* Reads named arguments from `VM Options` section in jar configuration */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         String type = System.getProperty( "type" );
+        System.out.println("TYPE of SMOC is: " + type);
 
         stateMachine.start();
         Message<Events> messagePay = MessageBuilder
