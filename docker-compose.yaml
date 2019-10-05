@@ -12,7 +12,12 @@ services:
         dockerfile: smoc/Dockerfile
       networks:
         - distributedWan
-
+  smoc2:
+      build:
+        context: .
+        dockerfile: smoc/Dockerfile
+      networks:
+        - distributedWan
 
 networks:
   distributedWan: {}
