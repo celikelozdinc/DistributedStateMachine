@@ -18,14 +18,15 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /* Reads timesleep argument */
-        String[] argument = args[0].split("=");
-        int timeSleep = Integer.parseInt(argument[1]);
+        /* Reads timesleep argument
+        *  which reads from `Program Arguments` section in jar configuration
+        *String[] argument = args[0].split("=");
+        *int timeSleep = Integer.parseInt(argument[1]);
+        */
 
-        /* Reads sender/receiver argument */
-        String type = argument[2];
-        System.out.println("TYPE IS: " + type);
-
+        /* Reads named arguments from `VM Options` section in jar configuration */
+        int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
+        String type = System.getProperty( "type" );
 
         stateMachine.start();
         Message<Events> messagePay = MessageBuilder

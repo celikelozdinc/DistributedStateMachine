@@ -37,7 +37,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-
     /** Default Constructor **/
     public StateMachineConfig(){ }
 
