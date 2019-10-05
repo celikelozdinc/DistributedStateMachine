@@ -1,0 +1,11 @@
+version: "3"
+services:
+  Zookeeper:
+    build:
+      context: .
+      dockerfile: Zookeeper/Dockerfile
+    networks:
+      - distributedWan
+
+networks:
+  distributedWan: {}
