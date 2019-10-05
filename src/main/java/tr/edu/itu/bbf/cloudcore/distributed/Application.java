@@ -22,6 +22,11 @@ public class Application implements CommandLineRunner {
         String[] argument = args[0].split("=");
         int timeSleep = Integer.parseInt(argument[1]);
 
+        /* Reads sender/receiver argument */
+        String type = argument[2];
+        System.out.println("TYPE IS: " + type);
+
+
         stateMachine.start();
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
