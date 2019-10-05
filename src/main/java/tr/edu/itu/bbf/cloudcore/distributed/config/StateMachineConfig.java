@@ -34,8 +34,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /*
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
+     */
 
     /** Default Constructor **/
     public StateMachineConfig(){ }

@@ -7,14 +7,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.StateMachineContext;
+import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import org.springframework.statemachine.support.DefaultExtendedState;
+import org.springframework.statemachine.support.DefaultStateMachineContext;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
     @Autowired
     private StateMachine<States, Events> stateMachine;
+
+    @Autowired
+    private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
     @Override
     public void run(String... args) throws Exception {
@@ -29,6 +39,7 @@ public class Application implements CommandLineRunner {
         String type = System.getProperty( "type" );
         System.out.println("TYPE of SMOC is: " + type);
 
+
         stateMachine.start();
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
@@ -41,6 +52,18 @@ public class Application implements CommandLineRunner {
                 .setHeader("timeSleep", timeSleep)
                 .build();
         stateMachine.sendEvent(messageReceive);
+
+        if(type.equals("sender")){
+            System.out.println("Process for sender...");
+            stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
+            TimeUnit.MINUTES.sleep(1);
+        }
+        else if(type.equals("receiver")){
+            System.out.println("Process for receiver...");
+            StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+            System.out.println("EXTENDED STATE IS " + context.getExtendedState());
+            System.out.println("EVENT IS " + context.getEvent());
+        }
 
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
