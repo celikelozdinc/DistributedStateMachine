@@ -14,6 +14,6 @@ echo syncLimit=5 >> conf/zoo.cfg && \
 echo clientPort=2181 >> conf/zoo.cfg
 EXPOSE 2181
 
-# Start zookeper in foreground #
+# Start zookeper in foreground mode #
 # You should start container with detached mode #
 ENTRYPOINT ["/bin/bash","/opt/zookeeper/bin/zkServer.sh","start-foreground"]
