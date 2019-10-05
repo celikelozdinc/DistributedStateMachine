@@ -103,6 +103,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             public void execute(StateContext<States, Events> context) {
                 System.out.println("-----------ENTERING WAITING STATE ACTION------------");
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
+                System.out.println("Local var for waiting state before changing :  " + localVar);
                 localVar = localVar + 2;
                 context.getExtendedState().getVariables().put("localVarForWaiting", localVar);
             }
@@ -130,6 +131,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             public void execute(StateContext<States, Events> context) {
                 System.out.println("-----------ENTERING DONE STATE ACTION------------");
                 Integer localVar = context.getExtendedState().get("localVarForDone", Integer.class);
+                System.out.println("Local var for done state before changing :  " + localVar);
                 localVar = localVar + 5;
                 context.getExtendedState().getVariables().put("localVarForDone", localVar);
             }

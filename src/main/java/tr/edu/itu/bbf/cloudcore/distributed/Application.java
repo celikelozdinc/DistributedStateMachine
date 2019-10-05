@@ -37,10 +37,13 @@ public class Application implements CommandLineRunner {
         /* Reads named arguments from `VM Options` section in jar configuration */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
 
-        //String type = System.getProperty( "type" );
-        //System.out.println("TYPE of SMOC is: " + type);
+        String type = System.getProperty( "type" );
+        System.out.println("TYPE of SMOC is: " + type);
+
 
         stateMachine.start();
+        stateMachineEnsemble.join(stateMachine);
+
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
@@ -53,7 +56,7 @@ public class Application implements CommandLineRunner {
                 .build();
         stateMachine.sendEvent(messageReceive);
 
-        /*
+
         if(type.equals("sender")){
             System.out.println("Process for sender...");
             stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
@@ -65,7 +68,7 @@ public class Application implements CommandLineRunner {
             System.out.println("EXTENDED STATE IS " + context.getExtendedState());
             System.out.println("EVENT IS " + context.getEvent());
         }
-         */
+
 
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
