@@ -101,10 +101,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------ENTERING WAITING STATE ACTION------------");
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER()-----");
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
-                System.out.println("Local var for waiting state before changing :  " + localVar);
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().PRINT_LOCAL_VAR()-----> " + localVar);
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().CHANGE_LOCAL_VAR()-----");
                 localVar = localVar + 2;
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().PERSIST_LOCAL_VAR()-----");
                 context.getExtendedState().getVariables().put("localVarForWaiting", localVar);
             }
         };
@@ -116,9 +118,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------EXITING WAITING STATE ACTION------------");
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT()-----");
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
-                System.out.println("Local var for waiting state: " + localVar);
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
             }
         };
     }
@@ -129,10 +131,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------ENTERING DONE STATE ACTION------------");
+                System.out.println("-----DONE_STATE.ENTER()-----");
                 Integer localVar = context.getExtendedState().get("localVarForDone", Integer.class);
-                System.out.println("Local var for done state before changing :  " + localVar);
+                System.out.println("-----DONE_STATE.ENTER().PRINT_LOCAL_VAR()-----> " + localVar);
                 localVar = localVar + 5;
+                System.out.println("-----DONE_STATE.ENTER().PERSIST_LOCAL_VAR()-----");
                 context.getExtendedState().getVariables().put("localVarForDone", localVar);
             }
         };
@@ -144,9 +147,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------EXITING DONE STATE ACTION------------");
+                System.out.println("-----DONE_STATE.EXIT()-----");
                 Integer localVar = context.getExtendedState().get("localVarForDone", Integer.class);
-                System.out.println("Local var for done state: " + localVar);
+                System.out.println("-----DONE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
             }
         };
     }
@@ -171,7 +174,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         return new Action<States, Events>() {
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------TRANSITION ACTION FOR INCREASING VARIABLE------------");
+                System.out.println("-----------TRANSITION ACTION BETWEEN STATES------------");
 
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();
