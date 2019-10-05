@@ -6,6 +6,13 @@ services:
       dockerfile: zookeeper/Dockerfile
     networks:
       - distributedWan
+  smoc1:
+      build:
+        context: .
+        dockerfile: smoc/Dockerfile
+      networks:
+        - distributedWan
+
 
 networks:
   distributedWan: {}
