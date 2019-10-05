@@ -59,14 +59,15 @@ public class Application implements CommandLineRunner {
 
         if(type.equals("sender")){
             System.out.println("Process for sender...");
-            stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
+            //stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
             TimeUnit.MINUTES.sleep(1);
         }
         else if(type.equals("receiver")){
             System.out.println("Process for receiver...");
             StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
-            System.out.println("EXTENDED STATE IS " + context.getExtendedState());
-            System.out.println("EVENT IS " + context.getEvent());
+            System.out.println("STATE IS " + context.getState().toString());
+            System.out.println("EXTENDED STATE IS " + context.getExtendedState().toString());
+            System.out.println("EVENT IS " + context.getEvent().toString());
         }
 
 
