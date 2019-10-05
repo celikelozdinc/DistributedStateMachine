@@ -1,3 +1,9 @@
+FROM openjdk:8-jre-alpine
+RUN apk update && \
+apk add bash && \
+apk add busybox-extras && \
+apk add wget
+ 
 # Zookeeper #
 WORKDIR /opt
 RUN wget -q kozyatagi.mirror.guzel.net.tr/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz && \
@@ -14,6 +20,11 @@ echo syncLimit=5 >> conf/zoo.cfg && \
 echo clientPort=2181 >> conf/zoo.cfg
 EXPOSE 2181
 
+<<<<<<< Updated upstream:Zookeeper/Dockerfile
 # Start zookeper in foreground mode #
+=======
+WORKDIR /opt/zookeeper/bin
+# Start zookeper in foreground #
+>>>>>>> Stashed changes:zookeeper/Dockerfile
 # You should start container with detached mode #
 ENTRYPOINT ["/bin/bash","/opt/zookeeper/bin/zkServer.sh","start-foreground"]

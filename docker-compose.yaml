@@ -1,9 +1,9 @@
 version: "3"
 services:
-  Zookeeper:
+  zookeeper:
     build:
       context: .
-      dockerfile: Zookeeper/Dockerfile
+      dockerfile: zookeeper/Dockerfile
     networks:
       - distributedWan
 
