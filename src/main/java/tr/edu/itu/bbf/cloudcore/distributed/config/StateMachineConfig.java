@@ -34,15 +34,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /*
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
-     */
+
 
     /** Default Constructor **/
     public StateMachineConfig(){ }
 
-    /*
     @Override
     public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
         config
@@ -59,12 +57,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public CuratorFramework curatorClient() throws Exception {
         CuratorFramework client = CuratorFrameworkFactory.builder().defaultData(new byte[0])
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                .connectString("localhost:2181").build();
+                .connectString("zookeeper:2181").build();
         client.start();
         return client;
     }
 
-     */
     @Override
     public void configure(StateMachineStateConfigurer<States, Events> states)
             throws Exception {
