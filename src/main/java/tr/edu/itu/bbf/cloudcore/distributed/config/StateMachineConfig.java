@@ -101,7 +101,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER()-----");
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER() for statemachine-----> " + context.getStateMachine().getUuid());
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().PRINT_LOCAL_VAR()-----> " + localVar);
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().CHANGE_LOCAL_VAR()-----");
@@ -118,7 +118,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT()-----");
+                System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT() for statemachine----->" + context.getStateMachine().getUuid() );
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
             }
@@ -131,9 +131,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----DONE_STATE.ENTER()-----");
+                System.out.println("-----DONE_STATE.ENTER() for state machine----->" + context.getStateMachine().getUuid());
                 Integer localVar = context.getExtendedState().get("localVarForDone", Integer.class);
                 System.out.println("-----DONE_STATE.ENTER().PRINT_LOCAL_VAR()-----> " + localVar);
+                System.out.println("-----DONE_STATE.ENTER().CHANGE_LOCAL_VAR()-----");
                 localVar = localVar + 5;
                 System.out.println("-----DONE_STATE.ENTER().PERSIST_LOCAL_VAR()-----");
                 context.getExtendedState().getVariables().put("localVarForDone", localVar);
@@ -147,7 +148,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----DONE_STATE.EXIT()-----");
+                System.out.println("-----DONE_STATE.EXIT() for state machine-----> " + context.getStateMachine().getUuid());
                 Integer localVar = context.getExtendedState().get("localVarForDone", Integer.class);
                 System.out.println("-----DONE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
             }
@@ -159,7 +160,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         return new Action<States, Events>() {
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("----------- TRANSITION ACTION FOR INITIALIZATION------------");
+                System.out.println("-----TRANSITION ACTION FOR INITIALIZATION for state machine-----> " + context.getStateMachine().getUuid());
                 /** Define extended state variable as common variable used inside transition actions **/
                 context.getExtendedState().getVariables().put("common", 0);
                 /** Define extended state variable as private/local variable used inside state actions **/
@@ -174,7 +175,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         return new Action<States, Events>() {
             @Override
             public void execute(StateContext<States, Events> context) {
-                System.out.println("-----------TRANSITION ACTION BETWEEN STATES------------");
+                System.out.println("-----TRANSITION ACTION BETWEEN STATES for statemachine-----> " + context.getStateMachine().getUuid());
 
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();

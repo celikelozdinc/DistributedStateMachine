@@ -44,23 +44,37 @@ public class Application implements CommandLineRunner {
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
 
-        Message<Events> messagePay = MessageBuilder
-                .withPayload(Events.PAY)
-                .setHeader("timeSleep", timeSleep)
-                .build();
-        stateMachine.sendEvent(messagePay);
+        /* LOOP 1*/
+        sendPayEvent(timeSleep);
+        sync(type);
+        sendReceiveEvent(timeSleep);
+        sendStartFromScratchEvent(timeSleep);
 
-        Message<Events> messageReceive = MessageBuilder
-                .withPayload(Events.RECEIVE)
-                .setHeader("timeSleep", timeSleep)
-                .build();
-        stateMachine.sendEvent(messageReceive);
+        /* LOOP 2*/
+        sendPayEvent(timeSleep);
+        sendReceiveEvent(timeSleep);
+        sync(type);
+        sendStartFromScratchEvent(timeSleep);
 
+        /* LOOP 3 */
+        sendPayEvent(timeSleep);
+        sync(type);
+        sendReceiveEvent(timeSleep);
+        sync(type);
+        sendStartFromScratchEvent(timeSleep);
 
+        stateMachine.stop();
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
+    public void sync(String type) throws Exception {
         if(type.equals("sender")){
             System.out.println("Process for sender...");
             //stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
-            TimeUnit.MINUTES.sleep(1);
+            TimeUnit.SECONDS.sleep(15);
         }
         else if(type.equals("receiver")){
             System.out.println("Process for receiver...");
@@ -70,17 +84,27 @@ public class Application implements CommandLineRunner {
             System.out.println("EVENT IS " + context.getEvent().toString());
         }
 
-
+    }
+    public void sendPayEvent(int timeSleep){
+        Message<Events> messagePay = MessageBuilder
+                .withPayload(Events.PAY)
+                .setHeader("timeSleep", timeSleep)
+                .build();
+        stateMachine.sendEvent(messagePay);
+    }
+    public void sendReceiveEvent(int timeSleep){
+        Message<Events> messageReceive = MessageBuilder
+                .withPayload(Events.RECEIVE)
+                .setHeader("timeSleep", timeSleep)
+                .build();
+        stateMachine.sendEvent(messageReceive);
+    }
+    public void sendStartFromScratchEvent(int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
-
-        stateMachine.stop();
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
 }
