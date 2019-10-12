@@ -84,6 +84,8 @@ public class Application implements CommandLineRunner {
          */
 
         stateMachine.stop();
+
+        System.out.println("*****State machine is stopped.Exiting main program*****");
     }
 
     public static void main(String[] args) {
