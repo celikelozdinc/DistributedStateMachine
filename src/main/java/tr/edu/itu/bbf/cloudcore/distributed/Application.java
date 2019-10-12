@@ -46,9 +46,15 @@ public class Application implements CommandLineRunner {
 
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
+            TimeUnit.SECONDS.sleep(5);
+            sendStartFromScratchEvent(timeSleep);
+            TimeUnit.SECONDS.sleep(5);
         }
         else if (type.equals("receiver")){
             sendReceiveEvent(timeSleep);
+            TimeUnit.SECONDS.sleep(5);
+            sendPayEvent(timeSleep);
+            TimeUnit.SECONDS.sleep(5);
         }
 
 
