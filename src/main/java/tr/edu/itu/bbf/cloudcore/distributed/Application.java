@@ -42,26 +42,40 @@ public class Application implements CommandLineRunner {
 
 
         stateMachine.start();
-        stateMachineEnsemble.join(stateMachine);
+        //stateMachineEnsemble.join(stateMachine);
+
+        if (type.equals("sender")){
+            sendPayEvent(timeSleep);
+        }
+        else if (type.equals("receiver")){
+            sendReceiveEvent(timeSleep);
+        }
+
 
         /* LOOP 1*/
+        /*
         sendPayEvent(timeSleep);
         sync(type);
         sendReceiveEvent(timeSleep);
         sendStartFromScratchEvent(timeSleep);
+         */
 
         /* LOOP 2*/
+        /*
         sendPayEvent(timeSleep);
         sendReceiveEvent(timeSleep);
         sync(type);
         sendStartFromScratchEvent(timeSleep);
+         */
 
         /* LOOP 3 */
+        /*
         sendPayEvent(timeSleep);
         sync(type);
         sendReceiveEvent(timeSleep);
         sync(type);
         sendStartFromScratchEvent(timeSleep);
+         */
 
         stateMachine.stop();
     }
