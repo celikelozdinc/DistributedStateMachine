@@ -9,10 +9,10 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.support.DefaultExtendedState;
-import org.springframework.statemachine.support.DefaultStateMachineContext;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import java.io.InputStream;
+import java.util.Scanner;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +44,21 @@ public class Application implements CommandLineRunner {
         stateMachine.start();
         //stateMachineEnsemble.join(stateMachine);
 
+        InputStream stream = System.in;
+        Scanner scanner = new Scanner(stream);
+        System.out.println("SMOC is started. From now on, you can send events.");
+
+        try {
+            while (true) {
+                System.out.println("Event:");
+                String event = scanner.next();
+                System.out.println("This event will be sent: " + event);
+            }
+        }catch(IllegalStateException e) {
+            System.out.println("Exiting with exception ---> "+ e.toString());
+        }
+        scanner.close();
+        /*
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
             sleep((long) 30);
@@ -65,7 +80,7 @@ public class Application implements CommandLineRunner {
             sleep((long) 30);
             System.out.println("*****TIMESLEEP after StartFromScratch event for receiver is finished.");
         }
-
+        */
 
         /* LOOP 1*/
         /*
