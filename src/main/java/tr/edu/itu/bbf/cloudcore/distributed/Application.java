@@ -47,14 +47,18 @@ public class Application implements CommandLineRunner {
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
             TimeUnit.SECONDS.sleep(5);
+            System.out.println("*****TIMESLEEP after Pay event for sender is finished.");
             sendStartFromScratchEvent(timeSleep);
             TimeUnit.SECONDS.sleep(5);
+            System.out.println("*****TIMESLEEP after StartFromScratch event for sender is finished.");
         }
         else if (type.equals("receiver")){
             sendReceiveEvent(timeSleep);
             TimeUnit.SECONDS.sleep(5);
+            System.out.println("*****TIMESLEEP after Receive event for receiver is finished.");
             sendPayEvent(timeSleep);
             TimeUnit.SECONDS.sleep(5);
+            System.out.println("*****TIMESLEEP after Pay event for receiver is finished.");
         }
 
 
