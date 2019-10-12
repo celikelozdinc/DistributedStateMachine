@@ -62,6 +62,7 @@ public class Application implements CommandLineRunner {
             sleep((long) 30);
             System.out.println("*****TIMESLEEP after Pay event for receiver is finished.");
             sendStartFromScratchEvent(timeSleep);
+            sleep((long) 30);
             System.out.println("*****TIMESLEEP after StartFromScratch event for receiver is finished.");
         }
 
