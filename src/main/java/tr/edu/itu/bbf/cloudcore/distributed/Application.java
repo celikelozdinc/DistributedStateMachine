@@ -46,19 +46,23 @@ public class Application implements CommandLineRunner {
 
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
-            TimeUnit.SECONDS.sleep(5);
+            sleep((long) 30);
             System.out.println("*****TIMESLEEP after Pay event for sender is finished.");
             sendStartFromScratchEvent(timeSleep);
-            TimeUnit.SECONDS.sleep(5);
+            sleep((long) 30);
             System.out.println("*****TIMESLEEP after StartFromScratch event for sender is finished.");
+            sendReceiveEvent(timeSleep);
+            System.out.println("*****TIMESLEEP after Receive event for sender is finished.");
         }
         else if (type.equals("receiver")){
             sendReceiveEvent(timeSleep);
-            TimeUnit.SECONDS.sleep(5);
+            sleep((long) 30);
             System.out.println("*****TIMESLEEP after Receive event for receiver is finished.");
             sendPayEvent(timeSleep);
-            TimeUnit.SECONDS.sleep(5);
+            sleep((long) 30);
             System.out.println("*****TIMESLEEP after Pay event for receiver is finished.");
+            sendStartFromScratchEvent(timeSleep);
+            System.out.println("*****TIMESLEEP after StartFromScratch event for receiver is finished.");
         }
 
 
@@ -131,6 +135,15 @@ public class Application implements CommandLineRunner {
                 .setHeader("timeSleep", timeSleep)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
+    }
+
+    public void sleep(Long sleepTime){
+        try {
+            TimeUnit.SECONDS.sleep(sleepTime);
+        } catch (InterruptedException ex) {
+            System.out.println("Exception during sleep in main program --> " + ex.toString());
+        }
+
     }
 
 }

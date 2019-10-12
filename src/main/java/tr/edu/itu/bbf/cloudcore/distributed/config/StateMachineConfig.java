@@ -204,7 +204,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         try {
             TimeUnit.MILLISECONDS.sleep(sleepTime);
         } catch (InterruptedException ex) {
-            // handle error
+            System.out.println("Exception during sleepForAWhile --> " + ex.toString());
         }
 
     }
