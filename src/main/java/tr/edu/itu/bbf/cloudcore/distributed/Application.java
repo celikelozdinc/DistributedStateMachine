@@ -22,16 +22,22 @@ public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
 
-        private Integer i;
+        @Autowired
+        private StateMachine<States, Events> stateMachine;
+        private Scanner scanner;
 
-        public ExitHook(Integer i){
-            this.i = i;
-            System.out.print("Integer is : " + i);
+
+        public ExitHook(StateMachine<States,Events> sm, Scanner sc){
+            this.stateMachine = sm;
+            this.scanner = sc;
         }
 
         @Override
         public void run(){
-            System.out.println("Gracefully stopping SMOC.... --> " + this.i);
+            System.out.println("*****Gracefully stopping SMOC*****");
+            this.scanner.close();
+            this.stateMachine.stop();
+
         }
     }
 
@@ -60,7 +66,11 @@ public class Application implements CommandLineRunner {
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
-        Runtime.getRuntime().addShutdownHook(new ExitHook(10));
+        /*
+        Registers an exit hook
+        which start when the JVM is shut down
+        */
+        Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.println("SMOC is started. From now on, you can send events.");
 
         try {
@@ -75,10 +85,6 @@ public class Application implements CommandLineRunner {
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
         }
-
-        //System.out.println("*****State machine is stopped.Exiting main program*****");
-        //scanner.close();
-        //stateMachine.stop();
 
 
         /*
