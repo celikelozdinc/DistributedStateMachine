@@ -75,7 +75,7 @@ public class Application implements CommandLineRunner {
 
         try {
             while (true) {
-                System.out.println("Event:");
+                System.out.print("Event:");
                 String event = scanner.next();
                 System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
@@ -85,8 +85,6 @@ public class Application implements CommandLineRunner {
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
         }
-
-
         /*
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
@@ -110,7 +108,6 @@ public class Application implements CommandLineRunner {
             System.out.println("*****TIMESLEEP after StartFromScratch event for receiver is finished.");
         }
         */
-
         /* LOOP 1*/
         /*
         sendPayEvent(timeSleep);
@@ -118,7 +115,6 @@ public class Application implements CommandLineRunner {
         sendReceiveEvent(timeSleep);
         sendStartFromScratchEvent(timeSleep);
          */
-
         /* LOOP 2*/
         /*
         sendPayEvent(timeSleep);
@@ -126,7 +122,6 @@ public class Application implements CommandLineRunner {
         sync(type);
         sendStartFromScratchEvent(timeSleep);
          */
-
         /* LOOP 3 */
         /*
         sendPayEvent(timeSleep);
@@ -135,7 +130,6 @@ public class Application implements CommandLineRunner {
         sync(type);
         sendStartFromScratchEvent(timeSleep);
          */
-
     }
 
     public static void main(String[] args) {
@@ -150,7 +144,7 @@ public class Application implements CommandLineRunner {
         ExtendedState  extendedState = context.getExtendedState();
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
-        System.out.println("Local variable for Dona State: " + extendedState.get("localVarForDone", Integer.class));
+        System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
 
     }
     public void sendPayEvent(int timeSleep){

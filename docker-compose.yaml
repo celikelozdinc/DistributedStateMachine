@@ -18,6 +18,18 @@ services:
         dockerfile: smoc/Dockerfile
       networks:
         - distributedWan
+  smoc3:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+  smoc4:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
 
 networks:
   distributedWan: {}
