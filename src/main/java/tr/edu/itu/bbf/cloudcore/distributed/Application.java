@@ -21,9 +21,17 @@ import java.util.concurrent.TimeUnit;
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
+
+        private Integer i;
+
+        public ExitHook(Integer i){
+            this.i = i;
+            System.out.print("Integer is : " + i);
+        }
+
         @Override
         public void run(){
-            System.out.println("Gracefully stopping SMOC...");
+            System.out.println("Gracefully stopping SMOC.... --> " + this.i);
         }
     }
 
@@ -52,7 +60,7 @@ public class Application implements CommandLineRunner {
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
-        Runtime.getRuntime().addShutdownHook(new ExitHook());
+        Runtime.getRuntime().addShutdownHook(new ExitHook(10));
         System.out.println("SMOC is started. From now on, you can send events.");
 
         try {
@@ -67,8 +75,10 @@ public class Application implements CommandLineRunner {
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
         }
-        scanner.close();
-        stateMachine.stop();
+
+        //System.out.println("*****State machine is stopped.Exiting main program*****");
+        //scanner.close();
+        //stateMachine.stop();
 
 
         /*
@@ -120,9 +130,6 @@ public class Application implements CommandLineRunner {
         sendStartFromScratchEvent(timeSleep);
          */
 
-
-
-        System.out.println("*****State machine is stopped.Exiting main program*****");
     }
 
     public static void main(String[] args) {
