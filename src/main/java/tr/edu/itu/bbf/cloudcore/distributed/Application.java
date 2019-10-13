@@ -14,7 +14,6 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
@@ -36,13 +35,12 @@ public class Application implements CommandLineRunner {
 
         /* Reads named arguments from `VM Options` section in jar configuration */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
-
+        /*
         String type = System.getProperty( "type" );
         System.out.println("TYPE of SMOC is: " + type);
-
+         */
 
         stateMachine.start();
-        //stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
@@ -52,11 +50,10 @@ public class Application implements CommandLineRunner {
             while (true) {
                 System.out.println("Event:");
                 String event = scanner.next();
-                System.out.println("This event will be sent: " + event);
+                System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
-                //ardınndan, ensemble'dan alarak state'i yazdır
-                // StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+                PrintCurrentStatus();
             }
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
@@ -120,19 +117,11 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args);
     }
 
-    public void sync(String type) throws Exception {
-        if(type.equals("sender")){
-            System.out.println("Process for sender...");
-            //stateMachineEnsemble.setState(new DefaultStateMachineContext<States, Events>(States.DONE,Events.RECEIVE, new HashMap<String, Object>(), new DefaultExtendedState()));
-            TimeUnit.SECONDS.sleep(15);
-        }
-        else if(type.equals("receiver")){
-            System.out.println("Process for receiver...");
-            StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
-            System.out.println("STATE IS " + context.getState().toString());
-            System.out.println("EXTENDED STATE IS " + context.getExtendedState().toString());
-            System.out.println("EVENT IS " + context.getEvent().toString());
-        }
+    public void PrintCurrentStatus() {
+        StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+        System.out.println("PROCESSED EVENT IS " + context.getEvent().toString());
+        System.out.println("AFTER EVENT, STATE IS " + context.getState().toString());
+        System.out.println("AFTER EVENT, EXTENDED STATE IS " + context.getExtendedState().toString());
 
     }
     public void sendPayEvent(int timeSleep){
