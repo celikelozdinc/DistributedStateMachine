@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
@@ -121,7 +122,11 @@ public class Application implements CommandLineRunner {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         System.out.println("PROCESSED EVENT IS " + context.getEvent().toString());
         System.out.println("AFTER EVENT, STATE IS " + context.getState().toString());
-        System.out.println("AFTER EVENT, EXTENDED STATE IS " + context.getExtendedState().toString());
+        System.out.println("AFTER EVENT, common and local variables are below:");
+        ExtendedState  extendedState = context.getExtendedState();
+        System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
+        System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
+        System.out.println("Local variable for Dona State: " + extendedState.get("localVarForDone", Integer.class));
 
     }
     public void sendPayEvent(int timeSleep){
