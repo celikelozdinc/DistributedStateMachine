@@ -53,6 +53,10 @@ public class Application implements CommandLineRunner {
                 System.out.println("Event:");
                 String event = scanner.next();
                 System.out.println("This event will be sent: " + event);
+                ProcessEvent(event, timeSleep);
+                sleep((long) 5);
+                //ardınndan, ensemble'dan alarak state'i yazdır
+                // StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
             }
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
@@ -152,7 +156,6 @@ public class Application implements CommandLineRunner {
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
-
     public void sleep(Long sleepTime){
         try {
             TimeUnit.SECONDS.sleep(sleepTime);
@@ -161,5 +164,22 @@ public class Application implements CommandLineRunner {
         }
 
     }
+    public void ProcessEvent(String event, int timeSleep){
+        switch(event){
+            case "Pay":
+                sendPayEvent(timeSleep);
+                break;
+            case "Receive":
+                sendReceiveEvent(timeSleep);
+                break;
+            case "StartFromScratch":
+                sendStartFromScratchEvent(timeSleep);
+                break;
+            default:
+                System.out.println("Please send one of the events below.");
+                System.out.println("Pay/Receive/StartFromScratch");
+                break;
+        }
 
+    }
 }
