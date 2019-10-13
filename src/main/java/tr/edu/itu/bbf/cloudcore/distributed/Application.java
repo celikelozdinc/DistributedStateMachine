@@ -20,6 +20,13 @@ import java.util.concurrent.TimeUnit;
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
+    static class ExitHook extends Thread {
+        @Override
+        public void run(){
+            System.out.println("Gracefully stopping SMOC...");
+        }
+    }
+
     @Autowired
     private StateMachine<States, Events> stateMachine;
 
@@ -45,6 +52,7 @@ public class Application implements CommandLineRunner {
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
+        Runtime.getRuntime().addShutdownHook(new ExitHook());
         System.out.println("SMOC is started. From now on, you can send events.");
 
         try {
@@ -60,6 +68,9 @@ public class Application implements CommandLineRunner {
             System.out.println("Exiting with exception ---> "+ e.toString());
         }
         scanner.close();
+        stateMachine.stop();
+
+
         /*
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
@@ -109,7 +120,7 @@ public class Application implements CommandLineRunner {
         sendStartFromScratchEvent(timeSleep);
          */
 
-        stateMachine.stop();
+
 
         System.out.println("*****State machine is stopped.Exiting main program*****");
     }
@@ -177,3 +188,4 @@ public class Application implements CommandLineRunner {
 
     }
 }
+
