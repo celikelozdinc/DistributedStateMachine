@@ -5,11 +5,9 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
-import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -17,11 +15,10 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.support.DefaultExtendedState;
-import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -166,14 +163,18 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 /** Define extended state variable as private/local variable used inside state actions **/
                 context.getExtendedState().getVariables().put("localVarForWaiting",10);
                 context.getExtendedState().getVariables().put("localVarForDone",50);
-                /* Will be used as CKPT */
+                /* Initialization for CKPT */
+                Checkpoint CKPT = new Checkpoint();
+                CKPT.setValue(0);
+                context.getExtendedState().getVariables().put("CKPT",CKPT);
+                /*
                 Map<String, Integer> ckpt = new HashMap<String, Integer>();
                 ckpt.put("common",0);
                 ckpt.put("localVarForWaiting",10);
                 ckpt.put("localVarForDone",50);
                 context.getExtendedState().getVariables().put("CKPT", ckpt);
-                /* DUMMY VAR*/
-                context.getExtendedState().getVariables().put("DUMMY", 1000);
+                */
+
             }
         };
     }
@@ -205,9 +206,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                     sleepForAWhile(longSleep);
                 }
 
-                Integer dummy = (Integer) context.getExtendedState().getVariables().get("DUMMY");
-                dummy = dummy + 10;
-                context.getExtendedState().getVariables().put("DUMMY", dummy);
+                PerformCheckpoint(context);
             }
         };
     }
@@ -219,6 +218,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             System.out.println("Exception during sleepForAWhile --> " + ex.toString());
         }
 
+    }
+
+    public void PerformCheckpoint(StateContext<States, Events> context){
+        Checkpoint CKPT = (Checkpoint) context.getExtendedState().getVariables().get("CKPT");
+        Integer value = CKPT.getValue();
+        value = value + 10;
+        context.getExtendedState().getVariables().put("CKPT",CKPT);
     }
 
 

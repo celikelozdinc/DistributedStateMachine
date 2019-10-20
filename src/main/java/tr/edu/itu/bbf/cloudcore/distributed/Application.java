@@ -84,7 +84,8 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                PerformCheckpoint();
+                // Can not set extendedstate variables
+                //PerformCheckpoint();
             }
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
@@ -150,13 +151,12 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
-        System.out.println("DUMMY -> " + context.getExtendedState().getVariables().get("DUMMY"));
-        System.out.println("Report before CKPT: ");
-        Map<Object, Object> variables = extendedState.getVariables();
-        Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
-        System.out.println("CKPT.common -> " + ckpt.get("common"));
-        System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
-        System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
+        //System.out.println("Report before CKPT: ");
+        //Map<Object, Object> variables = extendedState.getVariables();
+        //Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
+        //System.out.println("CKPT.common -> " + ckpt.get("common"));
+        //System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
+        //System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
     }
 
 
