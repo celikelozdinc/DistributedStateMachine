@@ -170,7 +170,8 @@ public class Application implements CommandLineRunner {
         System.out.println("---STATUS: ");
         System.out.println("common : " + ckpt.get("common"));
         System.out.println("waiting: " + ckpt.get("localVarForWaiting") );
-        extendedState.getVariables().put("CKPT", ckpt);
+        //extendedState.getVariables().put("CKPT", ckpt);
+        stateMachineEnsemble.getState().getExtendedState().getVariables().put("CKPT",ckpt);
     }
 
     public void sendPayEvent(int timeSleep){
