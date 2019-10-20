@@ -2,16 +2,33 @@ package tr.edu.itu.bbf.cloudcore.distributed.checkpoint;
 
 public class Checkpoint {
 
-    private Integer value;
+    private Integer common;
+    private Integer localVarForWaiting;
+    private Integer localVarForDone;
+
 
     /* Empty Constructor */
     public Checkpoint(){}
 
-    public Integer getValue() {
-        return value;
+    public Integer getCommon() {
+        return common;
+    }
+    public void setCommon(Integer value) {
+        this.common = value;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public Integer getLocalVarForDone() {
+        return localVarForDone;
     }
+    public void setLocalVarForDone(Integer localVarForDone) {
+        this.localVarForDone = localVarForDone;
+    }
+
+    public Integer getLocalVarForWaiting() {
+        return localVarForWaiting;
+    }
+    public void setLocalVarForWaiting(Integer localVarForWaiting) {
+        this.localVarForWaiting = localVarForWaiting;
+    }
+
 }

@@ -20,6 +20,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -164,17 +165,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 context.getExtendedState().getVariables().put("localVarForWaiting",10);
                 context.getExtendedState().getVariables().put("localVarForDone",50);
                 /* Initialization for CKPT */
-                Checkpoint CKPT = new Checkpoint();
-                CKPT.setValue(0);
-                context.getExtendedState().getVariables().put("CKPT",CKPT);
-                /*
-                Map<String, Integer> ckpt = new HashMap<String, Integer>();
-                ckpt.put("common",0);
-                ckpt.put("localVarForWaiting",10);
-                ckpt.put("localVarForDone",50);
-                context.getExtendedState().getVariables().put("CKPT", ckpt);
-                */
-
+                Map<String, Checkpoint> checkpoints = new HashMap<String, Checkpoint>();
+                context.getExtendedState().getVariables().put("CKPT",checkpoints);
             }
         };
     }
@@ -221,13 +213,35 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(StateContext<States, Events> context){
-        Checkpoint CKPT = (Checkpoint) context.getExtendedState().getVariables().get("CKPT");
+        /*Checkpoint CKPT = (Checkpoint) context.getExtendedState().getVariables().get("CKPT");
         Integer value = CKPT.getValue();
         value = value + 10;
         CKPT.setValue(value);
         context.getExtendedState().getVariables().put("CKPT",CKPT);
+         */
+        Map<Object, Object> variables = context.getExtendedState().getVariables();
+        Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
+        Checkpoint ckpt = new Checkpoint();
+        ckpt.setCommon((Integer) variables.get("common"));
+        ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
+        ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
+        checkpoints.put(getTimeStamp(),ckpt);
+        context.getExtendedState().getVariables().put("CKPT",checkpoints);
     }
 
+    public String getTimeStamp(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        int ms = now.get(Calendar.MILLISECOND);
+
+        String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
+        return ts;
+    }
 
 
 }

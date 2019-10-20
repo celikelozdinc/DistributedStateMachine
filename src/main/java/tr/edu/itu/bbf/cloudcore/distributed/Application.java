@@ -151,13 +151,20 @@ public class Application implements CommandLineRunner {
         System.out.println("EXTENDED STATE: " + extendedState);
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
-        System.out.println("CKPT: " + extendedState.get("CKPT", Checkpoint.class).getValue());
         //System.out.println("Report before CKPT: ");
         //Map<Object, Object> variables = extendedState.getVariables();
         //Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
         //System.out.println("CKPT.common -> " + ckpt.get("common"));
         //System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
         //System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
+        System.out.println("-----REPORT after CKPT-----");
+        Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
+        for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
+            System.out.println("Timestamp -> " + entry.getKey());
+            System.out.println("Common Var -> " + entry.getValue().getCommon());
+            System.out.println("LocalVarForWaiting -> " + entry.getValue().getLocalVarForWaiting());
+            System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());
+        }
     }
 
 
