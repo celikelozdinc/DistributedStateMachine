@@ -172,6 +172,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 ckpt.put("localVarForWaiting",10);
                 ckpt.put("localVarForDone",50);
                 context.getExtendedState().getVariables().put("CKPT", ckpt);
+                /* DUMMY VAR*/
+                context.getExtendedState().getVariables().put("DUMMY", 1000);
             }
         };
     }
