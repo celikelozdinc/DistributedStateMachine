@@ -1,5 +1,7 @@
 package tr.edu.itu.bbf.cloudcore.distributed;
 
+import org.apache.jute.compiler.JType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +15,7 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Scanner;
 
 import java.util.concurrent.TimeUnit;
@@ -81,6 +84,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                PerformCheckpoint();
             }
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
@@ -145,8 +149,18 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
+    }
+
+    public void PerformCheckpoint(){
+        StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+        ExtendedState  extendedState = context.getExtendedState();
+        Map<Object, Object> variables = extendedState.getVariables();
+        Map<String,Integer> CKPT = (Map<String, Integer>) variables.get("CKPT");
+        System.out.println("---- CKPT INFORMATION -----");
+        System.out.println("Common--> " + CKPT.get("common") );
 
     }
+
     public void sendPayEvent(int timeSleep){
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
@@ -176,7 +190,7 @@ public class Application implements CommandLineRunner {
         }
 
     }
-    public void ProcessEvent(String event, int timeSleep){
+    public void ProcessEvent(@NotNull String event, int timeSleep){
         switch(event){
             case "Pay":
                 sendPayEvent(timeSleep);

@@ -166,6 +166,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 /** Define extended state variable as private/local variable used inside state actions **/
                 context.getExtendedState().getVariables().put("localVarForWaiting",10);
                 context.getExtendedState().getVariables().put("localVarForDone",50);
+                /* Will be used as CKPT */
+                Map<String, Integer> ckpt = new HashMap<String, Integer>();
+                ckpt.put("common",0);
+                ckpt.put("localVarForWaiting",10);
+                ckpt.put("localVarForDone",50);
+                context.getExtendedState().getVariables().put("CKPT", ckpt);
             }
         };
     }
