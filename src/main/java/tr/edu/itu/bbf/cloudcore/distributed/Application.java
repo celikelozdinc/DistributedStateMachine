@@ -149,16 +149,25 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
+        System.out.println("Report before CKPT: ");
+        Map<Object, Object> variables = extendedState.getVariables();
+        Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
+        System.out.println("CKPT.common -> " + ckpt.get("common"));
+        System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
+        System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
     }
+
 
     public void PerformCheckpoint(){
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         ExtendedState  extendedState = context.getExtendedState();
         Map<Object, Object> variables = extendedState.getVariables();
-        Map<String,Integer> CKPT = (Map<String, Integer>) variables.get("CKPT");
-        System.out.println("---- CKPT INFORMATION -----");
-        System.out.println("Common--> " + CKPT.get("common") );
-
+        Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
+        System.out.println("---- CKPT IS BEING PERFORMED AS OF NOW -----");
+        ckpt.put("common", extendedState.get("common",Integer.class));
+        ckpt.put("localVarForWaiting",extendedState.get("localVarForWaiting", Integer.class));
+        ckpt.put("localVarForDone",extendedState.get("localVarForDone", Integer.class));
+        variables.put("CKPT",ckpt);
     }
 
     public void sendPayEvent(int timeSleep){
