@@ -12,6 +12,7 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import java.io.InputStream;
@@ -150,7 +151,7 @@ public class Application implements CommandLineRunner {
         System.out.println("EXTENDED STATE: " + extendedState);
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
-        System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
+        System.out.println("CKPT: " + extendedState.get("CKPT", Checkpoint.class).getValue());
         //System.out.println("Report before CKPT: ");
         //Map<Object, Object> variables = extendedState.getVariables();
         //Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
