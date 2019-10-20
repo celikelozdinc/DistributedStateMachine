@@ -204,6 +204,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                     variables.put("common", 0);
                     sleepForAWhile(longSleep);
                 }
+
+                Integer dummy = (Integer) context.getExtendedState().getVariables().get("DUMMY");
+                dummy = dummy + 10;
+                context.getExtendedState().getVariables().put("DUMMY", dummy);
             }
         };
     }

@@ -177,9 +177,9 @@ public class Application implements CommandLineRunner {
         //variables.put("CKPT", ckpt);
         //extendedState.getVariables().put("CKPT", ckpt);
         //stateMachineEnsemble.getState().getExtendedState().getVariables().put("CKPT",ckpt);
-        Integer dummy = (Integer) context.getExtendedState().getVariables().get("DUMMY");
-        dummy = dummy + 10;
-        context.getExtendedState().getVariables().put("DUMMY", dummy);
+        //Integer dummy = (Integer) context.getExtendedState().getVariables().get("DUMMY");
+        //dummy = dummy + 10;
+        //context.getExtendedState().getVariables().put("DUMMY", dummy);
     }
 
     public void sendPayEvent(int timeSleep){
