@@ -224,6 +224,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         Checkpoint CKPT = (Checkpoint) context.getExtendedState().getVariables().get("CKPT");
         Integer value = CKPT.getValue();
         value = value + 10;
+        CKPT.setValue(value);
         context.getExtendedState().getVariables().put("CKPT",CKPT);
     }
 
