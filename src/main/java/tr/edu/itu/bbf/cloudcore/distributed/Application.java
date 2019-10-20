@@ -167,6 +167,9 @@ public class Application implements CommandLineRunner {
         ckpt.put("common", extendedState.get("common",Integer.class));
         ckpt.put("localVarForWaiting",extendedState.get("localVarForWaiting", Integer.class));
         ckpt.put("localVarForDone",extendedState.get("localVarForDone", Integer.class));
+        System.out.println("---STATUS: ");
+        System.out.println("common : " + ckpt.get("common"));
+        System.out.println("waiting: " + ckpt.get("localVarForWaiting") );
         extendedState.getVariables().put("CKPT", ckpt);
     }
 
