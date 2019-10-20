@@ -146,16 +146,17 @@ public class Application implements CommandLineRunner {
         System.out.println("AFTER EVENT, STATE IS " + context.getState().toString());
         System.out.println("AFTER EVENT, common and local variables are below:");
         ExtendedState  extendedState = context.getExtendedState();
+        System.out.println("EXTENDED STATE: " + extendedState);
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone", Integer.class));
+        System.out.println("DUMMY -> " + context.getExtendedState().getVariables().get("DUMMY"));
         System.out.println("Report before CKPT: ");
         Map<Object, Object> variables = extendedState.getVariables();
         Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
         System.out.println("CKPT.common -> " + ckpt.get("common"));
         System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
         System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
-        System.out.println("DUMMY -> " + context.getExtendedState().getVariables().get("DUMMY"));
     }
 
 
@@ -165,13 +166,14 @@ public class Application implements CommandLineRunner {
         Map<Object, Object> variables = extendedState.getVariables();
         Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
         System.out.println("---- CKPT IS BEING PERFORMED AS OF NOW -----");
+        System.out.println("VARIABLES: " + variables);
         ckpt.put("common", extendedState.get("common",Integer.class));
         ckpt.put("localVarForWaiting",extendedState.get("localVarForWaiting", Integer.class));
         ckpt.put("localVarForDone",extendedState.get("localVarForDone", Integer.class));
         System.out.println("---STATUS: ");
         System.out.println("common : " + ckpt.get("common"));
         System.out.println("waiting: " + ckpt.get("localVarForWaiting") );
-        variables.replace("CKPT",ckpt);
+        //variables.replace("CKPT",ckpt);
         //variables.put("CKPT", ckpt);
         //extendedState.getVariables().put("CKPT", ckpt);
         //stateMachineEnsemble.getState().getExtendedState().getVariables().put("CKPT",ckpt);
