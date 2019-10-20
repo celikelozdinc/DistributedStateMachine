@@ -167,7 +167,7 @@ public class Application implements CommandLineRunner {
         ckpt.put("common", extendedState.get("common",Integer.class));
         ckpt.put("localVarForWaiting",extendedState.get("localVarForWaiting", Integer.class));
         ckpt.put("localVarForDone",extendedState.get("localVarForDone", Integer.class));
-        variables.put("CKPT",ckpt);
+        extendedState.getVariables().put("CKPT", ckpt);
     }
 
     public void sendPayEvent(int timeSleep){
