@@ -1,6 +1,11 @@
 package tr.edu.itu.bbf.cloudcore.distributed;
 
-import org.apache.jute.compiler.JType;
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Output;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.statemachine.kryo.MessageHeadersSerializer;
+import org.springframework.statemachine.kryo.StateMachineContextSerializer;
+import org.springframework.statemachine.kryo.UUIDSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,10 +20,14 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Scanner;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
@@ -166,52 +175,31 @@ public class Application implements CommandLineRunner {
 
 
     public void sendPayEvent(int timeSleep){
-        try {
-            Message<Events> messagePay = MessageBuilder
-                    .withPayload(Events.PAY)
-                    .setHeader("timeSleep", timeSleep)
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("stateMachine", stateMachine)
-                    .build();
-            stateMachine.sendEvent(messagePay);
-        } catch (Exception ex) {
-            System.out.println("Can not prepare message...");
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE: " + ex.getMessage());
-            System.out.println("CLASS: " + ex.getClass());
-        }
+        Message<Events> messagePay = MessageBuilder
+                .withPayload(Events.PAY)
+                .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachineContext", serializeStateMachineContext())
+                .build();
+        stateMachine.sendEvent(messagePay);
     }
     public void sendReceiveEvent(int timeSleep){
-        try {
-            Message<Events> messageReceive = MessageBuilder
-                    .withPayload(Events.RECEIVE)
-                    .setHeader("timeSleep", timeSleep)
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("stateMachine", stateMachine)
-                    .build();
-            stateMachine.sendEvent(messageReceive);
-        } catch(Exception ex){
-            System.out.println("Can not prepare message...");
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE: " + ex.getMessage());
-            System.out.println("CLASS: " + ex.getClass());
-        }
+        Message<Events> messageReceive = MessageBuilder
+                .withPayload(Events.RECEIVE)
+                .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachineContext", serializeStateMachineContext())
+                .build();
+        stateMachine.sendEvent(messageReceive);
     }
     public void sendStartFromScratchEvent(int timeSleep){
-        try {
-            Message<Events> messageStartFromScratch = MessageBuilder
-                    .withPayload(Events.STARTFROMSCRATCH)
-                    .setHeader("timeSleep", timeSleep)
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("stateMachine", stateMachine)
-                    .build();
-            stateMachine.sendEvent(messageStartFromScratch);
-        } catch (Exception ex){
-            System.out.println("Can not prepare message...");
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE: " + ex.getMessage());
-            System.out.println("CLASS: " + ex.getClass());
-        }
+        Message<Events> messageStartFromScratch = MessageBuilder
+                .withPayload(Events.STARTFROMSCRATCH)
+                .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachineContext", serializeStateMachineContext())
+                .build();
+        stateMachine.sendEvent(messageStartFromScratch);
     }
     public void sleep(Long sleepTime){
         try {
@@ -239,5 +227,26 @@ public class Application implements CommandLineRunner {
         }
 
     }
+    public String serializeStateMachineContext(){
+        Kryo kryo = kryoThreadLocal.get();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Output output = new Output(baos);
+        StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+        kryo.writeObject(output, context);
+        output.close();
+        return Base64.getEncoder().encodeToString(baos.toByteArray());
+    }
+    private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
+        @SuppressWarnings("rawtypes")
+        @Override
+        protected Kryo initialValue() {
+            Kryo kryo = new Kryo();
+            kryo.addDefaultSerializer(StateMachineContext.class, new StateMachineContextSerializer());
+            kryo.addDefaultSerializer(MessageHeaders.class, new MessageHeadersSerializer());
+            kryo.addDefaultSerializer(UUID.class, new UUIDSerializer());
+            return kryo;
+        }
+    };
+
 }
 
