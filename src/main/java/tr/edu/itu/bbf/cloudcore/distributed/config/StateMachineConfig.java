@@ -7,6 +7,7 @@ import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
@@ -17,11 +18,13 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import org.springframework.statemachine.persist.DefaultStateMachinePersister;
+import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
-import org.springframework.statemachine.StateMachine;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
+import tr.edu.itu.bbf.cloudcore.distributed.persister.Persister;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,6 +45,14 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     /** Default Constructor **/
     public StateMachineConfig(){ }
+
+    @Autowired
+    private Persister fsmStateMachinePersister;
+
+    @Bean
+    public StateMachinePersister<States, Events, UUID> stateMachinePersist() {
+        return new DefaultStateMachinePersister<>(fsmStateMachinePersister);
+    }
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {

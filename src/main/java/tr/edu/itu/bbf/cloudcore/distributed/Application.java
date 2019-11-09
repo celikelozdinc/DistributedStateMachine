@@ -17,6 +17,7 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import org.springframework.statemachine.persist.StateMachinePersister;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
@@ -60,6 +61,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private StateMachinePersister<States, Events, UUID> stateMachinePersister;
+
     @Override
     public void run(String... args) throws Exception {
         /* Reads timesleep argument
@@ -89,12 +93,16 @@ public class Application implements CommandLineRunner {
 
         try {
             while (true) {
+                System.out.println("PERSIST: ");
+                stateMachinePersister.persist(stateMachine, stateMachine.getUuid());
                 System.out.print("Event:");
                 String event = scanner.next();
                 System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                System.out.println("RESTORE: ");
+                stateMachinePersister.restore(stateMachine, stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
@@ -179,7 +187,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachineContext", serializeStateMachineContext())
+                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -188,7 +196,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachineContext", serializeStateMachineContext())
+                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -197,7 +205,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachineContext", serializeStateMachineContext())
+                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
@@ -232,7 +240,6 @@ public class Application implements CommandLineRunner {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
-        System.out.println("------- IN SERIALIZATION, STATE IS " + context.getState().toString());
         kryo.writeObject(output, context);
         output.close();
         return Base64.getEncoder().encodeToString(baos.toByteArray());
