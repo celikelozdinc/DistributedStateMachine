@@ -198,10 +198,16 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 System.out.println("Event is process by statemachine with UUID ---> " + uuid);
                 System.out.println("My UUD --> " + context.getStateMachine().getUuid());
 
-                Object O_statemachine = context.getMessageHeaders().get("stateMachine");
-                StateMachine sm = StateMachine.class.cast(O_statemachine);
-                System.out.println("UUID inside message header --> " + sm.getUuid());
-
+                try {
+                    Object O_statemachine = context.getMessageHeaders().get("stateMachine");
+                    StateMachine<States, Events> sm = StateMachine.class.cast(O_statemachine);
+                    System.out.println("UUID inside message header --> " + sm.getUuid());
+                }catch (Exception e){
+                    System.out.println("Exception...");
+                    System.out.println("CAUSE: " + e.getCause());
+                    System.out.println("MESSAGE: " + e.getMessage());
+                    System.out.println("CLASS: " + e.getClass());
+                }
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
 
