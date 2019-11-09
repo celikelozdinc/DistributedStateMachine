@@ -67,6 +67,7 @@ public class Application implements CommandLineRunner {
          */
 
         stateMachine.start();
+        stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
@@ -153,11 +154,13 @@ public class Application implements CommandLineRunner {
         System.out.println("-----CKPT REPORT----");
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
+            System.out.println("-----");
             System.out.println("Timestamp -> " + entry.getKey());
             System.out.println("Processed by -> " + entry.getValue().getUuid());
             System.out.println("Common Var -> " + entry.getValue().getCommon());
             System.out.println("LocalVarForWaiting -> " + entry.getValue().getLocalVarForWaiting());
             System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());
+            System.out.println("-----");
         }
     }
 
@@ -167,6 +170,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -175,6 +179,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -183,6 +188,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }

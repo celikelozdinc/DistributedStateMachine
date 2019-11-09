@@ -18,6 +18,7 @@ import org.springframework.statemachine.config.builders.StateMachineStateConfigu
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
+import org.springframework.statemachine.StateMachine;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
@@ -196,6 +197,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 UUID uuid = UUID.fromString(O_UUID.toString());
                 System.out.println("Event is process by statemachine with UUID ---> " + uuid);
                 System.out.println("My UUD --> " + context.getStateMachine().getUuid());
+
+                Object O_statemachine = context.getMessageHeaders().get("stateMachine");
+                StateMachine sm = (StateMachine) O_statemachine;
+                System.out.println("UUID inside message header --> " + sm.getUuid());
 
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
