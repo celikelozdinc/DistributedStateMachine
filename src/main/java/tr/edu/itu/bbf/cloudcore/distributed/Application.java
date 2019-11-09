@@ -89,7 +89,7 @@ public class Application implements CommandLineRunner {
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
-            System.out.println("Exiting with exception ---> "+ e.toString());
+            System.out.println("Exiting with exception ....");
         }
         /*
         if (type.equals("sender")){
