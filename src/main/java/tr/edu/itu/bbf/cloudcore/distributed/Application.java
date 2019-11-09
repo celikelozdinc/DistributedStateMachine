@@ -67,7 +67,7 @@ public class Application implements CommandLineRunner {
          */
 
         stateMachine.start();
-        //stateMachineEnsemble.join(stateMachine);
+        stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
@@ -151,7 +151,7 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
-        System.out.println("-----CKPT REPORT----");
+        System.out.println("~~~~~CKPT REPORT~~~~~");
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
             System.out.println("-----");
@@ -170,7 +170,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachine",stateMachine)
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -179,7 +179,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachine",stateMachine)
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -188,7 +188,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachine",stateMachine)
+                .setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
