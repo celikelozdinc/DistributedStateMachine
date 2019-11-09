@@ -67,7 +67,7 @@ public class Application implements CommandLineRunner {
          */
 
         stateMachine.start();
-        stateMachineEnsemble.join(stateMachine);
+        //stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
