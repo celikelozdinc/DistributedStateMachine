@@ -232,6 +232,7 @@ public class Application implements CommandLineRunner {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
+        System.out.println("------- IN SERIALIZATION, STATE IS " + context.getState().toString());
         kryo.writeObject(output, context);
         output.close();
         return Base64.getEncoder().encodeToString(baos.toByteArray());
