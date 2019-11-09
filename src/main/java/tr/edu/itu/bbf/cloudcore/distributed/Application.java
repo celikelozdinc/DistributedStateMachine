@@ -166,31 +166,52 @@ public class Application implements CommandLineRunner {
 
 
     public void sendPayEvent(int timeSleep){
-        Message<Events> messagePay = MessageBuilder
-                .withPayload(Events.PAY)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
-                .build();
-        stateMachine.sendEvent(messagePay);
+        try {
+            Message<Events> messagePay = MessageBuilder
+                    .withPayload(Events.PAY)
+                    .setHeader("timeSleep", timeSleep)
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("stateMachine", stateMachine)
+                    .build();
+            stateMachine.sendEvent(messagePay);
+        } catch (Exception ex) {
+            System.out.println("Can not prepare message...");
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE: " + ex.getMessage());
+            System.out.println("CLASS: " + ex.getClass());
+        }
     }
     public void sendReceiveEvent(int timeSleep){
-        Message<Events> messageReceive = MessageBuilder
-                .withPayload(Events.RECEIVE)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
-                .build();
-        stateMachine.sendEvent(messageReceive);
+        try {
+            Message<Events> messageReceive = MessageBuilder
+                    .withPayload(Events.RECEIVE)
+                    .setHeader("timeSleep", timeSleep)
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("stateMachine", stateMachine)
+                    .build();
+            stateMachine.sendEvent(messageReceive);
+        } catch(Exception ex){
+            System.out.println("Can not prepare message...");
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE: " + ex.getMessage());
+            System.out.println("CLASS: " + ex.getClass());
+        }
     }
     public void sendStartFromScratchEvent(int timeSleep){
-        Message<Events> messageStartFromScratch = MessageBuilder
-                .withPayload(Events.STARTFROMSCRATCH)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
-                .build();
-        stateMachine.sendEvent(messageStartFromScratch);
+        try {
+            Message<Events> messageStartFromScratch = MessageBuilder
+                    .withPayload(Events.STARTFROMSCRATCH)
+                    .setHeader("timeSleep", timeSleep)
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("stateMachine", stateMachine)
+                    .build();
+            stateMachine.sendEvent(messageStartFromScratch);
+        } catch (Exception ex){
+            System.out.println("Can not prepare message...");
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE: " + ex.getMessage());
+            System.out.println("CLASS: " + ex.getClass());
+        }
     }
     public void sleep(Long sleepTime){
         try {
