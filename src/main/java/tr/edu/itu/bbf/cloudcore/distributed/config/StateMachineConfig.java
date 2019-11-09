@@ -199,7 +199,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 System.out.println("My UUD --> " + context.getStateMachine().getUuid());
 
                 Object O_statemachine = context.getMessageHeaders().get("stateMachine");
-                StateMachine sm = (StateMachine) O_statemachine;
+                StateMachine sm = StateMachine.class.cast(O_statemachine);
                 System.out.println("UUID inside message header --> " + sm.getUuid());
 
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
