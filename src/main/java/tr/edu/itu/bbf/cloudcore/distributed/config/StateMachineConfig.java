@@ -1,7 +1,9 @@
 package tr.edu.itu.bbf.cloudcore.distributed.config;
 
+import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +56,19 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Bean
     public CuratorFramework curatorClient() throws Exception {
-        CuratorFramework client = CuratorFrameworkFactory.builder().defaultData(new byte[0])
-                .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                .connectString("zookeeper:2181").build();
+        /* Sınıfa ait özellikler olabilir mi? Düşünülmeli.
+        * https://programmer.ink/think/an-overview-of-zookeeper.html
+        */
+        String zkConnectionString = "zookeeper:2181";
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client = CuratorFrameworkFactory.builder()
+                .defaultData(new byte[0])
+                .retryPolicy(retryPolicy)
+                .connectString(zkConnectionString)
+                .build();
         client.start();
+        CuratorFrameworkState state = client.getState();
+        System.out.println("curatorClient state after initialization ----> " + state.name());
         return client;
     }
 
@@ -213,12 +224,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(StateContext<States, Events> context){
-        /*Checkpoint CKPT = (Checkpoint) context.getExtendedState().getVariables().get("CKPT");
-        Integer value = CKPT.getValue();
-        value = value + 10;
-        CKPT.setValue(value);
-        context.getExtendedState().getVariables().put("CKPT",CKPT);
-         */
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
         Checkpoint ckpt = new Checkpoint();

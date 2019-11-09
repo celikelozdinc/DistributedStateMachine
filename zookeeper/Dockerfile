@@ -14,10 +14,12 @@ rm -rf zookeeper-3.4.14.tar.gz
 ENV ZOOKEEPER_HOME /opt/zookeeper
 
 WORKDIR $ZOOKEEPER_HOME
-RUN mkdir data && \
+RUN mkdir zkDataDir && \
+mkdir zkDataLogDir && \
 touch conf/zoo.cfg && \
 echo tickTime=2000 > conf/zoo.cfg && \
-echo dataDir=/opt/zookeeper/data >> conf/zoo.cfg && \
+echo dataDir=/opt/zookeeper/zkDataDir >> conf/zoo.cfg && \
+echo dataLogDir=/opt/zookeeper/zkDataLogDir >> conf/zoo.cfg && \
 echo initLimit=10 >> conf/zoo.cfg && \
 echo syncLimit=5 >> conf/zoo.cfg && \
 echo clientPort=2181 >> conf/zoo.cfg

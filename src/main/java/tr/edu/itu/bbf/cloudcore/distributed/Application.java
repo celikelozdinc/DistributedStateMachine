@@ -85,8 +85,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                // Can not set extendedstate variables
-                //PerformCheckpoint();
+                // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
             System.out.println("Exiting with exception ---> "+ e.toString());
@@ -148,16 +147,10 @@ public class Application implements CommandLineRunner {
         System.out.println("AFTER EVENT, STATE IS " + context.getState().toString());
         System.out.println("AFTER EVENT, common and local variables are below:");
         ExtendedState  extendedState = context.getExtendedState();
-        System.out.println("EXTENDED STATE: " + extendedState);
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
-        //System.out.println("Report before CKPT: ");
-        //Map<Object, Object> variables = extendedState.getVariables();
-        //Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
-        //System.out.println("CKPT.common -> " + ckpt.get("common"));
-        //System.out.println("CKPT.localVarForWaiting -> " + ckpt.get("localVarForWaiting") );
-        //System.out.println("CKPT.localVarForDone -> " + ckpt.get("localVarForDone"));
-        System.out.println("-----REPORT after CKPT-----");
+        System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
+        System.out.println("-----CKPT REPORT----");
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
             System.out.println("Timestamp -> " + entry.getKey());
@@ -167,28 +160,6 @@ public class Application implements CommandLineRunner {
         }
     }
 
-
-    public void PerformCheckpoint(){
-        StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
-        ExtendedState  extendedState = context.getExtendedState();
-        Map<Object, Object> variables = extendedState.getVariables();
-        Map<String,Integer> ckpt = (Map<String, Integer>) variables.get("CKPT");
-        System.out.println("---- CKPT IS BEING PERFORMED AS OF NOW -----");
-        System.out.println("VARIABLES: " + variables);
-        ckpt.put("common", extendedState.get("common",Integer.class));
-        ckpt.put("localVarForWaiting",extendedState.get("localVarForWaiting", Integer.class));
-        ckpt.put("localVarForDone",extendedState.get("localVarForDone", Integer.class));
-        System.out.println("---STATUS: ");
-        System.out.println("common : " + ckpt.get("common"));
-        System.out.println("waiting: " + ckpt.get("localVarForWaiting") );
-        //variables.replace("CKPT",ckpt);
-        //variables.put("CKPT", ckpt);
-        //extendedState.getVariables().put("CKPT", ckpt);
-        //stateMachineEnsemble.getState().getExtendedState().getVariables().put("CKPT",ckpt);
-        //Integer dummy = (Integer) context.getExtendedState().getVariables().get("DUMMY");
-        //dummy = dummy + 10;
-        //context.getExtendedState().getVariables().put("DUMMY", dummy);
-    }
 
     public void sendPayEvent(int timeSleep){
         Message<Events> messagePay = MessageBuilder
