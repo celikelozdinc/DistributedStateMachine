@@ -165,6 +165,7 @@ public class Application implements CommandLineRunner {
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -172,6 +173,7 @@ public class Application implements CommandLineRunner {
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -179,6 +181,7 @@ public class Application implements CommandLineRunner {
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
+                .setHeader("machineId", stateMachine.getUuid())
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }

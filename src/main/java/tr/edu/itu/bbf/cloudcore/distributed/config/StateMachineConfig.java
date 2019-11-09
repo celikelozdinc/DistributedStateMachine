@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
+import java.util.UUID;
 
 @Configuration
 @EnableStateMachine(name = "DistributedStateMachine")
@@ -191,6 +191,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();
+
+                Object O_UUID = context.getMessageHeaders().get("machineId");
+                UUID uuid = UUID.fromString(O_UUID.toString());
+                System.out.println("UUID is --> " + uuid);
 
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
