@@ -170,7 +170,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
+                //.setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -179,7 +179,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
+                //.setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -188,7 +188,7 @@ public class Application implements CommandLineRunner {
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("stateMachine",stateMachine)
+                //.setHeader("stateMachine",stateMachine)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
