@@ -1,10 +1,13 @@
 package tr.edu.itu.bbf.cloudcore.distributed.checkpoint;
 
+import java.util.UUID;
+
 public class Checkpoint {
 
     private Integer common;
     private Integer localVarForWaiting;
     private Integer localVarForDone;
+    private UUID uuid;
 
 
     /* Empty Constructor */
@@ -31,4 +34,6 @@ public class Checkpoint {
         this.localVarForWaiting = localVarForWaiting;
     }
 
+    public UUID getUuid() {return uuid;}
+    public void setUuid(UUID uuid) {this.uuid = uuid; }
 }

@@ -154,6 +154,7 @@ public class Application implements CommandLineRunner {
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
             System.out.println("Timestamp -> " + entry.getKey());
+            System.out.println("Processed by -> " + entry.getValue().getUuid());
             System.out.println("Common Var -> " + entry.getValue().getCommon());
             System.out.println("LocalVarForWaiting -> " + entry.getValue().getLocalVarForWaiting());
             System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());

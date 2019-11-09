@@ -194,7 +194,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
                 Object O_UUID = context.getMessageHeaders().get("machineId");
                 UUID uuid = UUID.fromString(O_UUID.toString());
-                System.out.println("UUID is --> " + uuid);
+                System.out.println("Event is process by statemachine with UUID ---> " + uuid);
+                System.out.println("My UUD --> " + context.getStateMachine().getUuid());
 
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
@@ -230,10 +231,15 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public void PerformCheckpoint(StateContext<States, Events> context){
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
+
+        Object O_UUID = context.getMessageHeaders().get("machineId");
+        UUID uuid = UUID.fromString(O_UUID.toString());
+
         Checkpoint ckpt = new Checkpoint();
         ckpt.setCommon((Integer) variables.get("common"));
         ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
         ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
+        ckpt.setUuid((UUID) uuid);
         checkpoints.put(getTimeStamp(),ckpt);
         context.getExtendedState().getVariables().put("CKPT",checkpoints);
     }
