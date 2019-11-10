@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
+import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -256,6 +257,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(StateContext<States, Events> context){
+        System.out.println("...TRY TO READ FROM ENSEMBLE...");
+        StateMachineContext<States, Events> smcontext = stateMachineEnsemble.getState();
+        System.out.println("...PROCESSED EVENT IS " + smcontext.getEvent().toString());
+        System.out.println("...");
         System.out.println("----- PERFORM CKPT -----");
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
