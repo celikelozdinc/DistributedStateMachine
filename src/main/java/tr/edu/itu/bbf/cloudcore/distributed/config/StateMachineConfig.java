@@ -200,18 +200,17 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             @Override
             public void execute(StateContext<States, Events> context) {
                 System.out.println("-----TRANSITION ACTION BETWEEN STATES for statemachine-----> " + context.getStateMachine().getUuid());
-
+                /* Get timeSleep from StateContext */
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();
-
+                /* Get processed event from StateContext */
                 Object O_event = context.getMessageHeaders().get("processedEvent");
                 String processedEvent = O_event.toString();
-
+                /* Get UUID from StateContext and then print */
                 Object O_UUID = context.getMessageHeaders().get("machineId");
                 UUID uuid = UUID.fromString(O_UUID.toString());
                 System.out.printf("Event %s is processed by SMOC ---> %s\n",processedEvent,uuid.toString());
                 System.out.println("My UUID --> " + context.getStateMachine().getUuid());
-
                 /*
                 try {
                     Object O_statemachine = context.getMessageHeaders().get("stateMachine");
@@ -224,7 +223,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                     System.out.println("CLASS: " + e.getClass());
                 }
                 */
-
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
 
