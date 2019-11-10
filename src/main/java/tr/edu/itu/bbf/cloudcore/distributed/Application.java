@@ -89,7 +89,7 @@ public class Application implements CommandLineRunner {
         which start when the JVM is shut down
         */
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
-        System.out.println("SMOC is started. From now on, you can send events.");
+        System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
         try {
             while (true) {
@@ -182,30 +182,33 @@ public class Application implements CommandLineRunner {
     }
 
 
-    public void sendPayEvent(int timeSleep){
+    public void sendPayEvent(@NotNull String event, int timeSleep){
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("processedEvent", event)
                 .build();
         stateMachine.sendEvent(messagePay);
     }
-    public void sendReceiveEvent(int timeSleep){
+    public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("processedEvent", event)
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
-    public void sendStartFromScratchEvent(int timeSleep){
+    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("processedEvent", event)
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
@@ -220,13 +223,13 @@ public class Application implements CommandLineRunner {
     public void ProcessEvent(@NotNull String event, int timeSleep){
         switch(event){
             case "Pay":
-                sendPayEvent(timeSleep);
+                sendPayEvent(event, timeSleep);
                 break;
             case "Receive":
-                sendReceiveEvent(timeSleep);
+                sendReceiveEvent(event, timeSleep);
                 break;
             case "StartFromScratch":
-                sendStartFromScratchEvent(timeSleep);
+                sendStartFromScratchEvent(event, timeSleep);
                 break;
             default:
                 System.out.println("Please send one of the events below.");

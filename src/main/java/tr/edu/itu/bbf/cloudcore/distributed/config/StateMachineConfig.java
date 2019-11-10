@@ -204,10 +204,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();
 
+                Object O_event = context.getMessageHeaders().get("processedEvent");
+                String processedEvent = O_event.toString();
+
                 Object O_UUID = context.getMessageHeaders().get("machineId");
                 UUID uuid = UUID.fromString(O_UUID.toString());
-                System.out.println("Event is process by statemachine with UUID ---> " + uuid);
-                System.out.println("My UUD --> " + context.getStateMachine().getUuid());
+                System.out.printf("Event %s is processed by SMOC ---> %s\n",processedEvent,uuid.toString());
+                System.out.println("My UUID --> " + context.getStateMachine().getUuid());
 
                 /*
                 try {
@@ -260,7 +263,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         /* Get state machine UUID from StateContext */
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
-        /**/
+        /* Get processed event from StateContext */
+        Object O_event = context.getMessageHeaders().get("processedEvent");
+        String processedEvent = O_event.toString();
+        /* Check SMOC has previous CKPTs */
         Integer currentNumberOfCKPTs = 0;
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
             if ( uuid.equals(entry.getValue().getUuid()) ){
@@ -274,6 +280,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
         ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
         ckpt.setUuid((UUID) uuid);
+        ckpt.setProcessedEvent((String)processedEvent);
         currentNumberOfCKPTs ++;
         ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);
         /* Add new CKPT object to map */

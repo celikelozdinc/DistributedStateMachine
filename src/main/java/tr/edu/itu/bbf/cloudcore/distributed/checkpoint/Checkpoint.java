@@ -9,6 +9,7 @@ public class Checkpoint {
     private Integer localVarForDone;
     private UUID uuid;
     private Integer numberOfCKPTs;
+    private String processedEvent;
 
 
     /* Empty Constructor */
@@ -42,5 +43,7 @@ public class Checkpoint {
         return numberOfCKPTs;
     }
     public void setNumberOfCKPTs(Integer numberOfCKPTs) { this.numberOfCKPTs = numberOfCKPTs; }
-    public void increaseNumberOfCKPTs(){ numberOfCKPTs ++; }
+
+    public String getProcessedEvent() { return processedEvent; }
+    public void setProcessedEvent(String processedEvent) { this.processedEvent = processedEvent; }
 }
