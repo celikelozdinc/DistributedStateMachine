@@ -8,10 +8,11 @@ public class Checkpoint {
     private Integer localVarForWaiting;
     private Integer localVarForDone;
     private UUID uuid;
+    private Integer numberOfCKPTs;
 
 
     /* Empty Constructor */
-    public Checkpoint(){}
+    public Checkpoint(){ numberOfCKPTs = 0;}
 
     public Integer getCommon() {
         return common;
@@ -36,4 +37,10 @@ public class Checkpoint {
 
     public UUID getUuid() {return uuid;}
     public void setUuid(UUID uuid) {this.uuid = uuid; }
+
+    public Integer getNumberOfCKPTs() {
+        return numberOfCKPTs;
+    }
+    public void setNumberOfCKPTs(Integer numberOfCKPTs) { this.numberOfCKPTs = numberOfCKPTs; }
+    public void increaseNumberOfCKPTs(){ numberOfCKPTs ++; }
 }

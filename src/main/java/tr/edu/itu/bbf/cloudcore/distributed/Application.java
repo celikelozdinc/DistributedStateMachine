@@ -93,16 +93,15 @@ public class Application implements CommandLineRunner {
 
         try {
             while (true) {
-                System.out.println("PERSIST: ");
+                /*System.out.println("PERSIST: ");
                 stateMachinePersister.persist(stateMachine, stateMachine.getUuid());
+                 */
                 System.out.print("Event:");
                 String event = scanner.next();
                 System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                System.out.println("RESTORE: ");
-                stateMachinePersister.restore(stateMachine, stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
