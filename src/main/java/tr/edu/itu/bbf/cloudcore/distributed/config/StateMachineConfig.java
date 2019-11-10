@@ -256,23 +256,24 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     public void PerformCheckpoint(StateContext<States, Events> context){
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
-        for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
-            System.out.println("-----");
-            System.out.println("Timestamp -> " + entry.getKey());
-            System.out.println("Processed by -> " + entry.getValue().getUuid());
-            System.out.println("# of CKPTS -> " + entry.getValue().getNumberOfCKPTs());
-            System.out.println("-----");
-        }
         /* Get state machine UUID from StateContext */
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
+        /**/
+        Integer currentNumberOfCKPTs = 0;
+        for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
+            if (uuid ==  entry.getValue().getUuid()){
+                System.out.printf("### SMOC %s has %d CKPTS ###", uuid.toString(),entry.getValue().getNumberOfCKPTs());
+                currentNumberOfCKPTs = entry.getValue().getNumberOfCKPTs();
+            }
+        }
         /* Create a new CKPT object */
         Checkpoint ckpt = new Checkpoint();
         ckpt.setCommon((Integer) variables.get("common"));
         ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
         ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
         ckpt.setUuid((UUID) uuid);
-        ckpt.increaseNumberOfCKPTs();
+        ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);ckpt.increaseNumberOfCKPTs();
         /* Add new CKPT object to map */
         checkpoints.put(getTimeStamp(),ckpt);
         /* Store map inside StateContext */
