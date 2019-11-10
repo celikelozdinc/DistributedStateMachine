@@ -254,6 +254,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(StateContext<States, Events> context){
+        System.out.println("----- PERFORM CKPT -----");
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
         /* Get state machine UUID from StateContext */
@@ -262,7 +263,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         /**/
         Integer currentNumberOfCKPTs = 0;
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
-            if (uuid ==  entry.getValue().getUuid()){
+            if ( uuid.equals(entry.getValue().getUuid()) ){
                 System.out.printf("### SMOC %s has %d CKPTS ###", uuid.toString(),entry.getValue().getNumberOfCKPTs());
                 currentNumberOfCKPTs = entry.getValue().getNumberOfCKPTs();
             }
