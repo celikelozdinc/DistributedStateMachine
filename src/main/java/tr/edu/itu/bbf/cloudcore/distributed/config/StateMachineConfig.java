@@ -38,10 +38,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /*
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
-     */
+
 
     /** Default Constructor **/
     public StateMachineConfig(){ }
@@ -63,7 +62,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Bean
     public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
-        return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
+        stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
+        return stateMachineEnsemble;
+        //return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
     }
 
     @Bean
