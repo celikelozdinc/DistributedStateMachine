@@ -264,8 +264,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         Integer currentNumberOfCKPTs = 0;
         for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
             if ( uuid.equals(entry.getValue().getUuid()) ){
-                System.out.printf("### SMOC %s has %d CKPTS ###", uuid.toString(),entry.getValue().getNumberOfCKPTs());
-                currentNumberOfCKPTs = entry.getValue().getNumberOfCKPTs();
+                System.out.printf("### SMOC %s has 1 CKPT ###\n", uuid.toString());
+                currentNumberOfCKPTs ++;
             }
         }
         /* Create a new CKPT object */
@@ -274,7 +274,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
         ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
         ckpt.setUuid((UUID) uuid);
-        ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);ckpt.increaseNumberOfCKPTs();
+        currentNumberOfCKPTs ++;
+        ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);
         /* Add new CKPT object to map */
         checkpoints.put(getTimeStamp(),ckpt);
         /* Store map inside StateContext */
