@@ -19,6 +19,7 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import org.springframework.statemachine.persist.AbstractStateMachinePersister;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
@@ -257,16 +258,19 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(StateContext<States, Events> context){
-        System.out.println("...TRY TO READ FROM ENSEMBLE...");
-        StateMachineContext<States, Events> smcontext = stateMachineEnsemble.getState();
-        System.out.println("...PROCESSED EVENT IS " + smcontext.getEvent().toString());
-        System.out.println("...");
         System.out.println("----- PERFORM CKPT -----");
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
         /* Get state machine UUID from StateContext */
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
+        /* Get source and target states from StateContext */
+        Object O_source = context.getMessageHeaders().get("source");
+        String sourceState = O_source.toString();
+        System.out.println("SOURCE STATE -> " + sourceState);
+        Object O_target = context.getMessageHeaders().get("target");
+        String targetState = O_target.toString();
+        System.out.println("TARGET STATE -> " + targetState);
         /* Get processed event from StateContext */
         Object O_event = context.getMessageHeaders().get("processedEvent");
         String processedEvent = O_event.toString();

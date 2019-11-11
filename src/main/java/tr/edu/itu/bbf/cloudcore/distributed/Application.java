@@ -189,7 +189,9 @@ public class Application implements CommandLineRunner {
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("source", "UNPAID")
                 .setHeader("processedEvent", event)
+                .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
     }
@@ -199,7 +201,9 @@ public class Application implements CommandLineRunner {
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("source", "WAITING_FOR_RECEIVE")
                 .setHeader("processedEvent", event)
+                .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
     }
@@ -209,7 +213,9 @@ public class Application implements CommandLineRunner {
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
                 //.setHeader("stateMachineContext", serializeStateMachineContext())
+                .setHeader("source", "DONE")
                 .setHeader("processedEvent", event)
+                .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
     }
