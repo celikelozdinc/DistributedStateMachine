@@ -29,6 +29,7 @@ import org.springframework.statemachine.zookeeper.ZookeeperStateMachinePersist;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -45,8 +46,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
-    private ApplicationContext context;
+    protected AnnotationConfigApplicationContext context;
 
     private StateMachinePersist<States,Events, Stat> persister;
 
