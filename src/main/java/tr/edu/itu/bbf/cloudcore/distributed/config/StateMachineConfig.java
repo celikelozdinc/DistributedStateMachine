@@ -21,9 +21,6 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.persist.AbstractStateMachinePersister;
-import org.springframework.statemachine.persist.DefaultStateMachinePersister;
-import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.statemachine.support.DefaultExtendedState;
 import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
@@ -31,7 +28,6 @@ import org.springframework.statemachine.zookeeper.ZookeeperStateMachinePersist;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
-import tr.edu.itu.bbf.cloudcore.distributed.persister.Persister;
 
 import java.util.Calendar;
 import java.util.HashMap;

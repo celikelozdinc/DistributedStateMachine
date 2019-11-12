@@ -1,4 +1,4 @@
-package tr.edu.itu.bbf.cloudcore.distributed.persister;
+package tr.edu.itu.bbf.cloudcore.distributed.___persister;
 
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.StateMachinePersist;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class Persister implements StateMachinePersist<States, Events, UUID> {
+public class ___Persister implements StateMachinePersist<States, Events, UUID> {
 
     static Map<UUID, States> cache = new HashMap<>(16);
 
