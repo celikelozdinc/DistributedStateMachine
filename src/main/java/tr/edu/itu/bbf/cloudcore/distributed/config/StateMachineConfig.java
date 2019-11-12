@@ -9,6 +9,7 @@ import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
@@ -44,13 +45,17 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private ApplicationContext context;
+
+    @Autowired
     private StateMachinePersist<States,Events, Stat> persister;
 
 
     /** Default Constructor **/
     public StateMachineConfig(){
         try {
-            persister = new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
+            initializePersistenceService();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,6 +326,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
         String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
         return ts;
+    }
+
+    public void initializePersistenceService() throws Exception {
+        CuratorFramework curatorClient = context.getBean("curatorClient", CuratorFramework.class);
+        curatorClient.create().forPath("/persistPath");
+        persister = new ZookeeperStateMachinePersist<States, Events>(curatorClient, "/persistPath");
     }
 
 
