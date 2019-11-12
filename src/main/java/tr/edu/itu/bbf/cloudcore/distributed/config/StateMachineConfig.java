@@ -49,14 +49,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
 
     /** Default Constructor **/
-    public StateMachineConfig(){ }
-
-
-    @Override
-    public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
-        config
-                .withDistributed()
-                .ensemble(stateMachineEnsemble());
+    public StateMachineConfig(){
+        try {
+            persister = new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Bean
@@ -66,11 +64,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         //return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
     }
 
-    @Bean
-    public StateMachinePersist<States,Events,Stat> persister() throws Exception {
-        persister = new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
-        return persister;
-    }
 
     @Bean
     public CuratorFramework curatorClient() throws Exception {
@@ -100,6 +93,14 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 .stateEntry(States.DONE, entryActionForDone())
                 .stateExit(States.DONE, exitActionForDone());
     }
+
+    @Override
+    public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
+        config
+                .withDistributed()
+                .ensemble(stateMachineEnsemble());
+    }
+
 
     @Override
     public void configure(StateMachineTransitionConfigurer<States, Events> transitions)
