@@ -174,7 +174,9 @@ public class Application implements CommandLineRunner {
             System.out.println("Timestamp -> " + entry.getKey());
             System.out.println("Processed by -> " + entry.getValue().getUuid());
             System.out.println("# CKPTs: -> " + entry.getValue().getNumberOfCKPTs());
+            System.out.println("Source State -> " +entry.getValue().getSourceState() );
             System.out.println("Processed event -> " + entry.getValue().getProcessedEvent());
+            System.out.println("Target State -> " + entry.getValue().getTargetState());
             System.out.println("Common Var -> " + entry.getValue().getCommon());
             System.out.println("LocalVarForWaiting -> " + entry.getValue().getLocalVarForWaiting());
             System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());

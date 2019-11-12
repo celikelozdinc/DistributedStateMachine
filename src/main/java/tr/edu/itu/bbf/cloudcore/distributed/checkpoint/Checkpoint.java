@@ -9,7 +9,9 @@ public class Checkpoint {
     private Integer localVarForDone;
     private UUID uuid;
     private Integer numberOfCKPTs;
+    private String sourceState;
     private String processedEvent;
+    private String targetState;
 
 
     /* Empty Constructor */
@@ -44,6 +46,13 @@ public class Checkpoint {
     }
     public void setNumberOfCKPTs(Integer numberOfCKPTs) { this.numberOfCKPTs = numberOfCKPTs; }
 
+    public String getSourceState() { return sourceState; }
+    public void setSourceState(String sourceState) { this.sourceState = sourceState; }
+
     public String getProcessedEvent() { return processedEvent; }
     public void setProcessedEvent(String processedEvent) { this.processedEvent = processedEvent; }
+
+    public String getTargetState() {return targetState; }
+    public void setTargetState(String targetState) { this.targetState = targetState; }
+
 }

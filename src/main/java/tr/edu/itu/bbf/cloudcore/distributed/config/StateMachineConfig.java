@@ -5,6 +5,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.StateMachineContext;
+import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -22,7 +24,10 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import org.springframework.statemachine.persist.AbstractStateMachinePersister;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
+import org.springframework.statemachine.support.DefaultExtendedState;
+import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
+import org.springframework.statemachine.zookeeper.ZookeeperStateMachinePersist;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
@@ -43,17 +48,21 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private StateMachinePersist<States,Events, Stat> persister;
+
 
     /** Default Constructor **/
     public StateMachineConfig(){ }
 
+    /*
     @Autowired
     private Persister fsmStateMachinePersister;
-
     @Bean
     public StateMachinePersister<States, Events, UUID> stateMachinePersist() {
         return new DefaultStateMachinePersister<>(fsmStateMachinePersister);
     }
+     */
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
@@ -67,6 +76,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
         return stateMachineEnsemble;
         //return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
+    }
+
+    @Bean
+    public StateMachinePersist<States,Events,Stat> persister() throws Exception {
+        return new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
     }
 
     @Bean
@@ -243,7 +257,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                     sleepForAWhile(longSleep);
                 }
 
-                PerformCheckpoint(context);
+                try {
+                    PerformCheckpoint(context);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -257,7 +275,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     }
 
-    public void PerformCheckpoint(StateContext<States, Events> context){
+    public void PerformCheckpoint(StateContext<States, Events> context) throws Exception {
         System.out.println("----- PERFORM CKPT -----");
         Map<Object, Object> variables = context.getExtendedState().getVariables();
         Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
@@ -267,10 +285,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         /* Get source and target states from StateContext */
         Object O_source = context.getMessageHeaders().get("source");
         String sourceState = O_source.toString();
-        System.out.println("SOURCE STATE -> " + sourceState);
         Object O_target = context.getMessageHeaders().get("target");
         String targetState = O_target.toString();
-        System.out.println("TARGET STATE -> " + targetState);
         /* Get processed event from StateContext */
         Object O_event = context.getMessageHeaders().get("processedEvent");
         String processedEvent = O_event.toString();
@@ -291,10 +307,17 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         ckpt.setProcessedEvent((String)processedEvent);
         currentNumberOfCKPTs ++;
         ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);
+        ckpt.setSourceState(sourceState);
+        ckpt.setTargetState(targetState);
         /* Add new CKPT object to map */
         checkpoints.put(getTimeStamp(),ckpt);
         /* Store map inside StateContext */
         context.getExtendedState().getVariables().put("CKPT",checkpoints);
+        System.out.println("-----  CKPT FINISHED -----");
+        HashMap<String, Object> eventHeaders = new HashMap<String, Object>();
+        eventHeaders.put("foo", "jee");
+        StateMachineContext<States,Events> smocContext = new DefaultStateMachineContext<States,Events>(States.valueOf(sourceState),Events.valueOf(processedEvent),eventHeaders,new DefaultExtendedState());
+        persister.write(smocContext, new Stat());
     }
 
     public String getTimeStamp(){
