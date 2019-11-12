@@ -44,7 +44,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
     private StateMachinePersist<States,Events, Stat> persister;
 
 
