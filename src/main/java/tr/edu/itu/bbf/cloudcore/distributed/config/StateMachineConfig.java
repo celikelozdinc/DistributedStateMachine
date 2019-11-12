@@ -305,7 +305,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         System.out.println("-----  CKPT FINISHED -----");
         HashMap<String, Object> eventHeaders = new HashMap<String, Object>();
         eventHeaders.put("foo", "jee");
-        StateMachineContext<States,Events> smocContext = new DefaultStateMachineContext<States,Events>(States.valueOf(sourceState),Events.valueOf(processedEvent),eventHeaders,new DefaultExtendedState());
+        StateMachineContext<States,Events> smocContext = new DefaultStateMachineContext<States,Events>(States.valueOf(sourceState.toUpperCase()),Events.valueOf(processedEvent.toUpperCase()),eventHeaders,new DefaultExtendedState());
         persister.write(smocContext, new Stat());
     }
 
