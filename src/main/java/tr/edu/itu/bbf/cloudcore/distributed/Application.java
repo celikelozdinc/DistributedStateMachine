@@ -61,9 +61,6 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
-    private StateMachinePersister<States, Events, UUID> stateMachinePersister;
-
     @Override
     public void run(String... args) throws Exception {
         /* Reads timesleep argument

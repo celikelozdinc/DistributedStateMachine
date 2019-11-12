@@ -51,14 +51,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     /** Default Constructor **/
     public StateMachineConfig(){ }
 
-    /*
-    @Autowired
-    private Persister fsmStateMachinePersister;
-    @Bean
-    public StateMachinePersister<States, Events, UUID> stateMachinePersist() {
-        return new DefaultStateMachinePersister<>(fsmStateMachinePersister);
-    }
-     */
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
@@ -76,7 +68,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Bean
     public StateMachinePersist<States,Events,Stat> persister() throws Exception {
-        return new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
+        persister = new ZookeeperStateMachinePersist<States, Events>(curatorClient(), "/persistPath");
+        return persister;
     }
 
     @Bean
