@@ -48,7 +48,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private ApplicationContext context;
 
-    @Autowired
     private StateMachinePersist<States,Events, Stat> persister;
 
 
