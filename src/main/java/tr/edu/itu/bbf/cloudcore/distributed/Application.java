@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
@@ -17,10 +18,12 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.persist.StateMachinePersister;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -32,6 +35,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
+@EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
@@ -61,6 +65,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private CheckpointDbObjectHandler dbObjectHandler;
+
     @Override
     public void run(String... args) throws Exception {
         /* Reads timesleep argument
@@ -87,6 +94,15 @@ public class Application implements CommandLineRunner {
         */
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
+
+        /*
+        System.out.println("#####");
+        CheckpointDbObject dbObject1 = new CheckpointDbObject("EVENT1");
+        dbObjectHandler.insertCheckpoint(dbObject1);
+        CheckpointDbObject dbObject2 = new CheckpointDbObject("EVENT2");
+        dbObjectHandler.insertCheckpoint(dbObject2);
+        System.out.println("#####");
+         */
 
         try {
             while (true) {
