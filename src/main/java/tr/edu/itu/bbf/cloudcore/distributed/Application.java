@@ -21,9 +21,8 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
+import tr.edu.itu.bbf.cloudcore.distributed.service.ChckpointPersistenceService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -66,7 +65,7 @@ public class Application implements CommandLineRunner {
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
     @Autowired
-    private CheckpointDbObjectHandler dbObjectHandler;
+    private ChckpointPersistenceService persistenceService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -97,8 +96,9 @@ public class Application implements CommandLineRunner {
 
 
         System.out.println("#####");
-        CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
-        dbObjectHandler.insertCheckpoint(dbObject1);
+        persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
+        //CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
+        //dbObjectHandler.insertCheckpoint(dbObject1);
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
         System.out.println("#####");
@@ -115,6 +115,8 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                System.out.println("...Persist...");
+                persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
