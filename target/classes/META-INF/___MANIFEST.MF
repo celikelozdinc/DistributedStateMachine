@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Class-Path: kryo-shaded-4.0.2.jar snakeyaml-1.23.jar log4j-to-slf4j-2.11
+ .2.jar spring-tx-5.1.9.RELEASE.jar logback-classic-1.2.3.jar jline-0.9.
+ 94.jar spring-boot-starter-logging-2.1.7.RELEASE.jar annotations-17.0.0
+ .jar curator-client-2.11.1.jar spring-statemachine-zookeeper-2.1.3.RELE
+ ASE.jar spring-statemachine-core-2.1.3.RELEASE.jar curator-framework-2.
+ 11.1.jar spring-aop-5.1.9.RELEASE.jar spring-context-5.1.9.RELEASE.jar 
+ objenesis-2.5.1.jar spring-statemachine-kryo-2.1.3.RELEASE.jar netty-3.
+ 7.0.Final.jar jul-to-slf4j-1.7.26.jar spring-boot-autoconfigure-2.1.7.R
+ ELEASE.jar curator-recipes-2.11.1.jar spring-boot-2.1.7.RELEASE.jar log
+ 4j-1.2.17.jar logback-core-1.2.3.jar slf4j-api-1.7.26.jar spring-beans-
+ 5.1.9.RELEASE.jar minlog-1.3.0.jar spring-boot-starter-2.1.7.RELEASE.ja
+ r spring-expression-5.1.9.RELEASE.jar log4j-api-2.11.2.jar guava-16.0.1
+ .jar zookeeper-3.4.8.jar spring-jcl-5.1.9.RELEASE.jar javax.annotation-
+ api-1.3.2.jar spring-core-5.1.9.RELEASE.jar spring-messaging-5.1.9.RELE
+ ASE.jar
+Main-Class: tr.edu.itu.bbf.cloudcore.distributed.Application
+

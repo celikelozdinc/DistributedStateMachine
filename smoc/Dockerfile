@@ -2,13 +2,14 @@
 FROM alpine:edge
 
 RUN \
- apk update && \
- apk add --no-cache bash && \
- apk add --no-cache busybox-extras
+  apk update && \
+  apk add --no-cache bash && \
+  apk add --no-cache busybox-extras && \
+  apk add --no-cache openrc
 
  # install java #
- RUN \
-   apk add --no-cache openjdk8
+RUN \
+  apk add --no-cache openjdk8
 
 # install mongodb #
 RUN \
