@@ -95,14 +95,14 @@ public class Application implements CommandLineRunner {
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
-        /*
+
         System.out.println("#####");
-        CheckpointDbObject dbObject1 = new CheckpointDbObject("EVENT1");
+        CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
         dbObjectHandler.insertCheckpoint(dbObject1);
-        CheckpointDbObject dbObject2 = new CheckpointDbObject("EVENT2");
+        CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         dbObjectHandler.insertCheckpoint(dbObject2);
         System.out.println("#####");
-         */
+
 
         try {
             while (true) {

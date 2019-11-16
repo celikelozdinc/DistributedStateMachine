@@ -2,5 +2,5 @@ spring:
   data:
     mongodb:
       database: statemachine
-      host: mongocontainer
+      host: localhost
       port: 27017
