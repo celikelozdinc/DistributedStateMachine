@@ -99,8 +99,8 @@ public class Application implements CommandLineRunner {
         System.out.println("#####");
         CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
         dbObjectHandler.insertCheckpoint(dbObject1);
-        CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
-        dbObjectHandler.insertCheckpoint(dbObject2);
+        //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
+        //dbObjectHandler.insertCheckpoint(dbObject2);
         System.out.println("#####");
 
 
