@@ -2,7 +2,6 @@ package tr.edu.itu.bbf.cloudcore.distributed.persist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
 
 @Component
 public class CheckpointDbObjectHandler {

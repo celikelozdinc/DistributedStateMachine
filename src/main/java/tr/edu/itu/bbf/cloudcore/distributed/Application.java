@@ -18,11 +18,10 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
+import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
-import tr.edu.itu.bbf.cloudcore.distributed.service.ChckpointPersistenceService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -64,8 +63,9 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
+    /*@Autowired
     private ChckpointPersistenceService persistenceService;
+     */
 
     @Override
     public void run(String... args) throws Exception {
@@ -95,14 +95,11 @@ public class Application implements CommandLineRunner {
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
 
-        System.out.println("#####");
-        persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
+        //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
         //CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
         //dbObjectHandler.insertCheckpoint(dbObject1);
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
-        System.out.println("#####");
-
 
         try {
             while (true) {
@@ -116,7 +113,7 @@ public class Application implements CommandLineRunner {
                 sleep((long) 5);
                 PrintCurrentStatus();
                 System.out.println("...Persist...");
-                persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
+                //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
@@ -183,8 +180,8 @@ public class Application implements CommandLineRunner {
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
         System.out.println("~~~~~CKPT REPORT~~~~~");
-        Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) extendedState.getVariables().get("CKPT");
-        for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
+        Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) extendedState.getVariables().get("CKPT");
+        for(Map.Entry<String, ___Checkpoint> entry : checkpoints.entrySet()) {
             System.out.println("-----");
             System.out.println("Timestamp -> " + entry.getKey());
             System.out.println("Processed by -> " + entry.getValue().getUuid());

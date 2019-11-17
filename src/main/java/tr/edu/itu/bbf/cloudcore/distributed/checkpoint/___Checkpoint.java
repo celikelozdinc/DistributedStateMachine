@@ -2,7 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed.checkpoint;
 
 import java.util.UUID;
 
-public class Checkpoint {
+public class ___Checkpoint {
 
     private Integer common;
     private Integer localVarForWaiting;
@@ -15,7 +15,7 @@ public class Checkpoint {
 
 
     /* Empty Constructor */
-    public Checkpoint(){ numberOfCKPTs = 0;}
+    public ___Checkpoint(){ numberOfCKPTs = 0;}
 
     public Integer getCommon() {
         return common;

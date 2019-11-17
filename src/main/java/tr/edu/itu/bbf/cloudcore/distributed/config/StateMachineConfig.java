@@ -5,15 +5,13 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.zookeeper.data.Stat;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
-import org.springframework.statemachine.StateMachineContext;
-import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
@@ -21,17 +19,14 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.support.DefaultExtendedState;
-import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
-import org.springframework.statemachine.zookeeper.ZookeeperStateMachinePersist;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
-import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.Checkpoint;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.UUID;
@@ -44,6 +39,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
+
+    @Autowired
+    private CheckpointDbObjectHandler dbObjectHandler;
 
 
     /** Default Constructor **/
@@ -186,9 +184,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 /** Define extended state variable as private/local variable used inside state actions **/
                 context.getExtendedState().getVariables().put("localVarForWaiting",10);
                 context.getExtendedState().getVariables().put("localVarForDone",50);
-                /* Initialization for CKPT */
-                Map<String, Checkpoint> checkpoints = new HashMap<String, Checkpoint>();
-                context.getExtendedState().getVariables().put("CKPT",checkpoints);
             }
         };
     }
@@ -257,10 +252,10 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     }
 
-    public void PerformCheckpoint(StateContext<States, Events> context) throws Exception {
+    public void PerformCheckpoint(@NotNull StateContext<States, Events> context) throws Exception {
         System.out.println("----- PERFORM CKPT -----");
         Map<Object, Object> variables = context.getExtendedState().getVariables();
-        Map<String, Checkpoint> checkpoints = (Map<String, Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
+        Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
         /* Get state machine UUID from StateContext */
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
@@ -272,30 +267,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         /* Get processed event from StateContext */
         Object O_event = context.getMessageHeaders().get("processedEvent");
         String processedEvent = O_event.toString();
-        /* Check SMOC has previous CKPTs */
-        Integer currentNumberOfCKPTs = 0;
-        for(Map.Entry<String, Checkpoint> entry : checkpoints.entrySet()) {
-            if ( uuid.equals(entry.getValue().getUuid()) ){
-                System.out.printf("### SMOC %s has 1 CKPT ###\n", uuid.toString());
-                currentNumberOfCKPTs ++;
-            }
-        }
-        /* Create a new CKPT object */
-        Checkpoint ckpt = new Checkpoint();
-        ckpt.setCommon((Integer) variables.get("common"));
-        ckpt.setLocalVarForWaiting((Integer) variables.get("localVarForWaiting"));
-        ckpt.setLocalVarForDone((Integer) variables.get("localVarForDone"));
-        ckpt.setUuid((UUID) uuid);
-        ckpt.setProcessedEvent((String)processedEvent);
-        currentNumberOfCKPTs ++;
-        ckpt.setNumberOfCKPTs(currentNumberOfCKPTs);
-        ckpt.setSourceState(sourceState);
-        ckpt.setTargetState(targetState);
-        /* Add new CKPT object to map */
-        checkpoints.put(getTimeStamp(),ckpt);
-        /* Store map inside StateContext */
-        context.getExtendedState().getVariables().put("CKPT",checkpoints);
-        System.out.println("-----  CKPT FINISHED -----");
+        /* Create a new CKPT db object */
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, processedEvent);
+        dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getTimeStamp(){

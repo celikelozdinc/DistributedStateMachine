@@ -12,14 +12,16 @@ import java.util.UUID;
 public class CheckpointDbObject {
 
     @Id
-    public UUID id;
+    public String timestamp;
 
+    private UUID uuid;
     private String processedEvent;
 
     @PersistenceConstructor
-    public CheckpointDbObject(UUID uuid, String pe) {
+    public CheckpointDbObject(String ts, UUID uuid, String pe) {
+        this.timestamp = ts;
+        this.uuid = uuid;
         this.processedEvent = pe;
-        this.id = uuid;
     }
 
 }
