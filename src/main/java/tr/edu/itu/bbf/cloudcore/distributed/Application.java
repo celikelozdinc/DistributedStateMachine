@@ -21,6 +21,8 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.ByteArrayOutputStream;
@@ -67,6 +69,9 @@ public class Application implements CommandLineRunner {
     private ChckpointPersistenceService persistenceService;
      */
 
+    @Autowired
+    private CheckpointDbObjectHandler dbObjectHandler;
+
     @Override
     public void run(String... args) throws Exception {
         /* Reads timesleep argument
@@ -100,6 +105,9 @@ public class Application implements CommandLineRunner {
         //dbObjectHandler.insertCheckpoint(dbObject1);
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
+
+        CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
+        dbObjectHandler.insertCheckpoint(dbObject);
 
         try {
             while (true) {

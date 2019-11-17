@@ -18,7 +18,9 @@ public class CheckpointDbObject {
     private String sourceState;
     private String processedEvent;
     private String targetState;
+    private String context;
 
+    /*
     @PersistenceConstructor
     public CheckpointDbObject(String timestamp, UUID uuid, String ss, String pe, String ts) {
         this.timestamp = timestamp;
@@ -27,5 +29,14 @@ public class CheckpointDbObject {
         this.processedEvent = pe;
         this.targetState = ts;
     }
+     */
+
+    @PersistenceConstructor
+    public CheckpointDbObject(String timestamp, String context) {
+        this.timestamp = timestamp;
+        this.context = context;
+    }
+
+
 
 }

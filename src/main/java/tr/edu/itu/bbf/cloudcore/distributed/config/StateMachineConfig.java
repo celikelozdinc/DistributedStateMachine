@@ -268,8 +268,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         Object O_event = context.getMessageHeaders().get("processedEvent");
         String processedEvent = O_event.toString();
         /* Create a new CKPT db object */
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState,processedEvent, targetState);
-        dbObjectHandler.insertCheckpoint(dbObject);
+        //CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState,processedEvent, targetState);
+        //dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getTimeStamp(){
