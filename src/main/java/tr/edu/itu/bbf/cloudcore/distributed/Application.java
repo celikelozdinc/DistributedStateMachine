@@ -112,7 +112,6 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                System.out.println("...Persist...");
                 //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
@@ -179,6 +178,7 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
+        /*
         System.out.println("~~~~~CKPT REPORT~~~~~");
         Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) extendedState.getVariables().get("CKPT");
         for(Map.Entry<String, ___Checkpoint> entry : checkpoints.entrySet()) {
@@ -194,6 +194,7 @@ public class Application implements CommandLineRunner {
             System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());
             System.out.println("-----");
         }
+         */
     }
 
 
