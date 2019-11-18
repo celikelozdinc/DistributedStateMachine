@@ -305,6 +305,7 @@ public class Application implements CommandLineRunner {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
+        System.out.println("Result of serialization --> " + Base64.getEncoder().encodeToString(baos.toByteArray()).getClass().getName());
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
