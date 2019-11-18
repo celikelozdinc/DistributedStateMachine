@@ -16,9 +16,10 @@ import java.util.UUID;
 @Component
 public class Subscriber implements MessageHandler {
 
-    //@Autowired
-    //private CheckpointDbObjectHandler dbObjectHandler;
-
+    /*
+    @Autowired
+    private CheckpointDbObjectHandler dbObjectHandler;
+    */
 
     @Override
     public void handleMessage(@NotNull Message<?> message) throws MessagingException {

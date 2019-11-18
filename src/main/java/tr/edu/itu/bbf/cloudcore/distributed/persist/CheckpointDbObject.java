@@ -14,23 +14,26 @@ public class CheckpointDbObject {
     @Id
     public String timestamp;
 
+    private String context;
+    /*
     private UUID uuid;
     private String sourceState;
     private String processedEvent;
+     */
     private String targetState;
-    private String context;
+
 
 
     @PersistenceConstructor
     public CheckpointDbObject(String timestamp, UUID uuid, String ss, String pe, String ts, String context) {
         this.timestamp = timestamp;
+        this.context = context;
         //this.uuid = uuid;
         //this.sourceState = ss;
         //this.processedEvent = pe;
-        //this.targetState = ts;
-        this.context = context;
-        System.out.printf("CONTEXT IN PERSISTENCE CONSTRUCTOR --->  %s\n",this.context);
-        System.out.printf("PARAMETERS: %s %s %s %s\n",timestamp,ss,pe,ts);
+        this.targetState = ts;
+        //System.out.printf("CONTEXT IN PERSISTENCE CONSTRUCTOR --->  %s\n", this.smocContext);
+        //System.out.printf("PARAMETERS: %s %s %s %s\n",timestamp,ss,pe,ts);
     }
 
 
