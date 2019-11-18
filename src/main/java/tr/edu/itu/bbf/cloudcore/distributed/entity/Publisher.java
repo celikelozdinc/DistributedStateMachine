@@ -16,7 +16,7 @@ public class Publisher {
     @Value("#{checkpointChannel}")
     public void setChannel(DirectChannel channel) { this.channel = channel;}
 
-    public void sendCheckpointInformation(UUID uuid, String sourceState, String processedEvent, String targetState){
+    public void sendCheckpointInformation(UUID uuid, String sourceState, String processedEvent, String targetState, String smContext){
         System.out.println("Publisher endpoint releases the message...");
         Message<String> message = MessageBuilder
                 .withPayload("PAYLOAD")
@@ -24,8 +24,10 @@ public class Publisher {
                 .setHeader("source", sourceState)
                 .setHeader("processedEvent", processedEvent)
                 .setHeader("target",targetState)
+                .setHeader("context", smContext)
                 .build();
         channel.send(message);
     }
+
 
 }

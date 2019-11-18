@@ -136,8 +136,10 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                /*
                 CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
                 dbObjectHandler.insertCheckpoint(dbObject);
+                 */
                 //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
@@ -237,7 +239,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE");
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
 
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
@@ -253,7 +255,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE");
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -268,7 +270,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID");
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {
