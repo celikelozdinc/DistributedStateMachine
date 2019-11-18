@@ -16,8 +16,8 @@ import java.util.UUID;
 @Component
 public class Subscriber implements MessageHandler {
 
-    @Autowired
-    private CheckpointDbObjectHandler dbObjectHandler;
+    //@Autowired
+    //private CheckpointDbObjectHandler dbObjectHandler;
 
 
     @Override
@@ -48,6 +48,7 @@ public class Subscriber implements MessageHandler {
         System.out.println(context);
         /* Persist to mongodb */
         CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),uuid,sourceState,processedEvent,targetState,context);
+        CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
