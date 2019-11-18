@@ -112,7 +112,7 @@ public class Application implements CommandLineRunner {
         */
 
         directChannel.subscribe(new Subscriber());
-        publisher.sendCheckpointInformation("NEWCKPT");
+        //publisher.sendCheckpointInformation("NEWCKPT");
 
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
@@ -235,6 +235,10 @@ public class Application implements CommandLineRunner {
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
+
+        /* Prepare message for subscriber */
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE");
+
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
@@ -247,6 +251,9 @@ public class Application implements CommandLineRunner {
                 .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
+
+        /* Prepare message for subscriber */
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE");
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -259,6 +266,9 @@ public class Application implements CommandLineRunner {
                 .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
+
+        /* Prepare message for subscriber */
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID");
     }
     public void sleep(Long sleepTime){
         try {

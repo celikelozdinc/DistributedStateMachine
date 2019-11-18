@@ -6,6 +6,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class Publisher {
 
@@ -14,11 +16,14 @@ public class Publisher {
     @Value("#{checkpointChannel}")
     public void setChannel(DirectChannel channel) { this.channel = channel;}
 
-    public void sendCheckpointInformation(String ckpt){
+    public void sendCheckpointInformation(UUID uuid, String sourceState, String processedEvent, String targetState){
         System.out.println("Publisher endpoint releases the message...");
         Message<String> message = MessageBuilder
                 .withPayload("PAYLOAD")
-                .setHeader("CKPT", ckpt)
+                .setHeader("machineId", uuid)
+                .setHeader("source", sourceState)
+                .setHeader("processedEvent", processedEvent)
+                .setHeader("target",targetState)
                 .build();
         channel.send(message);
     }
