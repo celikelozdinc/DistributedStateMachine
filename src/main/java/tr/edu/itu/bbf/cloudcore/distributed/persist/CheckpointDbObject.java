@@ -29,6 +29,8 @@ public class CheckpointDbObject {
         this.processedEvent = pe;
         this.targetState = ts;
         this.context = context;
+        System.out.println("CONTEXT IN PERSISTENCE CONSTRUCTOR...");
+        System.out.println(this.context);
     }
 
 
