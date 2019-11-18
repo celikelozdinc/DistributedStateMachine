@@ -21,7 +21,6 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Publisher;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
@@ -33,7 +32,6 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
-import java.util.Map;
 import java.util.Scanner;
 
 import java.util.UUID;

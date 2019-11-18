@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Publisher {
 
     private DirectChannel channel;
-
 
     @Value("#{checkpointChannel}")
     public void setChannel(DirectChannel channel) { this.channel = channel;}

@@ -4,7 +4,9 @@ package tr.edu.itu.bbf.cloudcore.distributed.entity;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Subscriber implements MessageHandler {
 
 
