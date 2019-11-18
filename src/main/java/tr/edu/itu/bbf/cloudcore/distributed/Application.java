@@ -2,7 +2,10 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
@@ -20,7 +23,9 @@ import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
+import tr.edu.itu.bbf.cloudcore.distributed.entity.Publisher;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.entity.Subscriber;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
@@ -65,6 +70,17 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private Publisher publisher;
+
+    @Autowired
+    private DirectChannel directChannel;
+
+    @Bean
+    public MessageChannel checkpointChannel () {
+        return new DirectChannel();
+    }
+
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
      */
@@ -96,6 +112,10 @@ public class Application implements CommandLineRunner {
         Registers an exit hook
         which start when the JVM is shut down
         */
+
+        directChannel.subscribe(new Subscriber());
+        publisher.sendCheckpointInformation("NEWCKPT");
+
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
@@ -278,6 +298,7 @@ public class Application implements CommandLineRunner {
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
+        @NotNull
         @SuppressWarnings("rawtypes")
         @Override
         protected Kryo initialValue() {

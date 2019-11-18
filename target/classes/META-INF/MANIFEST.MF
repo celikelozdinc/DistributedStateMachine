@@ -1,23 +1,26 @@
 Manifest-Version: 1.0
 Main-Class: tr.edu.itu.bbf.cloudcore.distributed.Application
-Class-Path: mongodb-driver-core-3.8.2.jar spring-statemachine-data-mongo
- db-2.1.3.RELEASE.jar jackson-databind-2.9.9.jar minlog-1.3.0.jar netty-
- 3.7.0.Final.jar spring-boot-2.1.7.RELEASE.jar curator-framework-2.11.1.
- jar logback-core-1.2.3.jar spring-data-commons-2.1.10.RELEASE.jar sprin
- g-jcl-5.1.9.RELEASE.jar spring-expression-5.1.9.RELEASE.jar slf4j-api-1
- .7.26.jar spring-tx-5.1.9.RELEASE.jar guava-16.0.1.jar log4j-api-2.11.2
- .jar objenesis-2.5.1.jar log4j-1.2.17.jar mongodb-driver-3.8.2.jar spri
- ng-statemachine-data-common-2.1.3.RELEASE.jar logback-classic-1.2.3.jar
-  spring-core-5.1.9.RELEASE.jar jackson-core-2.9.9.jar spring-aop-5.1.9.
- RELEASE.jar curator-recipes-2.11.1.jar spring-context-5.1.9.RELEASE.jar
-  kryo-shaded-4.0.2.jar jline-0.9.94.jar spring-boot-starter-data-mongod
- b-2.1.7.RELEASE.jar spring-messaging-5.1.9.RELEASE.jar javax.annotation
- -api-1.3.2.jar curator-client-2.11.1.jar bson-3.8.2.jar spring-boot-aut
- oconfigure-2.1.7.RELEASE.jar zookeeper-3.4.8.jar spring-statemachine-zo
- okeeper-2.1.3.RELEASE.jar annotations-18.0.0.jar spring-boot-starter-2.
- 1.7.RELEASE.jar snakeyaml-1.23.jar spring-statemachine-core-2.1.3.RELEA
- SE.jar spring-boot-starter-logging-2.1.7.RELEASE.jar jackson-annotation
- s-2.9.0.jar jul-to-slf4j-1.7.26.jar log4j-to-slf4j-2.11.2.jar spring-st
- atemachine-kryo-2.1.3.RELEASE.jar spring-beans-5.1.9.RELEASE.jar spring
- -data-mongodb-2.1.10.RELEASE.jar
+Class-Path: log4j-api-2.11.2.jar spring-core-5.1.9.RELEASE.jar spring-me
+ ssaging-5.1.9.RELEASE.jar objenesis-2.5.1.jar spring-data-commons-2.1.1
+ 0.RELEASE.jar spring-statemachine-data-common-2.1.3.RELEASE.jar logback
+ -classic-1.2.3.jar spring-tx-5.1.9.RELEASE.jar netty-3.7.0.Final.jar sp
+ ring-beans-5.1.9.RELEASE.jar spring-aop-5.1.9.RELEASE.jar zookeeper-3.4
+ .8.jar spring-boot-2.1.7.RELEASE.jar reactive-streams-1.0.2.jar spring-
+ retry-1.2.4.RELEASE.jar spring-boot-starter-2.1.7.RELEASE.jar snakeyaml
+ -1.23.jar jline-0.9.94.jar slf4j-api-1.7.26.jar spring-boot-starter-int
+ egration-2.1.7.RELEASE.jar spring-statemachine-core-2.1.3.RELEASE.jar s
+ pring-statemachine-kryo-2.1.3.RELEASE.jar spring-expression-5.1.9.RELEA
+ SE.jar curator-client-2.11.1.jar jul-to-slf4j-1.7.26.jar spring-boot-st
+ arter-logging-2.1.7.RELEASE.jar aspectjweaver-1.9.4.jar logback-core-1.
+ 2.3.jar jackson-databind-2.9.9.jar spring-data-mongodb-2.1.10.RELEASE.j
+ ar spring-statemachine-zookeeper-2.1.3.RELEASE.jar log4j-1.2.17.jar ann
+ otations-18.0.0.jar minlog-1.3.0.jar mongodb-driver-3.8.2.jar guava-16.
+ 0.1.jar spring-jcl-5.1.9.RELEASE.jar curator-framework-2.11.1.jar kryo-
+ shaded-4.0.2.jar spring-boot-starter-data-mongodb-2.1.7.RELEASE.jar jac
+ kson-core-2.9.9.jar spring-statemachine-data-mongodb-2.1.3.RELEASE.jar 
+ spring-boot-autoconfigure-2.1.7.RELEASE.jar log4j-to-slf4j-2.11.2.jar s
+ pring-boot-starter-aop-2.1.7.RELEASE.jar reactor-core-3.2.11.RELEASE.ja
+ r bson-3.8.2.jar javax.annotation-api-1.3.2.jar spring-context-5.1.9.RE
+ LEASE.jar jackson-annotations-2.9.0.jar spring-integration-core-5.1.7.R
+ ELEASE.jar curator-recipes-2.11.1.jar mongodb-driver-core-3.8.2.jar
 
