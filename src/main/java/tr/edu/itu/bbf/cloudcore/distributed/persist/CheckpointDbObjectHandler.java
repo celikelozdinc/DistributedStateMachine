@@ -11,11 +11,13 @@ public class CheckpointDbObjectHandler {
 
     // INSERT
     public CheckpointDbObject insertCheckpoint(CheckpointDbObject checkpointDbObject){
+        System.out.println("INSERT");
         return checkpointRepository.insert(checkpointDbObject);
     }
 
     // UPDATE
     public CheckpointDbObject updateCheckpoint(CheckpointDbObject checkpointDbObject) {
+        System.out.println("UPDATE");
         return checkpointRepository.save(checkpointDbObject);
     }
 

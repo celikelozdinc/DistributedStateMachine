@@ -20,14 +20,13 @@ public class Publisher {
         System.out.println("Publisher endpoint releases the message...");
         System.out.println("smContext is below...");
         System.out.println(smContext);
-        Message<String> message = MessageBuilder
-                .withPayload("PAYLOAD")
-                .setHeader("machineId", uuid)
-                .setHeader("source", sourceState)
-                .setHeader("processedEvent", processedEvent)
-                .setHeader("target",targetState)
-                .setHeader("context", smContext)
-                .build();
+        MessageBuilder<String> payload = MessageBuilder.withPayload("PAYLOAD");
+        payload.setHeader("machineId", uuid);
+        payload.setHeader("source", sourceState);
+        payload.setHeader("processedEvent", processedEvent);
+        payload.setHeader("target", targetState);
+        payload.setHeader("context", smContext);
+        Message<String> message = payload.build();
         channel.send(message);
     }
 

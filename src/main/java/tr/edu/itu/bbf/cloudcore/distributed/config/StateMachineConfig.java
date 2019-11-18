@@ -272,19 +272,5 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         //dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    public String getTimeStamp(){
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
-        int second = now.get(Calendar.SECOND);
-        int ms = now.get(Calendar.MILLISECOND);
-
-        String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
-        return ts;
-    }
-
 
 }

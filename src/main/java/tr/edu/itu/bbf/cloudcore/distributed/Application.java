@@ -75,7 +75,7 @@ public class Application implements CommandLineRunner {
     private DirectChannel directChannel;
 
     @Bean
-    public MessageChannel checkpointChannel () {
+    public MessageChannel checkpointChannel() {
         return new DirectChannel();
     }
 
