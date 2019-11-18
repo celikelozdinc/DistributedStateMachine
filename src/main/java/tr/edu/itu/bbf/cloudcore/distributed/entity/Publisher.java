@@ -18,6 +18,8 @@ public class Publisher {
 
     public void sendCheckpointInformation(UUID uuid, String sourceState, String processedEvent, String targetState, String smContext){
         System.out.println("Publisher endpoint releases the message...");
+        System.out.println("smContext is below...");
+        System.out.println(smContext);
         Message<String> message = MessageBuilder
                 .withPayload("PAYLOAD")
                 .setHeader("machineId", uuid)

@@ -43,10 +43,10 @@ public class Subscriber implements MessageHandler {
         /* Get context */
         Object O_context = message.getHeaders().get("context");
         String context = O_context.toString();
+        System.out.printf("SMOC CONTEXT: %s",context);
         /* Persist to mongodb */
         CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(),uuid,sourceState,processedEvent,targetState,context);
         dbObjectHandler.insertCheckpoint(dbObject);
-
     }
 
     public String getTimeStamp(){
