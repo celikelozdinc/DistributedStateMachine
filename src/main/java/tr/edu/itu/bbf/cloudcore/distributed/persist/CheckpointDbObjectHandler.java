@@ -1,5 +1,6 @@
 package tr.edu.itu.bbf.cloudcore.distributed.persist;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
@@ -13,9 +14,16 @@ public class CheckpointDbObjectHandler {
     private CheckpointRepository checkpointRepository;
 
     // INSERT
-    public CheckpointDbObject insertCheckpoint(CheckpointDbObject checkpointDbObject){
+    public CheckpointDbObject insertCheckpoint(@NotNull CheckpointDbObject checkpointDbObject){
         System.out.println("INSERT");
-        return checkpointRepository.insert(checkpointDbObject);
+        System.out.println("Timestamp inside db object ->" + checkpointDbObject.timestamp.toString());
+        try {
+            return checkpointRepository.insert(checkpointDbObject);
+        } catch(Exception ex) {
+            System.out.println("Can not insert :(");
+            return checkpointDbObject;
+        }
+
     }
 
     // UPDATE
