@@ -241,9 +241,9 @@ public class Application implements CommandLineRunner {
 
         /* Prepare message for subscriber */
         publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
-        CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
-        CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
-        dbObjectHandler.insertCheckpoint(dbObject);
+        //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
+        //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
+        //dbObjectHandler.insertCheckpoint(dbObject);
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
