@@ -112,7 +112,7 @@ public class Application implements CommandLineRunner {
         which start when the JVM is shut down
         */
 
-        //directChannel.subscribe(new Subscriber());
+        directChannel.subscribe(new Subscriber());
         //publisher.sendCheckpointInformation("NEWCKPT");
 
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
@@ -238,7 +238,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for subscriber */
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), serializeStateMachineContext());
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
@@ -257,7 +257,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for subscriber */
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -272,7 +272,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for subscriber */
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
+        publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {
