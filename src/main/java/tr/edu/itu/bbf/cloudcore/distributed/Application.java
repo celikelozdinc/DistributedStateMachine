@@ -27,7 +27,6 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.Publisher;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Subscriber;
 import tr.edu.itu.bbf.cloudcore.distributed.messaging.Checkpoint;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
@@ -40,7 +39,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "tr.edu.itu.bbf.cloudcore.distributed.messaging")
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
