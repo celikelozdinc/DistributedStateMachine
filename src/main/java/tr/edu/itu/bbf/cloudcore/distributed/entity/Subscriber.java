@@ -51,6 +51,9 @@ public class Subscriber implements MessageHandler {
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), context);
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
         //dbObjectHandler.insertCheckpoint(dbObject);
+        CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", context);
+        CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
+        dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getTimeStamp(){

@@ -137,8 +137,8 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
-                dbObjectHandler.insertCheckpoint(dbObject);
+                //CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
+                //dbObjectHandler.insertCheckpoint(dbObject);
                 //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
