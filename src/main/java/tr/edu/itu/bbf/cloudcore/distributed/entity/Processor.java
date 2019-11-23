@@ -11,9 +11,8 @@ public class Processor {
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
 
-    public Processor(CheckpointDbObjectHandler dbObjectHandler) {
-        this.dbObjectHandler = dbObjectHandler;
-    }
+
+    public Processor(){}
 
     public void processCheckpoint(String context){
         CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", context);
