@@ -17,7 +17,7 @@ public class CheckpointConfig {
     }
 
     @Bean
-    public Checkpoint ckptService() {
+    public ICheckpoint ckptService() {
         return new Checkpoint();
     }
 
