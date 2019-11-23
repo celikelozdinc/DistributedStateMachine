@@ -21,6 +21,9 @@ public class Subscriber implements MessageHandler {
     private CheckpointDbObjectHandler dbObjectHandler;
     */
 
+    @Autowired
+    private Processor CKPTProcessor;
+
     @Override
     public void handleMessage(@NotNull Message<?> message) throws MessagingException {
         Object o_payload = message.getPayload();
@@ -48,12 +51,10 @@ public class Subscriber implements MessageHandler {
         System.out.println("SMOC CONTEXT IS BELOW...");
         System.out.println(context);
         /* Persist to mongodb */
+        CKPTProcessor.processCheckpoint(context);
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), context);
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
         //dbObjectHandler.insertCheckpoint(dbObject);
-        CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", context);
-        CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
-        dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getTimeStamp(){
