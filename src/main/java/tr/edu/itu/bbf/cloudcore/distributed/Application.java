@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.integration.channel.DirectChannel;
@@ -25,6 +26,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Publisher;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Subscriber;
+import tr.edu.itu.bbf.cloudcore.distributed.messaging.Checkpoint;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
@@ -79,6 +81,10 @@ public class Application implements CommandLineRunner {
     public MessageChannel checkpointChannel() {
         return new DirectChannel();
     }
+
+    @Autowired
+    @Qualifier("ckptGateway")
+    private Checkpoint ckptGateway;
 
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
@@ -137,6 +143,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                ckptGateway.persist("HELLO");
                 //CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
                 //dbObjectHandler.insertCheckpoint(dbObject);
                 //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
@@ -238,7 +245,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
+        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), serializeStateMachineContext());
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
@@ -257,7 +264,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
+        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -272,7 +279,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for subscriber */
-        publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
+        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {

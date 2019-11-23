@@ -52,8 +52,8 @@ public class Subscriber implements MessageHandler {
         System.out.println("SMOC CONTEXT IS BELOW...");
         System.out.println(context);
         /* Persist to mongodb */
-        Processor CKPTProcessor = new Processor();
-        CKPTProcessor.processCheckpoint(context);
+        //Processor CKPTProcessor = new Processor();
+        //CKPTProcessor.processCheckpoint(context);
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), context);
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
         //dbObjectHandler.insertCheckpoint(dbObject);
