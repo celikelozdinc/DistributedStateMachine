@@ -2,7 +2,10 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
@@ -109,6 +112,9 @@ public class Application implements CommandLineRunner {
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
 
+        ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
+        MessageChannel channel = context.getBean("inputChannel", MessageChannel.class);
+        Message<String> message = MessageBuilder.withPayload("World").build();
 
         try {
             while (true) {
@@ -121,6 +127,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                channel.send(message);
                 //ckptGateway.persist("HELLO");
                 //CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
                 //dbObjectHandler.insertCheckpoint(dbObject);
