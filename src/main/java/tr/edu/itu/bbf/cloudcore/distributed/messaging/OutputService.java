@@ -9,13 +9,11 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 @Component
 public class OutputService {
-    @Autowired
-    private CheckpointRepository checkpointRepository;
 
     @ServiceActivator
     public void printValue(String value){
         System.out.printf("Context is .. %s\n", value);
-        CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler(checkpointRepository);
+        CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler();
         CheckpointDbObject dbObject = new CheckpointDbObject(1, value);
         dbObjectHandler.insertCheckpoint(dbObject);
     }

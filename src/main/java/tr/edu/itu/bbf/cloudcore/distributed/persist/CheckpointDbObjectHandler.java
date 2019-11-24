@@ -11,14 +11,12 @@ public class CheckpointDbObjectHandler {
     @Autowired
     private CheckpointRepository checkpointRepository;
 
-    public CheckpointDbObjectHandler(CheckpointRepository checkpointRepository) {
-        this.checkpointRepository = checkpointRepository;
-    }
-
     // INSERT
     public CheckpointDbObject insertCheckpoint(@NotNull CheckpointDbObject checkpointDbObject){
         System.out.println("INSERT CHECKPOINT");
         System.out.println("Timestamp inside db object ->" + checkpointDbObject.timestamp.toString());
+        if (checkpointRepository == null) {System.out.println("Checkpoint repository is null.");}
+        if(checkpointDbObject == null){System.out.println("Checkpoint db object is null.");}
         try {
             return checkpointRepository.insert(checkpointDbObject);
         } catch(Exception ex) {
