@@ -62,22 +62,6 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    /*
-    @Autowired
-    private __Publisher publisher;
-    @Autowired
-    private DirectChannel directChannel;
-    @Bean
-    public MessageChannel checkpointChannel() {
-        return new DirectChannel();
-    }
-    */
-
-    /*
-    @Autowired
-    @Qualifier("ckptGateway")
-    private ___ICheckpoint ckptGateway;
-     */
 
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
