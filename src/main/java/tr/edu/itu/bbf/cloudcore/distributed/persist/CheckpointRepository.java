@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 
 @Repository
-public interface CheckpointRepository extends MongoRepository<CheckpointDbObject, String> {
+public interface CheckpointRepository extends MongoRepository<CheckpointDbObject, Integer> {
 
 }

@@ -6,7 +6,6 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 @Component
 public class OutputService {
@@ -15,7 +14,7 @@ public class OutputService {
     public void printValue(String value){
         System.out.printf("Context is .. %s\n", value);
         CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler();
-        CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", value);
+        CheckpointDbObject dbObject = new CheckpointDbObject(1, value);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 }

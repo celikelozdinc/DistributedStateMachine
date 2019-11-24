@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CheckpointDbObject {
 
     @Id
-    public String timestamp;
+    public Integer timestamp;
 
     @Field("context")
     private String context;
@@ -25,7 +25,7 @@ public class CheckpointDbObject {
      */
 
     @PersistenceConstructor
-    public CheckpointDbObject(String timestamp, String context) {
+    public CheckpointDbObject(Integer timestamp, String context) {
         this.timestamp = timestamp;
         this.context = context;
         System.out.printf("CONTEXT IN PERSISTENCE CONSTRUCTOR --->  %s\n", this.context);
