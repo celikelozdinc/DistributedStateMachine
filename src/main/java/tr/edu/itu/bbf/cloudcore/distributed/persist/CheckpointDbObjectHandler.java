@@ -22,8 +22,7 @@ public class CheckpointDbObjectHandler {
         } catch(Exception ex) {
             System.out.println("Can not insert :(");
             System.out.println("Exception...");
-            System.out.println("Cause: " + ex.getCause());
-            System.out.println("Message: " + ex.getMessage());
+            System.out.println(ex.toString());
             return checkpointDbObject;
         }
 
