@@ -65,8 +65,6 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    private  MessageChannel channel;
-
 
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
@@ -114,8 +112,6 @@ public class Application implements CommandLineRunner {
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
-        channel = context.getBean("inputChannel", MessageChannel.class);
 
         try {
             while (true) {
@@ -230,8 +226,6 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for subscriber */
-        Message<String> message = MessageBuilder.withPayload(serializeStateMachineContext()).build();
-        channel.send(message);
         //publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), serializeStateMachineContext());
