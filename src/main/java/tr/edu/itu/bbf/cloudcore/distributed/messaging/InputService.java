@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class InputService {
 
-    public String ckpt(String name) {
-        return "Hello " + name + "!";
+    public String ckpt(String context) {
+        return context;
     }
 }
