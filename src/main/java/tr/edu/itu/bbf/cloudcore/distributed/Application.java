@@ -64,7 +64,7 @@ public class Application implements CommandLineRunner {
 
     /*
     @Autowired
-    private Publisher publisher;
+    private __Publisher publisher;
     @Autowired
     private DirectChannel directChannel;
     @Bean
@@ -76,7 +76,7 @@ public class Application implements CommandLineRunner {
     /*
     @Autowired
     @Qualifier("ckptGateway")
-    private ICheckpoint ckptGateway;
+    private ___ICheckpoint ckptGateway;
      */
 
     /*@Autowired
@@ -113,7 +113,7 @@ public class Application implements CommandLineRunner {
         which start when the JVM is shut down
         */
 
-        //directChannel.subscribe(new Subscriber());
+        //directChannel.subscribe(new __Subscriber());
 
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());

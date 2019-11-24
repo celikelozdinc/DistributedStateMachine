@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.UUID;
 
 @Component
-public class Subscriber implements MessageHandler {
+public class __Subscriber implements MessageHandler {
 
     /*
     @Autowired
@@ -23,13 +23,13 @@ public class Subscriber implements MessageHandler {
 
     /*
     @Autowired
-    private Processor CKPTProcessor;
+    private __Processor CKPTProcessor;
      */
     @Override
     public void handleMessage(@NotNull Message<?> message) throws MessagingException {
         Object o_payload = message.getPayload();
         String payload = o_payload.toString();
-        System.out.printf("Subscriber endpoint handles the message --> %s\n",payload);
+        System.out.printf("__Subscriber endpoint handles the message --> %s\n",payload);
         System.out.println("Message headers are below...");
         /*Get uuid */
         Object O_UUID = message.getHeaders().get("machineId");
@@ -52,7 +52,7 @@ public class Subscriber implements MessageHandler {
         System.out.println("SMOC CONTEXT IS BELOW...");
         System.out.println(context);
         /* Persist to mongodb */
-        //Processor CKPTProcessor = new Processor();
+        //__Processor CKPTProcessor = new __Processor();
         //CKPTProcessor.processCheckpoint(context);
         //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), context);
         //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();

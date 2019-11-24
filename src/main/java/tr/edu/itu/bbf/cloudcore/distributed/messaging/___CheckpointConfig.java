@@ -9,7 +9,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
 @Configuration
-public class CheckpointConfig {
+public class ___CheckpointConfig {
 
     @Bean("ckptChannel")
     public MessageChannel channel() {
@@ -17,8 +17,8 @@ public class CheckpointConfig {
     }
 
     @Bean
-    public ICheckpoint ckptService() {
-        return new Checkpoint();
+    public ___ICheckpoint ckptService() {
+        return new __Checkpoint();
     }
 
     @Bean

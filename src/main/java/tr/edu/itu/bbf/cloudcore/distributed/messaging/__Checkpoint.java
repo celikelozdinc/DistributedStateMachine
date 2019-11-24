@@ -1,7 +1,6 @@
 package tr.edu.itu.bbf.cloudcore.distributed.messaging;
-import tr.edu.itu.bbf.cloudcore.distributed.messaging.ICheckpoint;
 
-public class Checkpoint implements ICheckpoint {
+public class __Checkpoint implements ___ICheckpoint {
 
     @Override
     public void persist(String context) {

@@ -6,13 +6,13 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
 @Component
-public class Processor {
+public class __Processor {
 
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
 
 
-    public Processor(){}
+    public __Processor(){}
 
     public void processCheckpoint(String context){
         CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", context);

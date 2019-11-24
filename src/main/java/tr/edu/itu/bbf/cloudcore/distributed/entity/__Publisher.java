@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class Publisher {
+public class __Publisher {
 
     private DirectChannel channel;
 
@@ -17,7 +17,7 @@ public class Publisher {
     public void setChannel(DirectChannel channel) { this.channel = channel;}
 
     public void sendCheckpointInformation(UUID uuid, String sourceState, String processedEvent, String targetState, String smContext){
-        System.out.println("Publisher endpoint releases the message...");
+        System.out.println("__Publisher endpoint releases the message...");
         System.out.println("smContext is below...");
         System.out.println(smContext);
         MessageBuilder<String> payload = MessageBuilder.withPayload("PAYLOAD");
