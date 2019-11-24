@@ -1,6 +1,5 @@
 package tr.edu.itu.bbf.cloudcore.distributed.messaging;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.integration.annotation.MessagingGateway;
 
 @MessagingGateway(name = "ckptGateway", defaultRequestChannel = "ckptChannel")

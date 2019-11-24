@@ -70,16 +70,16 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    /*
     @Autowired
     private Publisher publisher;
-
     @Autowired
     private DirectChannel directChannel;
-
     @Bean
     public MessageChannel checkpointChannel() {
         return new DirectChannel();
     }
+    */
 
     @Autowired
     @Qualifier("ckptGateway")
@@ -89,8 +89,10 @@ public class Application implements CommandLineRunner {
     private ChckpointPersistenceService persistenceService;
      */
 
+    /*
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
+     */
 
     @Override
     public void run(String... args) throws Exception {
@@ -117,8 +119,7 @@ public class Application implements CommandLineRunner {
         which start when the JVM is shut down
         */
 
-        directChannel.subscribe(new Subscriber());
-        //publisher.sendCheckpointInformation("NEWCKPT");
+        //directChannel.subscribe(new Subscriber());
 
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
