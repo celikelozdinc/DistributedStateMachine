@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
-@ComponentScan("tr.edu.itu.bbf.cloudcore.distributed*")
+@ComponentScan("tr.edu.itu.bbf.cloudcore.distributed.*")
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
