@@ -2,6 +2,8 @@ package tr.edu.itu.bbf.cloudcore.distributed.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 @Configuration
 public class SpringConfig {
@@ -15,6 +17,11 @@ public class SpringConfig {
             @Override
             public String getCheckpoint(String name) { return null; }
         };
+    }
+
+    @Bean
+    public CheckpointDbObjectHandler checkpointDbObjectHandler(){
+        return new CheckpointDbObjectHandler();
     }
 
 }
