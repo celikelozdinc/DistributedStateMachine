@@ -35,7 +35,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
+//@EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
