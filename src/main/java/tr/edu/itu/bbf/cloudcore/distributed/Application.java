@@ -2,11 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.integration.channel.DirectChannel;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
@@ -23,12 +19,7 @@ import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.Publisher;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.Subscriber;
-import tr.edu.itu.bbf.cloudcore.distributed.messaging.Checkpoint;
-import tr.edu.itu.bbf.cloudcore.distributed.messaging.ICheckpoint;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.ByteArrayOutputStream;
@@ -87,7 +78,6 @@ public class Application implements CommandLineRunner {
     @Qualifier("ckptGateway")
     private ICheckpoint ckptGateway;
      */
-
 
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
