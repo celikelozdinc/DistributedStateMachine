@@ -3,6 +3,7 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.messaging.MessageHeaders;
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
+@ComponentScan("tr.edu.itu.bbf.cloudcore.distributed*")
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
