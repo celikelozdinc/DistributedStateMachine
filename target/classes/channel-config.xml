@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:integration="http://www.springframework.org/schema/integration"
-       xmlns:beans="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config />
+    <context:component-scan base-package="tr.edu.itu.bbf.cloudcore.distributed.service"/>
+    <gateway id="serviceGateway" service-interface="tr.edu.itu.bbf.cloudcore.distributed.config.ServiceGateway"/>
 
-    <context:component-scan base-package="tr.edu.itu.bbf.cloudcore.distributed.messaging"/>
+    <channel id="set.channel"/>
+    <service-activator id="setCheckpoint" input-channel="set.channel" ref="routerService" method="setCheckpoint"/>
+    <channel id="get.channel"/>
+    <service-activator id="getCheckpoint" input-channel="get.channel" ref="routerService" method="getCheckpoint"/>
 
-    <!-- this channel is called by the application and the message is passed to it -->
-    <integration:channel id="inputChannel"/>
-
-    <!-- this channel receive the modified message -->
-    <integration:channel id="outputChannel"/>
-
-    <!-- this service transform the message in input-channel and send the result to output-channel -->
-    <!-- the service method to call is referenced in explicitly -->
-    <integration:service-activator input-channel="inputChannel" ref="inputService" method="ckpt" output-channel="outputChannel"/>
-
-    <!-- this service receives a message and pass it to printerService -->
-    <!-- the method that consumes the message is implicitly defined by the @ServiceActivator annotation or it should be the only
-    method in the class -->
-    <integration:service-activator input-channel="outputChannel" ref="outputService"/>
-
-</beans>
+</beans:beans>
