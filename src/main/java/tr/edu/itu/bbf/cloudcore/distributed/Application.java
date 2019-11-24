@@ -81,9 +81,11 @@ public class Application implements CommandLineRunner {
     }
     */
 
+    /*
     @Autowired
     @Qualifier("ckptGateway")
     private ICheckpoint ckptGateway;
+     */
 
     /*@Autowired
     private ChckpointPersistenceService persistenceService;
@@ -143,7 +145,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                ckptGateway.persist("HELLO");
+                //ckptGateway.persist("HELLO");
                 //CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
                 //dbObjectHandler.insertCheckpoint(dbObject);
                 //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
