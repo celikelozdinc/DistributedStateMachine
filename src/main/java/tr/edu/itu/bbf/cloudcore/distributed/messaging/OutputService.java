@@ -12,7 +12,7 @@ public class OutputService {
 
     @ServiceActivator
     public void printValue(String value){
-        System.out.printf("Context is .. %s", value);
+        System.out.printf("Context is .. %s\n", value);
         CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler();
         CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", value);
         dbObjectHandler.insertCheckpoint(dbObject);

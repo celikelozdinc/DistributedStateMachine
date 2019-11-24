@@ -15,12 +15,15 @@ public class CheckpointDbObjectHandler {
 
     // INSERT
     public CheckpointDbObject insertCheckpoint(@NotNull CheckpointDbObject checkpointDbObject){
-        System.out.println("INSERT");
+        System.out.println("INSERT CHECKPOINT");
         System.out.println("Timestamp inside db object ->" + checkpointDbObject.timestamp.toString());
         try {
             return checkpointRepository.insert(checkpointDbObject);
         } catch(Exception ex) {
             System.out.println("Can not insert :(");
+            System.out.println("Exception...");
+            System.out.println("Cause: " + ex.getCause());
+            System.out.println("Message: " + ex.getMessage());
             return checkpointDbObject;
         }
 
