@@ -19,9 +19,4 @@ public class SpringConfig {
         };
     }
 
-    @Bean
-    public CheckpointDbObjectHandler handler(){
-        return new CheckpointDbObjectHandler();
-    }
-
 }
