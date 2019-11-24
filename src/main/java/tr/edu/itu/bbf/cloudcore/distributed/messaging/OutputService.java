@@ -9,7 +9,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 @Component
-@EnableMongoRepositories(basePackageClasses= CheckpointRepository.class)
+@EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class OutputService {
 
     @ServiceActivator
