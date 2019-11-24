@@ -20,7 +20,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public CheckpointDbObjectHandler checkpointDbObjectHandler(){
+    public CheckpointDbObjectHandler handler(){
         return new CheckpointDbObjectHandler();
     }
 
