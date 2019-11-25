@@ -67,6 +67,7 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
     private ServiceGateway serviceGateway;
 
     /*@Autowired
