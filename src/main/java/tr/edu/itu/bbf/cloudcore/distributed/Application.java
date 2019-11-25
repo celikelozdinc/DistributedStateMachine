@@ -67,7 +67,6 @@ public class Application implements CommandLineRunner {
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
     private ServiceGateway serviceGateway;
 
     /*@Autowired
@@ -115,9 +114,9 @@ public class Application implements CommandLineRunner {
         //dbObjectHandler.insertCheckpoint(dbObject1);
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
-        //ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
-        //serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
-        serviceGateway.prepareEnvironment();
+        ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
+        serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
+        //serviceGateway.prepareEnvironment();
 
         try {
             while (true) {

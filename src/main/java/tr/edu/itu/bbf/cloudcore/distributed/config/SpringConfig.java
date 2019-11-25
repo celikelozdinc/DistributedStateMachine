@@ -18,6 +18,7 @@ import java.util.Optional;
 @Configuration
 public class SpringConfig {
 
+    /*
     @Bean
     public ServiceGateway sGateway() {
         return new ServiceGateway() {
@@ -36,6 +37,7 @@ public class SpringConfig {
             }
         };
     }
+*/
 
     /*
     @Bean
