@@ -15,5 +15,4 @@
     <service-activator id="setCheckpoint" input-channel="set.channel" ref="routerService" method="setCheckpoint"/>
     <channel id="get.channel"/>
     <service-activator id="getCheckpoint" input-channel="get.channel" ref="routerService" method="getCheckpoint"/>
-
 </beans:beans>

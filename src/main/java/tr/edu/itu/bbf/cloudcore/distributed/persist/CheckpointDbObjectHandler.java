@@ -2,16 +2,9 @@ package tr.edu.itu.bbf.cloudcore.distributed.persist;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Component

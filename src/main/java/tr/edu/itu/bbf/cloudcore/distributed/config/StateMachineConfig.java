@@ -23,10 +23,7 @@ import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
-import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.UUID;
@@ -40,8 +37,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
-    private CheckpointDbObjectHandler dbObjectHandler;
+    //@Autowired
+    //private CheckpointDbObjectHandler dbObjectHandler;
 
 
     /** Default Constructor **/
