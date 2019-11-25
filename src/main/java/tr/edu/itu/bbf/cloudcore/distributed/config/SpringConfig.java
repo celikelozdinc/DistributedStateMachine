@@ -19,7 +19,7 @@ import java.util.Optional;
 public class SpringConfig {
 
     @Bean
-    public ServiceGateway serviceGateway() {
+    public ServiceGateway sGateway() {
         return new ServiceGateway() {
             @Override
             public void setCheckpoint(String name) { }
@@ -37,6 +37,6 @@ public class SpringConfig {
     }
 
     @Bean
-    public CheckpointDbObjectHandler dbObjectHandler(){return new CheckpointDbObjectHandler();}
+    public CheckpointDbObjectHandler doHandler(){return new CheckpointDbObjectHandler();}
 
 }

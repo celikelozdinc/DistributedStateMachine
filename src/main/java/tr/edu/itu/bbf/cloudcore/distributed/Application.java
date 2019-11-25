@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
-@ImportResource({"classpath*:channel-config.xml"})
 public class Application implements CommandLineRunner {
 
     static class ExitHook extends Thread {
