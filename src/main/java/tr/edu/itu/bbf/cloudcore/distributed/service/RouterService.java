@@ -8,7 +8,6 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 @Service
 public class RouterService {
 
-
     private CheckpointDbObjectHandler dbObjectHandler;
 
     public void setCheckpoint(String context) {

@@ -22,13 +22,14 @@ public class SpringConfig {
     public ServiceGateway sGateway() {
         return new ServiceGateway() {
             @Override
-            public void setCheckpoint(String name) { }
+            public void setCheckpoint(String name) { System.out.println("set.channel for CKPT");}
 
             @Override
             public String getCheckpoint(String name) { return null; }
 
             @Override
             public ServiceGateway prepareEnvironment() {
+                System.out.println("ServiceGateway prepares environment...");
                 ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
                 ServiceGateway serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
                 return serviceGateway;
