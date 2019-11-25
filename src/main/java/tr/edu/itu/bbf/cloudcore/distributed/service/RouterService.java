@@ -8,11 +8,11 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 @Service
 public class RouterService {
 
-    //@Autowired
-    //private CheckpointDbObjectHandler dbObjectHandler;
+    @Autowired
+    private CheckpointDbObjectHandler dbObjectHandler;
 
     public void setCheckpoint(String context) {
-        CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler();
+        //CheckpointDbObjectHandler dbObjectHandler = new CheckpointDbObjectHandler();
         System.out.printf("SMOC context inside RouterService : %s\n",context);
         CheckpointDbObject dbObject = new CheckpointDbObject(1, context);
         dbObjectHandler.insertCheckpoint(dbObject);

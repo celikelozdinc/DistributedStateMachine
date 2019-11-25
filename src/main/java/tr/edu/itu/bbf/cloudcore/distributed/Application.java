@@ -114,8 +114,9 @@ public class Application implements CommandLineRunner {
         //dbObjectHandler.insertCheckpoint(dbObject1);
         //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
         //dbObjectHandler.insertCheckpoint(dbObject2);
-        ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
-        serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
+        //ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
+        //serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
+        serviceGateway.prepareEnvironment();
 
         try {
             while (true) {

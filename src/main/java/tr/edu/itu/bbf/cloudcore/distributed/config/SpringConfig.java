@@ -1,7 +1,9 @@
 package tr.edu.itu.bbf.cloudcore.distributed.config;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,13 @@ public class SpringConfig {
 
             @Override
             public String getCheckpoint(String name) { return null; }
+
+            @Override
+            public ServiceGateway prepareEnvironment() {
+                ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
+                ServiceGateway serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
+                return serviceGateway;
+            }
         };
     }
 

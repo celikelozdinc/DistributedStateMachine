@@ -12,4 +12,6 @@ public interface ServiceGateway {
     @Gateway(requestChannel = "get.channel")
     String getCheckpoint(String name);
 
+    ServiceGateway prepareEnvironment();
+
 }
