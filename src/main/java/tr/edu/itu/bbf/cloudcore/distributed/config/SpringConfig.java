@@ -36,7 +36,9 @@ public class SpringConfig {
         };
     }
 
+    /*
     @Bean
     public CheckpointDbObjectHandler doHandler(){return new CheckpointDbObjectHandler();}
+     */
 
 }
