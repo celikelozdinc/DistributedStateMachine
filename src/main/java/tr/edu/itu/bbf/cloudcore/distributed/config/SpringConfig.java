@@ -37,6 +37,6 @@ public class SpringConfig {
     }
 
     @Bean
-    public CheckpointDbObjectHandler checkpointDbObjectHandler(){return new CheckpointDbObjectHandler();}
+    public CheckpointDbObjectHandler dbObjectHandler(){return new CheckpointDbObjectHandler();}
 
 }
