@@ -205,7 +205,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(getTimeStamp(),serializeStateMachineContext());
+        serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
@@ -219,7 +219,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(getTimeStamp(),serializeStateMachineContext());
+        serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -233,7 +233,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(getTimeStamp(),serializeStateMachineContext());
+        serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {
