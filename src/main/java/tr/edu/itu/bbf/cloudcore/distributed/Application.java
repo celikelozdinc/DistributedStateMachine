@@ -36,7 +36,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@ImportResource({"classpath*:channel-config.xml"})
+@ImportResource({"classpath*:channel-config.xml","classpath*:application.yml"})
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
