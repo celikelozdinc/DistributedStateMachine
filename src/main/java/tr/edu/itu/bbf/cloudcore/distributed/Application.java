@@ -253,6 +253,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for subscriber */
+        serviceGateway.setCheckpoint(serializeStateMachineContext());
         //publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
@@ -268,6 +269,7 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for subscriber */
+        serviceGateway.setCheckpoint(serializeStateMachineContext());
         //publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
