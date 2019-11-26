@@ -6,6 +6,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 public class RouterService {
@@ -13,8 +14,8 @@ public class RouterService {
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
 
-    public void setCheckpoint(String context) {
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
+    public void setCheckpoint(UUID uuid, String context) {
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
