@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface ServiceGateway {
 
     @Gateway(requestChannel = "set.channel")
-    void setCheckpoint(UUID uuid, String context);
+    void setCheckpoint(String timestamp, String context);
 
     @Gateway(requestChannel = "get.channel")
     String getCheckpoint();

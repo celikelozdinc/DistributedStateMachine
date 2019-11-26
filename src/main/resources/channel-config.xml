@@ -10,8 +10,8 @@
 
     <!--context:component-scan base-package="tr.edu.itu.bbf.cloudcore.distributed.service"/-->
     <context:component-scan base-package="tr.edu.itu.bbf.cloudcore.distributed"/>
-    <gateway id="serviceGateway" service-interface="tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway"/>
 
+    <gateway id="serviceGateway" service-interface="tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway"/>
     <channel id="set.channel"/>
     <service-activator id="setCheckpoint" input-channel="set.channel" ref="routerService" method="setCheckpoint"/>
     <channel id="get.channel"/>
