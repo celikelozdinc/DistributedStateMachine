@@ -28,7 +28,6 @@ public class CheckpointDbObject {
     public CheckpointDbObject(String timestamp, String context) {
         this.timestamp = timestamp;
         this.context = context;
-        System.out.printf("CONTEXT IN PERSISTENCE CONSTRUCTOR --->  %s\n", this.context);
     }
 
 

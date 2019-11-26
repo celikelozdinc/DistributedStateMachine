@@ -1,4 +1,4 @@
-package tr.edu.itu.bbf.cloudcore.distributed.config;
+package tr.edu.itu.bbf.cloudcore.distributed.service;
 
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.stereotype.Component;

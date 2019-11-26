@@ -22,7 +22,6 @@ import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
-import tr.edu.itu.bbf.cloudcore.distributed.checkpoint.___Checkpoint;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -36,9 +35,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
-
-    //@Autowired
-    //private CheckpointDbObjectHandler dbObjectHandler;
 
 
     /** Default Constructor **/
@@ -250,9 +246,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     }
 
     public void PerformCheckpoint(@NotNull StateContext<States, Events> context) throws Exception {
-        System.out.println("----- PERFORM CKPT -----");
-        Map<Object, Object> variables = context.getExtendedState().getVariables();
-        Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
+        //System.out.println("----- PERFORM CKPT -----");
+        //Map<Object, Object> variables = context.getExtendedState().getVariables();
+        //Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
         /* Get state machine UUID from StateContext */
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());

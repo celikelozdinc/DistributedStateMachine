@@ -16,8 +16,6 @@ public class CheckpointDbObjectHandler {
     // INSERT
     public CheckpointDbObject insertCheckpoint(@NotNull CheckpointDbObject checkpointDbObject){
         System.out.println("INSERT CHECKPOINT");
-        System.out.println("Timestamp inside db object ->" + checkpointDbObject.timestamp.toString());
-        if (checkpointRepository == null) {System.out.println("Checkpoint repository is null.");}
         try {
             return checkpointRepository.insert(checkpointDbObject);
         } catch(Exception ex) {
@@ -30,9 +28,9 @@ public class CheckpointDbObjectHandler {
     }
 
     // UPDATE
-    public void updateCheckpoint(CheckpointDbObject checkpointDbObject) {
-        System.out.println("UPDATE");
-        //return checkpointRepository.save(checkpointDbObject);
+    public CheckpointDbObject updateCheckpoint(CheckpointDbObject checkpointDbObject) {
+        System.out.println("UPDATE CHECKPOINT");
+        return checkpointRepository.save(checkpointDbObject);
     }
 
 }

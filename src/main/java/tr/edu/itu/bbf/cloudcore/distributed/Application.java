@@ -3,7 +3,6 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -22,7 +21,7 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import tr.edu.itu.bbf.cloudcore.distributed.config.ServiceGateway;
+import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
@@ -71,15 +70,6 @@ public class Application implements CommandLineRunner {
     @Autowired
     private ServiceGateway serviceGateway;
 
-    /*@Autowired
-    private ChckpointPersistenceService persistenceService;
-     */
-
-    /*
-    @Autowired
-    private CheckpointDbObjectHandler dbObjectHandler;
-     */
-
     @Override
     public void run(String... args) throws Exception {
         /* Reads timesleep argument
@@ -104,37 +94,21 @@ public class Application implements CommandLineRunner {
         Registers an exit hook
         which start when the JVM is shut down
         */
-
-        //directChannel.subscribe(new __Subscriber());
-
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
 
-        //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
-        //CheckpointDbObject dbObject1 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT1");
-        //dbObjectHandler.insertCheckpoint(dbObject1);
-        //CheckpointDbObject dbObject2 = new CheckpointDbObject(stateMachine.getUuid(),"EVENT2");
-        //dbObjectHandler.insertCheckpoint(dbObject2);
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
-        //serviceGateway.prepareEnvironment();
 
         try {
             while (true) {
-                /*System.out.println("PERSIST: ");
-                stateMachinePersister.persist(stateMachine, stateMachine.getUuid());
-                 */
                 System.out.print("Event:");
                 String event = scanner.next();
                 System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                //ckptGateway.persist("HELLO");
-                //CheckpointDbObject dbObject = new CheckpointDbObject("timestamp", serializeStateMachineContext());
-                //dbObjectHandler.insertCheckpoint(dbObject);
-                //persistenceService.persister.persist(stateMachine,stateMachine.getUuid());
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
@@ -219,58 +193,47 @@ public class Application implements CommandLineRunner {
          */
     }
 
-
     public void sendPayEvent(@NotNull String event, int timeSleep){
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .setHeader("source", "UNPAID")
                 .setHeader("processedEvent", event)
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
 
-        /* Prepare message for subscriber */
+        /* Prepare message for CKPT */
         serviceGateway.setCheckpoint(serializeStateMachineContext());
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "UNPAID",event, "WAITING_FOR_RECEIVE", serializeStateMachineContext());
-        //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(),stateMachine.getUuid(),"UNPAID",event,"WAITING_FOR_RECEIVE",serializeStateMachineContext());
-        //CheckpointDbObject dbObject = new CheckpointDbObject(this.getTimeStamp(), serializeStateMachineContext());
-        //CheckpointDbObjectHandler dbObjectHandler =  new CheckpointDbObjectHandler();
-        //dbObjectHandler.insertCheckpoint(dbObject);
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .setHeader("source", "WAITING_FOR_RECEIVE")
                 .setHeader("processedEvent", event)
                 .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
 
-        /* Prepare message for subscriber */
+        /* Prepare message for CKPT */
         serviceGateway.setCheckpoint(serializeStateMachineContext());
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "WAITING_FOR_RECEIVE",event, "DONE", serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
                 .setHeader("machineId", stateMachine.getUuid())
-                //.setHeader("stateMachineContext", serializeStateMachineContext())
                 .setHeader("source", "DONE")
                 .setHeader("processedEvent", event)
                 .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
 
-        /* Prepare message for subscriber */
+        /* Prepare message for CKPT */
         serviceGateway.setCheckpoint(serializeStateMachineContext());
-        //publisher.sendCheckpointInformation(stateMachine.getUuid(), "DONE",event, "UNPAID", serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {

@@ -1,4 +1,4 @@
-package tr.edu.itu.bbf.cloudcore.distributed.persist;
+package tr.edu.itu.bbf.cloudcore.distributed.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -14,7 +14,6 @@ public class RouterService {
     private CheckpointDbObjectHandler dbObjectHandler;
 
     public void setCheckpoint(String context) {
-        System.out.printf("SMOC context inside RouterService : %s\n",context);
         CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
