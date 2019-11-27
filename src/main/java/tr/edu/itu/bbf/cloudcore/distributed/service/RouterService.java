@@ -18,9 +18,11 @@ public class RouterService {
 
     public void setCheckpoint(Message<String> ckptMessage) {
         String context = ckptMessage.getHeaders().get("context").toString();
+        String machineUuid = ckptMessage.getHeaders().get("machineId").toString();
         System.out.printf("***** CONTEXT IS: %s\n",context);
-        //CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
-        //dbObjectHandler.insertCheckpoint(dbObject);
+        System.out.printf("***** UUID IS: %s\n",machineUuid);
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
+        dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getCheckpoint(Message<String> dummyPayload){
