@@ -17,7 +17,7 @@ public class CheckpointDbObjectHandler {
 
     // INSERT
     public CheckpointDbObject insertCheckpoint(@NotNull CheckpointDbObject checkpointDbObject){
-        System.out.println("INSERT CHECKPOINT");
+        System.out.println("DBOBJECTHANDLER::INSERT CHECKPOINT");
         try {
             return checkpointRepository.insert(checkpointDbObject);
         } catch(Exception ex) {
@@ -37,6 +37,7 @@ public class CheckpointDbObjectHandler {
 
     //GET
     public List<CheckpointDbObject> getAllCheckpoints(){
+        System.out.println("DBOBJECTHANDLER::GET ALL CHECKPOINTS");
         return checkpointRepository.findAll();
     }
 
