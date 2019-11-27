@@ -18,8 +18,8 @@ public class CheckpointDbObject {
     @Field("context")
     private String context;
 
-    //@Field("uuid")
-    //private UUID uuid;
+    @Field("uuid")
+    private UUID uuid;
 
     /*
     private String sourceState;
@@ -28,8 +28,9 @@ public class CheckpointDbObject {
      */
 
     @PersistenceConstructor
-    public CheckpointDbObject(String timestamp, String context) {
+    public CheckpointDbObject(String timestamp, UUID uuid, String context) {
         this.timestamp = timestamp;
+        this.uuid = uuid;
         this.context = context;
     }
 

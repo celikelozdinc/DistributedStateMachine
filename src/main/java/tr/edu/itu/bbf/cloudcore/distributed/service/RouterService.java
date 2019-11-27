@@ -17,11 +17,12 @@ public class RouterService {
     private CheckpointDbObjectHandler dbObjectHandler;
 
     public void setCheckpoint(Message<String> ckptMessage) {
+        Object O_UUID = ckptMessage.getHeaders().get("machineId");
+        UUID uuid = UUID.fromString(O_UUID.toString());
+
         String context = ckptMessage.getHeaders().get("context").toString();
-        String machineUuid = ckptMessage.getHeaders().get("machineId").toString();
-        System.out.printf("***** CONTEXT IS: %s\n",context);
-        System.out.printf("***** UUID IS: %s\n",machineUuid);
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
+
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
