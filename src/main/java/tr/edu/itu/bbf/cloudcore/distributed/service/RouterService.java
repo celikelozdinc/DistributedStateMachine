@@ -16,9 +16,11 @@ public class RouterService {
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
 
-    public void setCheckpoint(String context) {
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
-        dbObjectHandler.insertCheckpoint(dbObject);
+    public void setCheckpoint(Message<String> ckptMessage) {
+        String context = ckptMessage.getHeaders().get("context").toString();
+        System.out.printf("***** CONTEXT IS: %s\n",context);
+        //CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), context);
+        //dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public String getCheckpoint(Message<String> dummyPayload){

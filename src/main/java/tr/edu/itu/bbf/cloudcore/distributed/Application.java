@@ -210,7 +210,12 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messagePay);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(serializeStateMachineContext());
+        Message<String> ckptMessage = MessageBuilder
+                .withPayload("PAY")
+                .setHeader("context",serializeStateMachineContext())
+                .build();
+        serviceGateway.setCheckpoint(ckptMessage);
+        //serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
@@ -224,7 +229,12 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(serializeStateMachineContext());
+        Message<String> ckptMessage = MessageBuilder
+                .withPayload("RCV")
+                .setHeader("context",serializeStateMachineContext())
+                .build();
+        serviceGateway.setCheckpoint(ckptMessage);
+        //serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -238,7 +248,12 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageStartFromScratch);
 
         /* Prepare message for CKPT */
-        serviceGateway.setCheckpoint(serializeStateMachineContext());
+        Message<String> ckptMessage = MessageBuilder
+                .withPayload("SFS")
+                .setHeader("context",serializeStateMachineContext())
+                .build();
+        serviceGateway.setCheckpoint(ckptMessage);
+        //serviceGateway.setCheckpoint(serializeStateMachineContext());
     }
     public void sleep(Long sleepTime){
         try {
