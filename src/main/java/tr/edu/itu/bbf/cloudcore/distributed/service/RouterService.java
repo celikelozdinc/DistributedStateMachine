@@ -20,7 +20,7 @@ public class RouterService {
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    public String getCheckpoint(){
+    public String getCheckpoint(String dummyPayload){
         List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints();
         String ts = list.get(0).timestamp.toString();
         System.out.printf("Timestamp of first db object: %s",ts);

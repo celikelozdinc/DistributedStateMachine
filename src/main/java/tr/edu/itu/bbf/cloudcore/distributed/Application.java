@@ -109,7 +109,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                String CKPT = serviceGateway.getCheckpoint();
+                String CKPT = serviceGateway.getCheckpoint("DummyPayload");
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {

@@ -12,7 +12,7 @@ public interface ServiceGateway {
     void setCheckpoint(String context);
 
     @Gateway(requestChannel = "get.channel")
-    String getCheckpoint();
+    String getCheckpoint(String dummyPayload);
 
 
 }
