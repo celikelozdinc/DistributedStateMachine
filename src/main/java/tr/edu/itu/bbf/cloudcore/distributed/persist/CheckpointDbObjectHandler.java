@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 
+import java.util.List;
+
 
 @Component
 public class CheckpointDbObjectHandler {
@@ -31,6 +33,11 @@ public class CheckpointDbObjectHandler {
     public CheckpointDbObject updateCheckpoint(CheckpointDbObject checkpointDbObject) {
         System.out.println("UPDATE CHECKPOINT");
         return checkpointRepository.save(checkpointDbObject);
+    }
+
+    //GET
+    public List<CheckpointDbObject> getAllCheckpoints(){
+        return checkpointRepository.findAll();
     }
 
 }

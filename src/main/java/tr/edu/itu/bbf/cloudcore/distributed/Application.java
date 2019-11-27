@@ -36,7 +36,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
-@ImportResource({"classpath*:channel-config.xml","classpath*:application.yml"})
+@ImportResource({"classpath*:channel-config.xml"})
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
@@ -109,6 +109,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
+                String CKPT = serviceGateway.getCheckpoint();
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {

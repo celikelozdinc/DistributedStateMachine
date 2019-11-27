@@ -6,6 +6,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,7 +20,12 @@ public class RouterService {
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    public String getCheckpoint(){return "N/A";}
+    public String getCheckpoint(){
+        List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints();
+        String ts = list.get(0).timestamp.toString();
+        System.out.printf("Timestamp of first db object: %s",ts);
+        return ts;
+    }
 
     public String getTimeStamp(){
         Calendar now = Calendar.getInstance();
