@@ -1,6 +1,7 @@
 package tr.edu.itu.bbf.cloudcore.distributed.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
@@ -20,11 +21,16 @@ public class RouterService {
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    public String getCheckpoint(String dummyPayload){
+    public String getCheckpoint(Message<String> dummyPayload){
+        String dummy = dummyPayload.getPayload();
+        return dummy;
+        /*
         List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints();
         String ts = list.get(0).timestamp.toString();
-        System.out.printf("Timestamp of first db object: %s",ts);
+        System.out.printf("Timestamp of first db object: %s\n",ts);
         return ts;
+         */
+
     }
 
     public String getTimeStamp(){

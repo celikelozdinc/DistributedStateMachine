@@ -1,6 +1,7 @@
 package tr.edu.itu.bbf.cloudcore.distributed.service;
 
 import org.springframework.integration.annotation.Gateway;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -12,7 +13,7 @@ public interface ServiceGateway {
     void setCheckpoint(String context);
 
     @Gateway(requestChannel = "get.channel")
-    String getCheckpoint(String dummyPayload);
+    String getCheckpoint(Message<String> dummyPayload);
 
 
 }
