@@ -29,7 +29,6 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Scanner;
 
 import java.util.UUID;
@@ -213,6 +212,7 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("PAY")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("processedEvent", event)
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);
@@ -232,6 +232,7 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("RCV")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("processedEvent", event)
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);
@@ -251,6 +252,7 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("SFS")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("processedEvent", event)
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);
@@ -288,7 +290,6 @@ public class Application implements CommandLineRunner {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
-        System.out.println("Result of serialization --> " + Base64.getEncoder().encodeToString(baos.toByteArray()).getClass().getName());
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
