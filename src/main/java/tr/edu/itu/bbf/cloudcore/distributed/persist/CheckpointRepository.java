@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CheckpointRepository extends MongoRepository<CheckpointDbObject, String> {
 
-    //List<CheckpointDbObject> findBy
+    List<CheckpointDbObject> findByEventLike(String event);
 
 }

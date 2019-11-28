@@ -36,6 +36,7 @@ public class CheckpointDbObject {
         this.context = context;
     }
 
+    public String getEvent(){return this.event;}
 
 /*
     @PersistenceConstructor

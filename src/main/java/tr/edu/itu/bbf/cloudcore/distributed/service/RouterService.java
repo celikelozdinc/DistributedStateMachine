@@ -30,14 +30,12 @@ public class RouterService {
     }
 
     public String getCheckpoint(Message<String> dummyPayload){
-        String dummy = dummyPayload.getPayload();
-        return dummy;
-        /*
-        List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints();
+        //String dummy = dummyPayload.getPayload();
+        //return dummy;
+        List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints("Pay");
         String ts = list.get(0).timestamp.toString();
-        System.out.printf("Timestamp of first db object: %s\n",ts);
+        System.out.printf("Timestamp db object: %s\n",ts);
         return ts;
-         */
 
     }
 

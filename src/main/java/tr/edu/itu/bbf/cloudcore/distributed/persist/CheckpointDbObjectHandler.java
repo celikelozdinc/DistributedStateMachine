@@ -36,9 +36,11 @@ public class CheckpointDbObjectHandler {
     }
 
     //GET
-    public List<CheckpointDbObject> getAllCheckpoints(){
-        System.out.println("DBOBJECTHANDLER::GET ALL CHECKPOINTS");
-        return checkpointRepository.findAll();
+    public List<CheckpointDbObject> getAllCheckpoints(String event){
+        //System.out.println("DBOBJECTHANDLER::GET ALL CHECKPOINTS");
+        //return checkpointRepository.findAll();
+        System.out.println("DBOBJECTHANDLER::GET CHECKPOINT");
+        return  checkpointRepository.findByEventLike(event);
     }
 
 }
