@@ -40,7 +40,7 @@ public class CheckpointDbObjectHandler {
         //System.out.println("DBOBJECTHANDLER::GET ALL CHECKPOINTS");
         //return checkpointRepository.findAll();
         System.out.println("DBOBJECTHANDLER::GET CHECKPOINT");
-        return  checkpointRepository.findByEventLike(event);
+        return  checkpointRepository.findByProcessedEventLike(event);
     }
 
 }

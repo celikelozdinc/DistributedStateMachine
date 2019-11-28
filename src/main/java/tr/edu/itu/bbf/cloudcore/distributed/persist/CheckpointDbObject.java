@@ -22,7 +22,7 @@ public class CheckpointDbObject {
     private UUID uuid;
 
     @Field("event")
-    private String event;
+    private String processedEvent;
     /*
     private String sourceState;
     private String targetState;
@@ -32,11 +32,11 @@ public class CheckpointDbObject {
     public CheckpointDbObject(String timestamp, UUID uuid, String processedEvent, String context) {
         this.timestamp = timestamp;
         this.uuid = uuid;
-        this.event=processedEvent;
+        this.processedEvent=processedEvent;
         this.context = context;
     }
 
-    public String getEvent(){return this.event;}
+    public String getProcessedEvent(){return this.processedEvent;}
 
 /*
     @PersistenceConstructor
