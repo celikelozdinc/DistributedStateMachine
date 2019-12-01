@@ -90,9 +90,7 @@ public class Application implements CommandLineRunner {
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
         /*
-        Registers an exit hook
-        which start when the JVM is shut down
-        */
+        Registers an exit hook which starts when the JVM is shut down*/
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
@@ -212,7 +210,9 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("PAY")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("source", "UNPAID")
                 .setHeader("processedEvent", event)
+                .setHeader("target","WAITING_FOR_RECEIVE")
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);
@@ -232,7 +232,9 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("RCV")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("source", "WAITING_FOR_RECEIVE")
                 .setHeader("processedEvent", event)
+                .setHeader("target", "DONE")
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);
@@ -252,7 +254,9 @@ public class Application implements CommandLineRunner {
         Message<String> ckptMessage = MessageBuilder
                 .withPayload("SFS")
                 .setHeader("machineId", stateMachine.getUuid())
+                .setHeader("source", "DONE")
                 .setHeader("processedEvent", event)
+                .setHeader("target","UNPAID")
                 .setHeader("context",serializeStateMachineContext())
                 .build();
         serviceGateway.setCheckpoint(ckptMessage);

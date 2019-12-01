@@ -22,10 +22,13 @@ public class RouterService {
         UUID uuid = UUID.fromString(O_UUID.toString());
         /*Get processed event */
         String processedEvent = ckptMessage.getHeaders().get("processedEvent").toString();
+        /* Get source and target states from StateContext */
+        String sourceState  =  ckptMessage.getHeaders().get("source").toString();
+        String targetState =  ckptMessage.getHeaders().get("target").toString();
         /*Get SMOC context*/
         String context = ckptMessage.getHeaders().get("context").toString();
         /*Insert to database*/
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, processedEvent, context);
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 

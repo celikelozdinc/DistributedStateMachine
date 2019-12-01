@@ -14,25 +14,25 @@ public class CheckpointDbObject {
 
     @Id
     public String timestamp;
-
     @Field("context")
     private String context;
-
     @Field("uuid")
     private UUID uuid;
-
     @Field("event")
     private String processedEvent;
-    /*
+    @Field("source")
     private String sourceState;
+    @Field("target")
     private String targetState;
-     */
+
 
     @PersistenceConstructor
-    public CheckpointDbObject(String timestamp, UUID uuid, String processedEvent, String context) {
+    public CheckpointDbObject(String timestamp, UUID uuid, String sourceState, String processedEvent, String targetState, String context) {
         this.timestamp = timestamp;
         this.uuid = uuid;
+        this.sourceState = sourceState;
         this.processedEvent=processedEvent;
+        this.targetState = targetState ;
         this.context = context;
     }
 
