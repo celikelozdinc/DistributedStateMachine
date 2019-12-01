@@ -182,7 +182,7 @@ public class Application implements CommandLineRunner {
                 .withPayload("PAYLOAD")
                 .setHeader("machineId", stateMachine.getUuid())
                 .build();
-        String list = serviceGateway.getCheckpoint(getMessage);
+        List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
 
         /*
         System.out.println("~~~~~CKPT REPORT~~~~~");
