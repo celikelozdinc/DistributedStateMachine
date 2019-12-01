@@ -183,6 +183,12 @@ public class Application implements CommandLineRunner {
                 .setHeader("machineId", stateMachine.getUuid())
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
+        /* Read stream util*/
+        list.stream().forEach((checkpointDbObject) -> {
+            System.out.printf("Source state: %s",checkpointDbObject.getSourceState());
+            System.out.printf("Processed event: %s",checkpointDbObject.getProcessedEvent());
+            System.out.printf("Source state: %s",checkpointDbObject.getTargetState());
+        });
 
         /*
         System.out.println("~~~~~CKPT REPORT~~~~~");

@@ -38,6 +38,8 @@ public class CheckpointDbObject {
 
     public String getProcessedEvent(){return this.processedEvent;}
     public UUID getSmocUuid(){return this.smocUuid;}
+    public String getSourceState(){return this.sourceState;}
+    public String getTargetState(){return this.targetState;}
 
 /*
     @PersistenceConstructor
