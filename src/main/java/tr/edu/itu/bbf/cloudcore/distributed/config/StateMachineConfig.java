@@ -36,15 +36,16 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
     private CuratorFramework client;
 
 
     /** Default Constructor **/
-    public StateMachineConfig(){ }
+    public StateMachineConfig() throws Exception { this.client = curatorClient();}
 
     @Bean
-    public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
-        stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
+    public StateMachineEnsemble<States, Events> stateMachineEnsemble() {
+        stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(this.client, "/zkPath");
         return stateMachineEnsemble;
         //return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
     }
@@ -65,7 +66,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         client.start();
         CuratorFrameworkState state = client.getState();
         System.out.println("curatorClient state after initialization ----> " + state.name());
-        this.client = client;
         return client;
     }
 
