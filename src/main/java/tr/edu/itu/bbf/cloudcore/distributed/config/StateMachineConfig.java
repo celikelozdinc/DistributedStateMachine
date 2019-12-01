@@ -36,6 +36,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
+    @Autowired
+    private CuratorFramework client;
+
 
     /** Default Constructor **/
     public StateMachineConfig(){ }
@@ -63,6 +66,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         client.start();
         CuratorFrameworkState state = client.getState();
         System.out.println("curatorClient state after initialization ----> " + state.name());
+        this.client = client;
         return client;
     }
 

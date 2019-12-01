@@ -186,28 +186,11 @@ public class Application implements CommandLineRunner {
         /* Iterate over list*/
         System.out.println("# checkpoints inserted on database = " + list.size());
         for(CheckpointDbObject dbObject: list) {
-            System.out.printf("Source state: %s", dbObject.getSourceState());
-            System.out.printf("Processed event: %s", dbObject.getProcessedEvent());
-            System.out.printf("Source state: %s", dbObject.getTargetState());
+            System.out.printf("Source state: %s\n", dbObject.getSourceState());
+            System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
+            System.out.printf("Source state: %s\n", dbObject.getTargetState());
         }
 
-        /*
-        System.out.println("~~~~~CKPT REPORT~~~~~");
-        Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) extendedState.getVariables().get("CKPT");
-        for(Map.Entry<String, ___Checkpoint> entry : checkpoints.entrySet()) {
-            System.out.println("-----");
-            System.out.println("Timestamp -> " + entry.getKey());
-            System.out.println("Processed by -> " + entry.getValue().getUuid());
-            System.out.println("# CKPTs: -> " + entry.getValue().getNumberOfCKPTs());
-            System.out.println("Source State -> " +entry.getValue().getSourceState() );
-            System.out.println("Processed event -> " + entry.getValue().getProcessedEvent());
-            System.out.println("Target State -> " + entry.getValue().getTargetState());
-            System.out.println("Common Var -> " + entry.getValue().getCommon());
-            System.out.println("LocalVarForWaiting -> " + entry.getValue().getLocalVarForWaiting());
-            System.out.println("LocalVarForDone -> " + entry.getValue().getLocalVarForDone());
-            System.out.println("-----");
-        }
-         */
     }
 
     public void sendPayEvent(@NotNull String event, int timeSleep){

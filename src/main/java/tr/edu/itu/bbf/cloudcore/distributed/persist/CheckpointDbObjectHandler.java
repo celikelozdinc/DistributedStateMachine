@@ -39,7 +39,6 @@ public class CheckpointDbObjectHandler {
     //GET
     public List<CheckpointDbObject> getAllCheckpoints(){
         System.out.println("CheckpointDbObjectHandler.getAllCheckpoints():: GET CHECKPOINTS");
-        System.out.println("# records in database: " + checkpointRepository.findAll().size());
         return checkpointRepository.findAll();
         /*
         System.out.println("UUID to be searched in database: " + uuid.toString());
