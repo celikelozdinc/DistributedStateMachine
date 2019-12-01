@@ -36,7 +36,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
     private CuratorFramework client;
 
 
@@ -136,6 +135,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT() for statemachine----->" + context.getStateMachine().getUuid() );
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
+                try {
+                    System.out.println(" ### READ FROM ZOOKEEPER ###");
+                    System.out.printf("/basepath: %s\n",new String(client.getData().forPath("/zkPath")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
