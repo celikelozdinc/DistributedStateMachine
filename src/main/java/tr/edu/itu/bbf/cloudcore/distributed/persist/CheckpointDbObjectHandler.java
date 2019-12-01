@@ -39,6 +39,7 @@ public class CheckpointDbObjectHandler {
     //GET
     public List<CheckpointDbObject> getAllCheckpoints(UUID uuid){
         System.out.println("CheckpointDbObjectHandler.getAllCheckpoints():: GET CHECKPOINT by SMOC UUID");
+        System.out.println("# matching records in database: " + (checkpointRepository.findBySmocUuidLike(uuid)).size());
         return checkpointRepository.findBySmocUuidLike(uuid);
         //return checkpointRepository.findAll();
     }
