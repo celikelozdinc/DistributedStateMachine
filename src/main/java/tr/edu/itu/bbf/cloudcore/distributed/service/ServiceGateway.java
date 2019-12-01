@@ -15,7 +15,7 @@ public interface ServiceGateway {
     void setCheckpoint(Message<String> ckptMessage);
 
     @Gateway(requestChannel = "get.channel")
-    List<CheckpointDbObject> getCheckpoint(Message<String> ckptMessage);
+    String getCheckpoint(Message<String> getMessage);
 
 
 }

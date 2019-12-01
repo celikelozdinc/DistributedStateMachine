@@ -32,12 +32,13 @@ public class RouterService {
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    List<CheckpointDbObject> getCheckpoint(Message<String> ckptMessage){
+    String getCheckpoint(Message<String> getMessage){
         /* Get state machine UUID */
-        Object O_UUID = ckptMessage.getHeaders().get("machineId");
+        Object O_UUID = getMessage.getHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
         /*Read from database by SMOC UUID */
-        return dbObjectHandler.getAllCheckpoints(uuid);
+        List<CheckpointDbObject> list =  dbObjectHandler.getAllCheckpoints(uuid);
+        return list.get(0).getProcessedEvent();
     }
 
     public String getTimeStamp(){
