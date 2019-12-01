@@ -36,8 +36,8 @@ public class RouterService {
         /* Get state machine UUID */
         Object O_UUID = getMessage.getHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
-        /*Read from database by SMOC UUID */
-        return dbObjectHandler.getAllCheckpoints(uuid);
+        /*Read from database*/
+        return dbObjectHandler.getAllCheckpoints();
     }
 
     public String getTimeStamp(){

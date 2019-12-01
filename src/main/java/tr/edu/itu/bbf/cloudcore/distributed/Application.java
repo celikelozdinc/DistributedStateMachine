@@ -184,6 +184,7 @@ public class Application implements CommandLineRunner {
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
         /* Iterate over list*/
+        System.out.println("# checkpoints inserted on database = " + list.size());
         for(CheckpointDbObject dbObject: list) {
             System.out.printf("Source state: %s", dbObject.getSourceState());
             System.out.printf("Processed event: %s", dbObject.getProcessedEvent());
