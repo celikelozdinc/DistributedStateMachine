@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface CheckpointRepository extends MongoRepository<CheckpointDbObject, String> {
 
-    List<CheckpointDbObject> findByProcessedEventLike(String event);
-    List<CheckpointDbObject> findBySmocUuidLike(UUID uuid);
+    //List<CheckpointDbObject> findByProcessedEventLike(String event);
+    //List<CheckpointDbObject> findBySmocUuidLike(UUID uuid);
 
 }
