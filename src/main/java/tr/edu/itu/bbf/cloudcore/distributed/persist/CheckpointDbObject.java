@@ -37,6 +37,7 @@ public class CheckpointDbObject {
     }
 
     public String getProcessedEvent(){return this.processedEvent;}
+    public UUID getUuid(){return this.uuid;}
 
 /*
     @PersistenceConstructor

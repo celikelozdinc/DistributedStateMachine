@@ -3,7 +3,9 @@ package tr.edu.itu.bbf.cloudcore.distributed.service;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -13,7 +15,7 @@ public interface ServiceGateway {
     void setCheckpoint(Message<String> ckptMessage);
 
     @Gateway(requestChannel = "get.channel")
-    String getCheckpoint(Message<String> dummyPayload);
+    List<CheckpointDbObject> getCheckpoint(Message<String> ckptMessage);
 
 
 }

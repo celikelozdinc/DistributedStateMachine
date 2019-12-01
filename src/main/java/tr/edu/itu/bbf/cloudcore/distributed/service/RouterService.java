@@ -20,26 +20,24 @@ public class RouterService {
         /* Get state machine UUID */
         Object O_UUID = ckptMessage.getHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
-        /*Get processed event */
+        /* Get processed event */
         String processedEvent = ckptMessage.getHeaders().get("processedEvent").toString();
         /* Get source and target states from StateContext */
         String sourceState  =  ckptMessage.getHeaders().get("source").toString();
         String targetState =  ckptMessage.getHeaders().get("target").toString();
-        /*Get SMOC context*/
+        /* Get SMOC context */
         String context = ckptMessage.getHeaders().get("context").toString();
-        /*Insert to database*/
+        /* Insert to database */
         CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-    public String getCheckpoint(Message<String> dummyPayload){
-        //String dummy = dummyPayload.getPayload();
-        //return dummy;
-        List<CheckpointDbObject> list = dbObjectHandler.getAllCheckpoints("Pay");
-        String ts = list.get(0).timestamp.toString();
-        System.out.printf("Timestamp db object: %s\n",ts);
-        return ts;
-
+    List<CheckpointDbObject> getCheckpoint(Message<String> ckptMessage){
+        /* Get state machine UUID */
+        Object O_UUID = ckptMessage.getHeaders().get("machineId");
+        UUID uuid = UUID.fromString(O_UUID.toString());
+        /*Read from database by SMOC UUID */
+        return dbObjectHandler.getAllCheckpoints(uuid);
     }
 
     public String getTimeStamp(){

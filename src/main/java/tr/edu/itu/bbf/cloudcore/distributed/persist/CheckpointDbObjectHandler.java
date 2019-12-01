@@ -7,6 +7,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -36,11 +37,10 @@ public class CheckpointDbObjectHandler {
     }
 
     //GET
-    public List<CheckpointDbObject> getAllCheckpoints(String event){
-        //System.out.println("DBOBJECTHANDLER::GET ALL CHECKPOINTS");
+    public List<CheckpointDbObject> getAllCheckpoints(UUID uuid){
+        System.out.println("CheckpointDbObjectHandler.getAllCheckpoints():: GET CHECKPOINT by SMOC UUID");
+        return checkpointRepository.findByUUIDLike(uuid);
         //return checkpointRepository.findAll();
-        System.out.println("DBOBJECTHANDLER::GET CHECKPOINT");
-        return  checkpointRepository.findByProcessedEventLike(event);
     }
 
 }

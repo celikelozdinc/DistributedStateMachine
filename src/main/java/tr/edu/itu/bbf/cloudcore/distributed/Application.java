@@ -21,6 +21,7 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
@@ -29,6 +30,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.List;
 import java.util.Scanner;
 
 import java.util.UUID;
@@ -106,10 +108,6 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 PrintCurrentStatus();
-                Message<String> dummyMessage = MessageBuilder
-                        .withPayload("PAYLOAD")
-                        .build();
-                String CKPT = serviceGateway.getCheckpoint(dummyMessage);
                 // Can get, but can not set extendedstate variables
             }
         }catch(IllegalStateException e) {
@@ -168,6 +166,8 @@ public class Application implements CommandLineRunner {
     }
 
     public void PrintCurrentStatus() {
+        /* Read from ensemble */
+        System.out.println("PrintCurrentStatus()::READ FROM ENSEMBLE");
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         System.out.println("PROCESSED EVENT IS " + context.getEvent().toString());
         System.out.println("AFTER EVENT, STATE IS " + context.getState().toString());
@@ -176,6 +176,14 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
+        /* Read from mongodb database */
+        System.out.println("PrintCurrentStatus()::READ FROM MONGODB");
+        Message<String> getMessage = MessageBuilder
+                .withPayload("PAYLOAD")
+                .setHeader("machineId", stateMachine.getUuid())
+                .build();
+        List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
+
         /*
         System.out.println("~~~~~CKPT REPORT~~~~~");
         Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) extendedState.getVariables().get("CKPT");
