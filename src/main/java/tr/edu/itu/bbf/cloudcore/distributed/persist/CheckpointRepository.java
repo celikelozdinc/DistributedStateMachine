@@ -11,6 +11,6 @@ import java.util.UUID;
 public interface CheckpointRepository extends MongoRepository<CheckpointDbObject, String> {
 
     List<CheckpointDbObject> findByProcessedEventLike(String event);
-    List<CheckpointDbObject> findByUUIDLike(UUID uuid);
+    List<CheckpointDbObject> findBySmocUuidLike(UUID uuid);
 
 }

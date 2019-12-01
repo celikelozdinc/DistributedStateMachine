@@ -17,7 +17,7 @@ public class CheckpointDbObject {
     @Field("context")
     private String context;
     @Field("uuid")
-    private UUID uuid;
+    private UUID smocUuid;
     @Field("event")
     private String processedEvent;
     @Field("source")
@@ -29,7 +29,7 @@ public class CheckpointDbObject {
     @PersistenceConstructor
     public CheckpointDbObject(String timestamp, UUID uuid, String sourceState, String processedEvent, String targetState, String context) {
         this.timestamp = timestamp;
-        this.uuid = uuid;
+        this.smocUuid = uuid;
         this.sourceState = sourceState;
         this.processedEvent=processedEvent;
         this.targetState = targetState ;
@@ -37,7 +37,7 @@ public class CheckpointDbObject {
     }
 
     public String getProcessedEvent(){return this.processedEvent;}
-    public UUID getUuid(){return this.uuid;}
+    public UUID getSmocUuid(){return this.smocUuid;}
 
 /*
     @PersistenceConstructor
