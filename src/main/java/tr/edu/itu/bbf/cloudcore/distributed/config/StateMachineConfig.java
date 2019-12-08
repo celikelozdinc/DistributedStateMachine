@@ -36,18 +36,18 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
-    private CuratorFramework client;
 
 
     /** Default Constructor **/
-    public StateMachineConfig() throws Exception { this.client = curatorClient();}
+    public StateMachineConfig() { }
 
     @Bean
-    public StateMachineEnsemble<States, Events> stateMachineEnsemble() {
-        stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(this.client, "/zkPath");
+    public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
+        /*
+        stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
         return stateMachineEnsemble;
-        //return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
+        */
+        return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
     }
 
 
@@ -135,12 +135,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT() for statemachine----->" + context.getStateMachine().getUuid() );
                 Integer localVar = context.getExtendedState().get("localVarForWaiting", Integer.class);
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.EXIT().PRINT_LOCAL_VAR()-----> " + localVar);
-                try {
-                    System.out.println(" ### READ FROM ZOOKEEPER ###");
-                    System.out.printf("/basepath: %s\n",new String(client.getData().forPath("/zkPath")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         };
     }
