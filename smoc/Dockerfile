@@ -33,7 +33,7 @@ EXPOSE 27017
 CMD [ "/usr/bin/mongod" , "--bind_ip", "0.0.0.0"]
 
 # Spring Boot #
-ARG SPRINGBOOT_HOME /opt/statemachineapp
+ARG SPRINGBOOT_HOME=/opt/statemachineapp
 COPY out/artifacts/DistributedStateMachine_jar/ $SPRINGBOOT_HOME/DistributedStateMachine_jar/
 # Copy entrypoint script #
 COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
