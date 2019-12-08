@@ -2,9 +2,9 @@ FROM openjdk:8-jre-alpine
 
 MAINTAINER celikelozdinc "ozdinc.celikel@gmail.com"
 
-ENV ZK_VERSION=zookeeper-3.4.14
-ENV ZOOKEEPER_HOME=/opt/zookeeper
-ENV PORT=2181
+ARG ZK_VERSION=zookeeper-3.4.14
+ARG ZOOKEEPER_HOME=/opt/zookeeper
+ARG PORT=2181
 
 RUN apk update && \
 apk add bash && \

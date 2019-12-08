@@ -2,8 +2,8 @@
 FROM alpine:edge
 
 MAINTAINER celikelozdinc "ozdinc.celikel@gmail.com"
-ENV MONGO_VERSION=3.4.4-r0
-ENV JDK_VERSION=openjdk8
+ARG MONGO_VERSION=3.4.4-r0
+ARG JDK_VERSION=openjdk8
 
 RUN \
   apk update && \
@@ -33,7 +33,7 @@ EXPOSE 27017
 CMD [ "/usr/bin/mongod" , "--bind_ip", "0.0.0.0"]
 
 # Spring Boot #
-ENV SPRINGBOOT_HOME /opt/statemachineapp
+ARG SPRINGBOOT_HOME /opt/statemachineapp
 COPY out/artifacts/DistributedStateMachine_jar/ $SPRINGBOOT_HOME/DistributedStateMachine_jar/
 # Copy entrypoint script #
 COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
