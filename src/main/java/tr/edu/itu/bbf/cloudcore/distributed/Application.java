@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.io.Output;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.context.ApplicationContext;
@@ -330,7 +331,9 @@ public class Application implements CommandLineRunner {
                 .connectString(zkConnectionString)
                 .build();
         client.start();
-        client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi");
+        CuratorFrameworkState state = client.getState();
+        System.out.println("sharedCuratorClient state after initialization ----> " + state.name());
+        //client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi");
         return client;
     }
 

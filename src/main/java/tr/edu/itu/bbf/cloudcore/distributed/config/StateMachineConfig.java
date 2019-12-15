@@ -41,7 +41,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     /** Default Constructor **/
     public StateMachineConfig() { }
 
-
     @Bean
     public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
         /*
