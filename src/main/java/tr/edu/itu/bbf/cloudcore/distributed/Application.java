@@ -342,12 +342,12 @@ public class Application implements CommandLineRunner {
         if(client.checkExists().forPath(path)!=null) {
             //node exists
             System.out.println(path+"  : EXISTS*********");
-            client.setData().forPath("/niyazi", data);
+            client.setData().forPath(path, data);
         } else {
             //node does not exist, create new
             System.out.println(path+ "  : DOES NOT EXIST*********");
             client.create().creatingParentsIfNeeded()
-                    .withMode(CreateMode.PERSISTENT).forPath("niyazi", data);
+                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
         }
         return client;
     }
