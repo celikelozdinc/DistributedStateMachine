@@ -337,7 +337,18 @@ public class Application implements CommandLineRunner {
         System.out.println("***********sharedCuratorClient state after initialization ----> " + state.name());
         System.out.println("**********************");
         System.out.println("**********************");
-        client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi","path-for-niyazi".getBytes());
+        byte[] data = "this-is-path-for-niyazi".getBytes();
+        String path = "/niyazi";
+        if(client.checkExists().forPath(path)!=null) {
+            //node exists
+            System.out.println(path+"  : EXISTS*********");
+            client.setData().forPath("/niyazi", data);
+        } else {
+            //node does not exist, create new
+            System.out.println(path+ "  : DOES NOT EXIST*********");
+            client.create().creatingParentsIfNeeded()
+                    .withMode(CreateMode.PERSISTENT).forPath("niyazi", data);
+        }
         return client;
     }
 
