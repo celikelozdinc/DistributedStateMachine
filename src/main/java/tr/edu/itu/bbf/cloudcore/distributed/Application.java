@@ -332,7 +332,11 @@ public class Application implements CommandLineRunner {
                 .build();
         client.start();
         CuratorFrameworkState state = client.getState();
-        System.out.println("sharedCuratorClient state after initialization ----> " + state.name());
+        System.out.println("**********************");
+        System.out.println("**********************");
+        System.out.println("***********sharedCuratorClient state after initialization ----> " + state.name());
+        System.out.println("**********************");
+        System.out.println("**********************");
         //client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi");
         return client;
     }
