@@ -37,29 +37,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
-    @Autowired
-    private CuratorFramework sharedCuratorClient;
-
-
 
     /** Default Constructor **/
     public StateMachineConfig() { }
-    @Bean
-    public CuratorFramework sharedCuratorClient() throws Exception {
-        /* Sınıfa ait özellikler olabilir mi? Düşünülmeli.
-         * https://programmer.ink/think/an-overview-of-zookeeper.html
-         */
-        String zkConnectionString = "zookeeper:2181";
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework client = CuratorFrameworkFactory.builder()
-                .defaultData(new byte[0])
-                .retryPolicy(retryPolicy)
-                .connectString(zkConnectionString)
-                .build();
-        client.start();
-        client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi");
-        return client;
-    }
 
 
     @Bean

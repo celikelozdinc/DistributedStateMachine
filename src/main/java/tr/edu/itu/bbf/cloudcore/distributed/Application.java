@@ -2,7 +2,13 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.CreateMode;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -70,6 +76,10 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private ServiceGateway serviceGateway;
+
+    @Autowired
+    private CuratorFramework sharedCuratorClient;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -306,6 +316,23 @@ public class Application implements CommandLineRunner {
             return kryo;
         }
     };
+
+    @Bean
+    public CuratorFramework sharedCuratorClient() throws Exception {
+        /* Sınıfa ait özellikler olabilir mi? Düşünülmeli.
+         * https://programmer.ink/think/an-overview-of-zookeeper.html
+         */
+        String zkConnectionString = "zookeeper:2181";
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client = CuratorFrameworkFactory.builder()
+                .defaultData(new byte[0])
+                .retryPolicy(retryPolicy)
+                .connectString(zkConnectionString)
+                .build();
+        client.start();
+        client.create().withMode(CreateMode.PERSISTENT).forPath("/niyazi");
+        return client;
+    }
 
 
 }
