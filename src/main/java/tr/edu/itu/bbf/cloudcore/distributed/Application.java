@@ -118,6 +118,7 @@ public class Application implements CommandLineRunner {
                 System.out.println("This event will be processed: " + event);
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
+                MarkCheckpoint();
                 PrintCurrentStatus();
                 // Can get, but can not set extendedstate variables
             }
@@ -337,21 +338,24 @@ public class Application implements CommandLineRunner {
         System.out.println("***********sharedCuratorClient state after initialization ----> " + state.name());
         System.out.println("**********************");
         System.out.println("**********************");
-        byte[] data = "this-is-path-for-niyazi".getBytes();
-        String path = "/niyazi";
-        if(client.checkExists().forPath(path)!=null) {
-            //node exists
-            System.out.println(path+"  : EXISTS*********");
-            client.setData().forPath(path, data);
-        } else {
-            //node does not exist, create new
-            System.out.println(path+ "  : DOES NOT EXIST*********");
-            client.create().creatingParentsIfNeeded()
-                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
-        }
         return client;
     }
 
+    public void MarkCheckpoint() throws Exception {
+        byte[] data = "this-is-path-for-niyazi".getBytes();
+        String path = "/niyazi";
+        if(sharedCuratorClient.checkExists().forPath(path)!=null) {
+            //node exists
+            System.out.println(path+"  : EXISTS*********");
+            sharedCuratorClient.setData().forPath(path, data);
+        } else {
+            //node does not exist, create new
+            System.out.println(path+ "  : DOES NOT EXIST*********");
+            sharedCuratorClient.create().creatingParentsIfNeeded()
+                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
+        }
+
+    }
 
 }
 
