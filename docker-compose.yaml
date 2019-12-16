@@ -6,30 +6,35 @@ services:
       dockerfile: zookeeper/Dockerfile
     networks:
       - distributedWan
+    hostname: zookeeper
   smoc1:
       build:
         context: .
         dockerfile: smoc/Dockerfile
       networks:
         - distributedWan
+      hostname: smoc1
   smoc2:
       build:
         context: .
         dockerfile: smoc/Dockerfile
       networks:
         - distributedWan
+      hostname: smoc2
   smoc3:
     build:
       context: .
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
+    hostname: : smoc3
   smoc4:
     build:
       context: .
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
+    hostname: smoc4
 
 networks:
   distributedWan: {}
