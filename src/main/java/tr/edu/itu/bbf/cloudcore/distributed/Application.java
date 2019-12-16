@@ -116,6 +116,7 @@ public class Application implements CommandLineRunner {
                 ProcessEvent(event, timeSleep);
                 sleep((long) 5);
                 MarkCheckpoint();
+                ReadMarkedCheckpoints();
                 PrintCurrentStatus();
                 // Can get, but can not set extendedstate variables
             }
@@ -318,9 +319,6 @@ public class Application implements CommandLineRunner {
 
     @Bean
     public CuratorFramework sharedCuratorClient() throws Exception {
-        /* Sınıfa ait özellikler olabilir mi? Düşünülmeli.
-         * https://programmer.ink/think/an-overview-of-zookeeper.html
-         */
         String zkConnectionString = "zookeeper:2181";
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
         CuratorFramework client = CuratorFrameworkFactory.builder()
@@ -358,6 +356,23 @@ public class Application implements CommandLineRunner {
             sharedCuratorClient.create().creatingParentsIfNeeded()
                     .withMode(CreateMode.PERSISTENT).forPath(path, data);
         }
+
+    }
+
+    public void ReadMarkedCheckpoints() throws Exception {
+        List<String> paths = new ArrayList<String>();
+        paths.add("/smoc1");
+        paths.add("/smoc2");
+        paths.add("/smoc3");
+        paths.add("/smoc3");
+        for(String path: paths) {
+            if(sharedCuratorClient.checkExists().forPath(path)!=null) {
+                byte[] bytes = sharedCuratorClient.getData().forPath(path);
+                System.out.println("---ReadMarkedCheckpoints()::" + "PATH="+ path + "::DATA=" + new String(bytes));
+            }
+
+        }
+
 
     }
 
