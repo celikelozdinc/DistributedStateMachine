@@ -36,11 +36,8 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.Base64;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.net.InetAddress;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
@@ -345,7 +342,7 @@ public class Application implements CommandLineRunner {
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
         String hostname = inetAddress.getHostName();
-        String str_data = "CKPT is stored on: " + ipAddress +"__" +hostname ;
+        String str_data = "CKPT information:" + getTimeStamp() + "__" + ipAddress +"__" + hostname ;
         byte[] data = str_data.getBytes();
         String path = "/" + hostname;
         if(sharedCuratorClient.checkExists().forPath(path)!=null) {
@@ -364,5 +361,18 @@ public class Application implements CommandLineRunner {
 
     }
 
+    public String getTimeStamp(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        int ms = now.get(Calendar.MILLISECOND);
+
+        String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
+        return ts;
+    }
 }
 
