@@ -39,7 +39,7 @@ import java.io.InputStream;
 import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
-
+import java.net.InetAddress;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -342,7 +342,11 @@ public class Application implements CommandLineRunner {
     }
 
     public void MarkCheckpoint() throws Exception {
-        byte[] data = "this-is-path-for-niyazi".getBytes();
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String ipAddress = inetAddress.getHostAddress();
+        String hostname = inetAddress.getHostName();
+        String str_data = "CKPT is stored on: " + ipAddress +"__" +hostname ;
+        byte[] data = str_data.getBytes();
         String path = "/niyazi";
         if(sharedCuratorClient.checkExists().forPath(path)!=null) {
             //node exists
