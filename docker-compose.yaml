@@ -27,7 +27,7 @@ services:
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname: : smoc3
+    hostname: smoc3
   smoc4:
     build:
       context: .
