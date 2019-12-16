@@ -347,10 +347,13 @@ public class Application implements CommandLineRunner {
         String hostname = inetAddress.getHostName();
         String str_data = "CKPT is stored on: " + ipAddress +"__" +hostname ;
         byte[] data = str_data.getBytes();
-        String path = "/niyazi";
+        String path = "/" + hostname;
         if(sharedCuratorClient.checkExists().forPath(path)!=null) {
             //node exists
             System.out.println(path+"  : EXISTS*********");
+            byte[] bytes = sharedCuratorClient.getData().forPath(path);
+            System.out.println("----------zkNode data:" + new String(bytes) + "------------");
+            System.out.println("----------zkNode will be changed.");
             sharedCuratorClient.setData().forPath(path, data);
         } else {
             //node does not exist, create new
