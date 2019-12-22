@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.messaging.MessageHeaders;
@@ -44,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @ImportResource({"classpath*:channel-config.xml"})
+@PropertySource(value={"classpath:application.properties"})
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
