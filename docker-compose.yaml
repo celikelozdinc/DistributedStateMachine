@@ -49,5 +49,4 @@ networks:
     ipam:
       driver: bridge
       config:
-        - subnet: "192.17.41.0/24"
-          gateway: "192.17.41.1"
+        - subnet: '192.17.41.0/24'
