@@ -21,6 +21,9 @@ public class Sender {
     @Value("${smoc.rabbitmq.ckpt.exchange}")
     private String IPC_EXCHANGE;
 
+    @Value("${smoc.rabbitmq.ckpt.routingkey}")
+    private String IPC_ROUTING_KEY;
+
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
     public void send() throws UnknownHostException {
@@ -33,7 +36,8 @@ public class Sender {
         Message msg = new Message();
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
-        logger.info("Response from receiver = {}",reply);
+        //String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
+        rabbitTemplate.convertAndSend(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
+        //logger.info("Response from receiver = {}",reply);
     }
 }
