@@ -47,6 +47,6 @@ services:
 networks:
   distributedWan:
     ipam:
-      driver: bridge
+      driver: default
       config:
         - subnet: '192.17.41.0/24'

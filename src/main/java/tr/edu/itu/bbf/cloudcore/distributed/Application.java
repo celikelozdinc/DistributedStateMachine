@@ -10,6 +10,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -28,6 +29,7 @@ import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+import tr.edu.itu.bbf.cloudcore.distributed.ipc.Sender;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
@@ -42,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @ImportResource({"classpath*:channel-config.xml"})
+@ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
@@ -77,6 +80,9 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private CuratorFramework sharedCuratorClient;
+
+    @Autowired
+    private Sender sender;
 
 
     @Override
@@ -175,7 +181,7 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args);
     }
 
-    public void PrintCurrentStatus() {
+    public void PrintCurrentStatus() throws Exception{
         /* Read from ensemble */
         System.out.println("PrintCurrentStatus()::READ FROM ENSEMBLE");
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
@@ -200,6 +206,11 @@ public class Application implements CommandLineRunner {
             System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
             System.out.printf("Target state: %s\n", dbObject.getTargetState());
         }
+
+        /* IPC operations */
+        System.out.println(" ********* IPC STARTED *********");
+        sender.send();
+        System.out.println(" ********* IPC FINISHED *********");
 
     }
 
