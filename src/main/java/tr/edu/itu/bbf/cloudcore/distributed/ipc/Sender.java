@@ -15,7 +15,7 @@ public class Sender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("$smoc.rabbitmq.ckpt.queue}")
+    @Value("${smoc.rabbitmq.ckpt.queue}")
     private String IPC_QUEUE;
 
     @Value("${smoc.rabbitmq.ckpt.exchange}")
