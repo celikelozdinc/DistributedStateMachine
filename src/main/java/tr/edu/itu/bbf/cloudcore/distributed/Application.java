@@ -198,7 +198,7 @@ public class Application implements CommandLineRunner {
         for(CheckpointDbObject dbObject: list) {
             System.out.printf("Source state: %s\n", dbObject.getSourceState());
             System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
-            System.out.printf("Source state: %s\n", dbObject.getTargetState());
+            System.out.printf("Target state: %s\n", dbObject.getTargetState());
         }
 
     }

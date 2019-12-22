@@ -1,6 +1,0 @@
-spring:
-  data:
-    mongodb:
-      database: statemachine
-      host: localhost
-      port: 27017

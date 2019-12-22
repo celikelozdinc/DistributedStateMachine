@@ -7,6 +7,14 @@ services:
     networks:
       - distributedWan
     hostname: zookeeper
+  rabbitmq:
+    image: 'rabbitmq:3.8.2-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - distributedWan
+    hostname: rabbitmq
   smoc1:
       build:
         context: .
@@ -37,4 +45,9 @@ services:
     hostname: smoc4
 
 networks:
-  distributedWan: {}
+  distributedWan:
+    driver: bridge
+      ipam:
+        config:
+        - subnet: 192.17.41.0/24
+          gateway: 192.17.41.1
