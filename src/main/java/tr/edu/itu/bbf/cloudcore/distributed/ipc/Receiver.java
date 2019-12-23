@@ -11,6 +11,10 @@ import java.net.UnknownHostException;
 public class Receiver {
     static final Logger logger = LoggerFactory.getLogger(Receiver.class);
 
+    public void Receiver(){
+        logger.info(" +++++++++ CONSTRUCTOR of RECEIVER ++++++++++");
+    }
+
     @RabbitListener(queues = "${smoc.rabbitmq.ckpt.queue}")
     public void process(Message msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();

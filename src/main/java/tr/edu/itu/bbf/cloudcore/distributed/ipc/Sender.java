@@ -26,6 +26,10 @@ public class Sender {
 
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
+    public void Sender(){
+        logger.info(" +++++++++ CONSTRUCTOR of SENDER ++++++++++");
+    }
+
     public void send() throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
