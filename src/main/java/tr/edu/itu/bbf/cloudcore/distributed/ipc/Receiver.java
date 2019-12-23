@@ -12,11 +12,13 @@ public class Receiver {
     static final Logger logger = LoggerFactory.getLogger(Receiver.class);
 
     public void Receiver(){
+        logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
         logger.info(" +++++++++ CONSTRUCTOR of RECEIVER ++++++++++");
+        logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     @RabbitListener(queues = "${smoc.rabbitmq.ckpt.queue}")
-    public void process(Message msg) throws UnknownHostException {
+    public String process(Message msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
@@ -24,8 +26,8 @@ public class Receiver {
         logger.info("Ip Addr of receiver  = {}",ipAddr);
         logger.info("Hostname of receiver = {}",hostname);
         logger.info("Message Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
-        //logger.info("Receiver returns a message to sender...");
-        //return "ACKNOWLEDGE";
+        logger.info("Receiver returns a message to sender...");
+        return "ACKNOWLEDGE";
     }
 
 }

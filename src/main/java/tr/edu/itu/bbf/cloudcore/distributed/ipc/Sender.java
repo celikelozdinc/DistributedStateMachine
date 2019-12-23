@@ -27,7 +27,9 @@ public class Sender {
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
     public void Sender(){
-        logger.info(" +++++++++ CONSTRUCTOR of SENDER ++++++++++");
+        logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
+        logger.info(" +++++++++ CONSTRUCTOR of SENDER ++++++++++++");
+        logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
     public void send() throws UnknownHostException {
@@ -40,8 +42,8 @@ public class Sender {
         Message msg = new Message();
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
-        //String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
-        rabbitTemplate.convertAndSend(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
-        //logger.info("Response from receiver = {}",reply);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
+        //rabbitTemplate.convertAndSend(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
+        logger.info("Response from receiver = {}",reply);
     }
 }

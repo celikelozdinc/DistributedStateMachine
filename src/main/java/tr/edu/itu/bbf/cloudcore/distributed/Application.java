@@ -210,9 +210,9 @@ public class Application implements CommandLineRunner {
         }
 
         /* IPC operations */
-        System.out.println(" ********* IPC STARTED *********");
+        System.out.println(" ********* RPC STARTED *********");
         sender.send();
-        System.out.println(" ********* IPC FINISHED *********");
+        System.out.println(" ********* RPC FINISHED *********");
 
     }
 
