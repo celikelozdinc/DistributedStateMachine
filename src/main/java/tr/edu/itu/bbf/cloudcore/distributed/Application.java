@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @ImportResource({"classpath*:channel-config.xml"})
-//@PropertySource(value={"classpath:application.properties"})
+@PropertySource(value={"classpath:application.properties"})
 @ComponentScan(basePackages = {"tr.edu.itu.bbf.cloudcore.distributed"})
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
