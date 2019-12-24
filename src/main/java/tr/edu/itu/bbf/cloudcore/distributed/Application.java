@@ -206,12 +206,14 @@ public class Application implements CommandLineRunner {
                 .withPayload("PAYLOAD")
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
-        /* Iterate over list*/
-        System.out.println("# checkpoints inserted on database = " + list.size());
-        for(CheckpointDbObject dbObject: list) {
-            System.out.printf("Source state: %s\n", dbObject.getSourceState());
-            System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
-            System.out.printf("Target state: %s\n", dbObject.getTargetState());
+        /* If list is not empty, iterate over list*/
+        if (list != null && !list.isEmpty()) {
+            System.out.println("# checkpoints inserted on database = " + list.size());
+            for (CheckpointDbObject dbObject : list) {
+                System.out.printf("Source state: %s\n", dbObject.getSourceState());
+                System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
+                System.out.printf("Target state: %s\n", dbObject.getTargetState());
+            }
         }
         /* IPC operations */
         System.out.println(" ********* RPC STARTED *********");
@@ -262,10 +264,10 @@ public class Application implements CommandLineRunner {
         stateMachine.sendEvent(messageReceive);
 
         if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.\n",numberOfEvents);
         }
         else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
+            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.\n", numberOfEvents);
             numberOfEvents = 0;
             /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
@@ -319,16 +321,16 @@ public class Application implements CommandLineRunner {
     public void ProcessEvent(@NotNull String event, int timeSleep){
         switch(event){
             case "Pay":
-                sendPayEvent(event, timeSleep);
                 numberOfEvents ++;
+                sendPayEvent(event, timeSleep);
                 break;
             case "Receive":
-                sendReceiveEvent(event, timeSleep);
                 numberOfEvents ++;
+                sendReceiveEvent(event, timeSleep);
                 break;
             case "StartFromScratch":
-                sendStartFromScratchEvent(event, timeSleep);
                 numberOfEvents ++;
+                sendStartFromScratchEvent(event, timeSleep);
                 break;
             default:
                 System.out.println("Please send one of the events below.");

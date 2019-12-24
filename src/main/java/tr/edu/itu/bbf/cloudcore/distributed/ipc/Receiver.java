@@ -42,14 +42,19 @@ public class Receiver {
                 .withPayload("PAYLOAD")
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
-        CheckpointDbObject dbObject = list.get(0);
-        logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
-        logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
-        logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
-        logger.info(" +++++ Context = {}\n",dbObject.getContext());
-        logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-        logger.info("Receiver returns CONTEXT to sender...");
-        return dbObject.getContext();
+        if(list!=null && !list.isEmpty()){
+            CheckpointDbObject dbObject = list.get(0);
+            logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
+            logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
+            logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
+            logger.info(" +++++ Context = {}\n",dbObject.getContext());
+            logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
+            logger.info("Receiver returns CONTEXT to sender...");
+            return dbObject.getContext();
+        }
+        else{
+            return "NO_CKPT";
+        }
     }
 
 }
