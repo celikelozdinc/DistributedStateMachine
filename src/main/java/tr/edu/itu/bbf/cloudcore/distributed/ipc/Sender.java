@@ -43,7 +43,6 @@ public class Sender {
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
         String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
-        //rabbitTemplate.convertAndSend(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
         logger.info("Response from receiver = {}",reply);
         return reply;
     }

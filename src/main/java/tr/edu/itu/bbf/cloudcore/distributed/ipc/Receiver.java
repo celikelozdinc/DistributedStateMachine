@@ -40,7 +40,6 @@ public class Receiver {
         logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
         Message<String> getMessage = MessageBuilder
                 .withPayload("PAYLOAD")
-                .setHeader("machineId", UUID.randomUUID())
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
         CheckpointDbObject dbObject = list.get(0);

@@ -198,7 +198,6 @@ public class Application implements CommandLineRunner {
         System.out.println("PrintCurrentStatus()::READ FROM MONGODB");
         Message<String> getMessage = MessageBuilder
                 .withPayload("PAYLOAD")
-                .setHeader("machineId", stateMachine.getUuid())
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
         /* Iterate over list*/

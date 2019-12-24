@@ -33,10 +33,11 @@ public class RouterService {
     }
 
     public List<CheckpointDbObject> getCheckpoint(Message<String> getMessage){
-        /* Get state machine UUID */
+        /* Get state machine UUID
         Object O_UUID = getMessage.getHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
-        /*Read from database*/
+         */
+        /*Read all records from database*/
         return dbObjectHandler.getAllCheckpoints();
     }
 
