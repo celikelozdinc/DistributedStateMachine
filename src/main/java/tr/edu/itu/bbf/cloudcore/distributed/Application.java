@@ -86,6 +86,8 @@ public class Application implements CommandLineRunner {
     @Autowired
     private Sender sender;
 
+    private Integer numberOfEvents;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -108,10 +110,14 @@ public class Application implements CommandLineRunner {
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
         /*
-        Registers an exit hook which starts when the JVM is shut down*/
+        Registers an exit hook
+        which starts when the JVM is shut down
+        */
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
         System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
+        numberOfEvents = 0;
+        System.out.printf("# of events for this SMOC is initialized to = %d\n",numberOfEvents);
 
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
@@ -207,7 +213,6 @@ public class Application implements CommandLineRunner {
             System.out.printf("Processed event: %s\n", dbObject.getProcessedEvent());
             System.out.printf("Target state: %s\n", dbObject.getTargetState());
         }
-
         /* IPC operations */
         System.out.println(" ********* RPC STARTED *********");
         String reply = sender.send();
@@ -227,16 +232,23 @@ public class Application implements CommandLineRunner {
                 .build();
         stateMachine.sendEvent(messagePay);
 
-        /* Prepare message for CKPT */
-        Message<String> ckptMessage = MessageBuilder
-                .withPayload("PAY")
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "UNPAID")
-                .setHeader("processedEvent", event)
-                .setHeader("target","WAITING_FOR_RECEIVE")
-                .setHeader("context",serializeStateMachineContext())
-                .build();
-        serviceGateway.setCheckpoint(ckptMessage);
+        if (numberOfEvents < 3 ){
+            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+        }
+        else {
+            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.",numberOfEvents);
+            numberOfEvents = 0;
+            /* Prepare message for CKPT */
+            Message<String> ckptMessage = MessageBuilder
+                    .withPayload("PAY")
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("source", "UNPAID")
+                    .setHeader("processedEvent", event)
+                    .setHeader("target", "WAITING_FOR_RECEIVE")
+                    .setHeader("context", serializeStateMachineContext())
+                    .build();
+            serviceGateway.setCheckpoint(ckptMessage);
+        }
     }
     public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
@@ -249,16 +261,23 @@ public class Application implements CommandLineRunner {
                 .build();
         stateMachine.sendEvent(messageReceive);
 
-        /* Prepare message for CKPT */
-        Message<String> ckptMessage = MessageBuilder
-                .withPayload("RCV")
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "WAITING_FOR_RECEIVE")
-                .setHeader("processedEvent", event)
-                .setHeader("target", "DONE")
-                .setHeader("context",serializeStateMachineContext())
-                .build();
-        serviceGateway.setCheckpoint(ckptMessage);
+        if (numberOfEvents < 3 ){
+            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+        }
+        else {
+            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
+            numberOfEvents = 0;
+            /* Prepare message for CKPT */
+            Message<String> ckptMessage = MessageBuilder
+                    .withPayload("RCV")
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("source", "WAITING_FOR_RECEIVE")
+                    .setHeader("processedEvent", event)
+                    .setHeader("target", "DONE")
+                    .setHeader("context", serializeStateMachineContext())
+                    .build();
+            serviceGateway.setCheckpoint(ckptMessage);
+        }
     }
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -271,16 +290,23 @@ public class Application implements CommandLineRunner {
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
 
-        /* Prepare message for CKPT */
-        Message<String> ckptMessage = MessageBuilder
-                .withPayload("SFS")
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "DONE")
-                .setHeader("processedEvent", event)
-                .setHeader("target","UNPAID")
-                .setHeader("context",serializeStateMachineContext())
-                .build();
-        serviceGateway.setCheckpoint(ckptMessage);
+        if (numberOfEvents < 3 ){
+            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+        }
+        else {
+            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
+            numberOfEvents = 0;
+            /* Prepare message for CKPT */
+            Message<String> ckptMessage = MessageBuilder
+                    .withPayload("SFS")
+                    .setHeader("machineId", stateMachine.getUuid())
+                    .setHeader("source", "DONE")
+                    .setHeader("processedEvent", event)
+                    .setHeader("target", "UNPAID")
+                    .setHeader("context", serializeStateMachineContext())
+                    .build();
+            serviceGateway.setCheckpoint(ckptMessage);
+        }
     }
     public void sleep(Long sleepTime){
         try {
@@ -294,12 +320,15 @@ public class Application implements CommandLineRunner {
         switch(event){
             case "Pay":
                 sendPayEvent(event, timeSleep);
+                numberOfEvents ++;
                 break;
             case "Receive":
                 sendReceiveEvent(event, timeSleep);
+                numberOfEvents ++;
                 break;
             case "StartFromScratch":
                 sendStartFromScratchEvent(event, timeSleep);
+                numberOfEvents ++;
                 break;
             default:
                 System.out.println("Please send one of the events below.");
