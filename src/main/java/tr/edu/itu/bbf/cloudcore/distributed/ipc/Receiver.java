@@ -46,9 +46,11 @@ public class Receiver {
         logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
         logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
         logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
+        logger.info(" +++++ Context = {}\n",dbObject.getContext());
         logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-        logger.info("Receiver returns a message to sender...");
-        return "ACKNOWLEDGE";
+        logger.info("Receiver returns CONTEXT to sender...");
+        return dbObject.getContext();
     }
 
 }
+

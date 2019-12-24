@@ -40,6 +40,7 @@ public class CheckpointDbObject {
     public UUID getUuid(){return this.uuid;}
     public String getSourceState(){return this.sourceState;}
     public String getTargetState(){return this.targetState;}
+    public String getContext(){return this.context;}
 
 /*
     @PersistenceConstructor
