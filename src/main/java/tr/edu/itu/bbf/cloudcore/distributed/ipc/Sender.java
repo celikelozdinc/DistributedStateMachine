@@ -32,18 +32,19 @@ public class Sender {
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
-    public void send() throws UnknownHostException {
+    public String send() throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
         logger.info("Sender class::send()");
         logger.info("Ip Addr of sender = {}",ipAddr);
         logger.info("Hostname of sender  = {}",hostname);
-        Message msg = new Message();
+        IpcMessage msg = new IpcMessage();
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
         String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
         //rabbitTemplate.convertAndSend(IPC_EXCHANGE,IPC_ROUTING_KEY,msg);
         logger.info("Response from receiver = {}",reply);
+        return reply;
     }
 }

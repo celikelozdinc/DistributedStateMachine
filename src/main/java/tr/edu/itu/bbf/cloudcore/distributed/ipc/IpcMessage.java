@@ -1,13 +1,15 @@
 package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-public class Message implements Serializable {
+public class IpcMessage implements Serializable {
 
     public String ipAddr;
     public String hostname;
+    public UUID smocUuid;
 
-    public Message(){}
+    public IpcMessage(){}
 
     public String getHostname() {
         return hostname;
@@ -25,4 +27,11 @@ public class Message implements Serializable {
         this.ipAddr = ipAddr;
     }
 
+    public UUID getSmocUuid() {
+        return smocUuid;
+    }
+
+    public void setSmocUuid(UUID smocUuid) {
+        this.smocUuid = smocUuid;
+    }
 }

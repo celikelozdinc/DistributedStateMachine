@@ -211,7 +211,8 @@ public class Application implements CommandLineRunner {
 
         /* IPC operations */
         System.out.println(" ********* RPC STARTED *********");
-        sender.send();
+        String reply = sender.send();
+        System.out.println("********* Response from receiver = " + reply);
         System.out.println(" ********* RPC FINISHED *********");
 
     }
