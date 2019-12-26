@@ -46,6 +46,9 @@ services:
     networks:
       - distributedWan
     hostname: smoc4
+    environment:
+      - EXCHANGE=DUMMY_EXCHANGE
+      - QUEUE=DUMMY_QUEUE
 
 networks:
   distributedWan:
