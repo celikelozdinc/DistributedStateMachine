@@ -122,6 +122,16 @@ public class Application implements CommandLineRunner {
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
 
+        System.out.println(" --------------------------------");
+        System.out.println("----- Read CKPT from another process -----");
+        String hostname = InetAddress.getLocalHost().getHostName();
+        if (hostname.equals("smoc4")){
+            System.out.println("SMOC4 will try to make RPC call to other smocs.");
+            String reply = sender.send();
+            System.out.println("********* Response from receiver = " + reply);
+        }
+        System.out.println(" --------------------------------");
+
         try {
             while (true) {
                 System.out.print("Event:");
@@ -215,11 +225,12 @@ public class Application implements CommandLineRunner {
                 System.out.printf("Target state: %s\n", dbObject.getTargetState());
             }
         }
-        /* IPC operations */
+        /* IPC operations
         System.out.println(" ********* RPC STARTED *********");
         String reply = sender.send();
         System.out.println("********* Response from receiver = " + reply);
         System.out.println(" ********* RPC FINISHED *********");
+         */
 
     }
 

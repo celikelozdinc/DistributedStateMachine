@@ -36,6 +36,9 @@ services:
     networks:
       - distributedWan
     hostname: smoc3
+    environment:
+      - EXCHANGE=exc
+      - QUEUE=queue
   smoc4:
     build:
       context: .
