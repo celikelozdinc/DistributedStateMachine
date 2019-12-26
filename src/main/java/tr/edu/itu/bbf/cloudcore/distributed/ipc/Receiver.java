@@ -27,7 +27,6 @@ public class Receiver {
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
-    //@RabbitListener(queues = "${smoc.rabbitmq.ckpt.queue}")
     @RabbitListener(queues = "${QUEUE}")
     public String process(IpcMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
@@ -49,8 +48,8 @@ public class Receiver {
             logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
             logger.info(" +++++ Context = {}\n",dbObject.getContext());
             logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-            logger.info("Receiver returns CONTEXT to sender...");
-            return dbObject.getContext();
+            //return dbObject.getContext();
+            return "---> Receiver is "+hostname ;
         }
         else{
             return "NO_CKPT";

@@ -7,19 +7,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    //@Value("${smoc.rabbitmq.ckpt.queue}")
     @Value("${QUEUE}")
     private String IPC_QUEUE;
-
-    //@Value("${smoc.rabbitmq.ckpt.exchange}")
 
     @Value("${EXCHANGE}")
     private String IPC_EXCHANGE;
 
-    /*
-    @Value("${smoc.rabbitmq.ckpt.routingkey}")
-    private String IPC_ROUTING_KEY;
-    */
 
     @Bean
     Queue ipcQueue() {

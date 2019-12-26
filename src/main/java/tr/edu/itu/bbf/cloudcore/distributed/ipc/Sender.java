@@ -15,16 +15,15 @@ public class Sender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    //@Value("${smoc.rabbitmq.ckpt.queue}")
-    //@Value("${QUEUE}")
-    //private String IPC_QUEUE;
-
-    //@Value("${smoc.rabbitmq.ckpt.exchange}")
-    //@Value("${EXCHANGE}")
-    //private String IPC_EXCHANGE;
-
-    //@Value("${smoc.rabbitmq.ckpt.routingkey}")
-    //private String IPC_ROUTING_KEY;
+    /* No need to read from application.properties */
+    /*
+    @Value("${smoc.rabbitmq.ckpt.queue}")
+    private String IPC_QUEUE;
+    @Value("${smoc.rabbitmq.ckpt.exchange}")
+    private String IPC_EXCHANGE;
+    @Value("${smoc.rabbitmq.ckpt.routingkey}")
+    private String IPC_ROUTING_KEY;
+     */
 
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 

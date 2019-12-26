@@ -125,12 +125,18 @@ public class Application implements CommandLineRunner {
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
         if (hostname.equals("smoc4")){
+            String exchange = "";
+            String reply = "";
             System.out.println(" --------------------------------");
             System.out.println("SMOC4 will try to make RPC call to other smocs.");
             // Hangi smoc'tan CKPT isteyeceğine karar ver.
             // Sonra, onun exchange ile send çağrısı yap
-            String exchange="SMOC3_CKPT_EXCHANGE";
-            String reply = sender.send(exchange);
+            exchange="SMOC2_CKPT_EXCHANGE";
+            reply = sender.send(exchange);
+            System.out.println("********* Response from receiver = " + reply);
+            System.out.println(" --------------------------------");
+            exchange="SMOC3_CKPT_EXCHANGE";
+            reply = sender.send(exchange);
             System.out.println("********* Response from receiver = " + reply);
             System.out.println(" --------------------------------");
         }

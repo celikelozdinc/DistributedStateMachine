@@ -29,6 +29,9 @@ services:
     networks:
       - distributedWan
     hostname: smoc2
+    environment:
+      - EXCHANGE=SMOC2_CKPT_EXCHANGE
+      - QUEUE=SMOC2_CKPT_QUEUE
   smoc3:
     build:
       context: .
