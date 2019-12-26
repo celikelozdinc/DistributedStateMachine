@@ -37,8 +37,8 @@ services:
       - distributedWan
     hostname: smoc3
     environment:
-      - EXCHANGE=exc
-      - QUEUE=queue
+      - EXCHANGE=SMOC3_CKPT_EXCHANGE
+      - QUEUE=SMOC3_CKPT_QUEUE
   smoc4:
     build:
       context: .

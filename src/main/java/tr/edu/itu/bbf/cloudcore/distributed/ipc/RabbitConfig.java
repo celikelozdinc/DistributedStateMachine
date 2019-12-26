@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    @Value("${smoc.rabbitmq.ckpt.queue}")
+    //@Value("${smoc.rabbitmq.ckpt.queue}")
+    @Value("${QUEUE}")
     private String IPC_QUEUE;
 
-    @Value("${smoc.rabbitmq.ckpt.exchange}")
+    //@Value("${smoc.rabbitmq.ckpt.exchange}")
+
+    @Value("${EXCHANGE}")
     private String IPC_EXCHANGE;
 
     /*

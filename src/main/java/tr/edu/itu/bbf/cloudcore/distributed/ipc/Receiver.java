@@ -13,7 +13,6 @@ import org.springframework.messaging.Message;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class Receiver {
@@ -28,7 +27,8 @@ public class Receiver {
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
-    @RabbitListener(queues = "${smoc.rabbitmq.ckpt.queue}")
+    //@RabbitListener(queues = "${smoc.rabbitmq.ckpt.queue}")
+    @RabbitListener(queues = "${QUEUE}")
     public String process(IpcMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();

@@ -122,15 +122,18 @@ public class Application implements CommandLineRunner {
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
 
-        System.out.println(" --------------------------------");
-        System.out.println("----- Read CKPT from another process -----");
-        String hostname = InetAddress.getLocalHost().getHostName();
+        /* Read hostname from ENV of SMOC */
+        String hostname = System.getenv("HOSTNAME");
         if (hostname.equals("smoc4")){
+            System.out.println(" --------------------------------");
             System.out.println("SMOC4 will try to make RPC call to other smocs.");
-            String reply = sender.send();
+            // Hangi smoc'tan CKPT isteyeceğine karar ver.
+            // Sonra, onun exchange ile send çağrısı yap
+            String exchange="SMOC3_CKPT_EXCHANGE";
+            String reply = sender.send(exchange);
             System.out.println("********* Response from receiver = " + reply);
+            System.out.println(" --------------------------------");
         }
-        System.out.println(" --------------------------------");
 
         try {
             while (true) {

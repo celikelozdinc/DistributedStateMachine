@@ -15,14 +15,16 @@ public class Sender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${smoc.rabbitmq.ckpt.queue}")
-    private String IPC_QUEUE;
+    //@Value("${smoc.rabbitmq.ckpt.queue}")
+    //@Value("${QUEUE}")
+    //private String IPC_QUEUE;
 
-    @Value("${smoc.rabbitmq.ckpt.exchange}")
-    private String IPC_EXCHANGE;
+    //@Value("${smoc.rabbitmq.ckpt.exchange}")
+    //@Value("${EXCHANGE}")
+    //private String IPC_EXCHANGE;
 
-    @Value("${smoc.rabbitmq.ckpt.routingkey}")
-    private String IPC_ROUTING_KEY;
+    //@Value("${smoc.rabbitmq.ckpt.routingkey}")
+    //private String IPC_ROUTING_KEY;
 
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
@@ -32,7 +34,7 @@ public class Sender {
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
     }
 
-    public String send() throws UnknownHostException {
+    public String send(String exchange) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
@@ -42,7 +44,8 @@ public class Sender {
         IpcMessage msg = new IpcMessage();
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
-        String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
+        //String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);
+        String reply = (String) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
         logger.info("Response from receiver = {}",reply);
         return reply;
     }
