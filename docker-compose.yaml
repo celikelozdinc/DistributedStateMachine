@@ -7,14 +7,6 @@ services:
     networks:
       - distributedWan
     hostname: zookeeper
-  rabbitmq:
-    image: 'rabbitmq:3.8.2-management-alpine'
-    ports:
-      - '5672:5672'
-      - '15672:15672'
-    networks:
-      - distributedWan
-    hostname: rabbitmq
   smoc1:
     build:
       context: .
@@ -57,7 +49,5 @@ services:
 
 networks:
   distributedWan:
-    ipam:
-      driver: default
-      config:
-        - subnet: '192.17.41.0/24'
+    external:
+      name: loadbalancer_isolatedNetwork
