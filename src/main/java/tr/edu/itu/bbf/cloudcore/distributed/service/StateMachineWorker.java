@@ -25,6 +25,7 @@ import java.util.UUID;
 @Service
 public class StateMachineWorker {
 
+    @Autowired
     private StateMachine<States, Events> stateMachine;
 
     @Autowired
