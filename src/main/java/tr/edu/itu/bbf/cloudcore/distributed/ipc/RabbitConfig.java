@@ -13,10 +13,10 @@ public class RabbitConfig {
     @Value("${EXCHANGE}")
     private String IPC_EXCHANGE;
 
-    @Value("${EVENT_QUEUE}")
+    @Value("${EVENT_QUEUE_SMOC2}")
     private String EVENT_QUEUE;
 
-    @Value("${EVENT_EXCHANGE}")
+    @Value("${EVENT_EXCHANGE_SMOC2}")
     private String EVENT_EXCHANGE;
 
 
