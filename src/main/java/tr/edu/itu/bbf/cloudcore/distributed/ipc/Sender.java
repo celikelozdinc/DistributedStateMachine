@@ -27,7 +27,7 @@ public class Sender {
 
     static final Logger logger = LoggerFactory.getLogger(Sender.class);
 
-    public void Sender(){
+    public Sender(){
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
         logger.info(" +++++++++ CONSTRUCTOR of SENDER ++++++++++++");
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");

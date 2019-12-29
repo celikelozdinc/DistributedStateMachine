@@ -21,7 +21,7 @@ public class Receiver {
     @Autowired
     private ServiceGateway serviceGateway;
 
-    public void Receiver(){
+    public Receiver(){
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
         logger.info(" +++++++++ CONSTRUCTOR of RECEIVER ++++++++++");
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
@@ -56,5 +56,16 @@ public class Receiver {
         }
     }
 
+    @RabbitListener(queues = "${EVENT_QUEUE}")
+    public String handleEvent(EventMessage msg){
+        logger.info("***************");
+        logger.info("***************");
+        logger.info("Message received from loadbalancer process.");
+        String event = msg.getEvent();
+        String hostname = System.getProperty("hostname").toString();
+        logger.info("***************");
+        logger.info("***************");
+        return "This is reply from " + hostname + " after event " + event;
+    }
 }
 
