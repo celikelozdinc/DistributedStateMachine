@@ -21,26 +21,26 @@ services:
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname: smoc1
+    hostname: ${HOSTNAME_SMOC1}
   smoc2:
     build:
       context: .
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname: smoc2
+    hostname: ${HOSTNAME_SMOC2}
     environment:
-      - EXCHANGE=SMOC2_CKPT_EXCHANGE
-      - QUEUE=SMOC2_CKPT_QUEUE
-      - EVENT_EXCHANGE_SMOC2=SMOC2_EVENT_EXCHANGE
-      - EVENT_QUEUE_SMOC2=SMOC2_EVENT_QUEUE
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC2}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC2}
+      - EVENT_EXCHANGE_SMOC2=${EVENT_EXCHANGE_FOR_SMOC2}
+      - EVENT_QUEUE_SMOC2=${EVENT_QUEUE_FOR_SMOC2}
   smoc3:
     build:
       context: .
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname: smoc3
+    hostname: ${HOSTNAME_SMOC3}
     environment:
       - EXCHANGE=SMOC3_CKPT_EXCHANGE
       - QUEUE=SMOC3_CKPT_QUEUE
@@ -50,7 +50,7 @@ services:
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname: smoc4
+    hostname:  ${HOSTNAME_SMOC4}
     environment:
       - EXCHANGE=DUMMY_EXCHANGE
       - QUEUE=DUMMY_QUEUE
