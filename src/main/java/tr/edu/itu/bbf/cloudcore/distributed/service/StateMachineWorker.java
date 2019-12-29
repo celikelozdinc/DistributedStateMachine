@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
 import java.util.UUID;
@@ -39,13 +40,16 @@ public class StateMachineWorker {
     static final Logger logger = LoggerFactory.getLogger(StateMachineWorker.class);
 
     public StateMachineWorker(){
-        logger.info("++++++++++++++++++++++++++++++++");
-        logger.info("StateMachineWorker::Constructor");
-        numberOfEvents = 0;
-        logger.info("# of events for this SMOC is initialized to = %d\n",numberOfEvents);
+        logger.info("+++++StateMachineWorker::Constructor+++++");
+    }
+
+    @PostConstruct
+    public void init() {
+        logger.info("+++++StateMachineWorker::PostConstruct+++++");
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
-        logger.info("++++++++++++++++++++++++++++++++");
+        numberOfEvents = 0;
+        logger.info("# of events for this SMOC is initialized to = {}",numberOfEvents);
     }
 
     public void ProcessEvent(String event, int timeSleep){
