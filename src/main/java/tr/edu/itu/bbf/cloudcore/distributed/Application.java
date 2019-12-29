@@ -71,11 +71,16 @@ public class Application implements CommandLineRunner {
         }
     }
 
+    /*
     @Autowired
-    private static StateMachine<States, Events> stateMachine;
+    private  StateMachine<States, Events> stateMachine;
 
     @Autowired
-    private static StateMachineEnsemble<States, Events> stateMachineEnsemble;
+    private  StateMachineEnsemble<States, Events> stateMachineEnsemble;
+
+    private Integer numberOfEvents;
+
+     */
 
     @Autowired
     private static ServiceGateway serviceGateway;
@@ -86,7 +91,7 @@ public class Application implements CommandLineRunner {
     @Autowired
     private Sender sender;
 
-    private static Integer numberOfEvents;
+
 
 
     @Override
@@ -104,8 +109,8 @@ public class Application implements CommandLineRunner {
         System.out.println("TYPE of SMOC is: " + type);
          */
 
-        stateMachine.start();
-        stateMachineEnsemble.join(stateMachine);
+        //stateMachine.start();
+        //stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
@@ -113,11 +118,11 @@ public class Application implements CommandLineRunner {
         Registers an exit hook
         which starts when the JVM is shut down
         */
-        Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
-        System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
+        //Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
+        //System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
-        numberOfEvents = 0;
-        System.out.printf("# of events for this SMOC is initialized to = %d\n",numberOfEvents);
+        //numberOfEvents = 0;
+        //System.out.printf("# of events for this SMOC is initialized to = %d\n",numberOfEvents);
 
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
@@ -217,8 +222,8 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args);
     }
 
+    /*
     public void PrintCurrentStatus() throws Exception{
-        /* Read from ensemble */
         System.out.println("PrintCurrentStatus()::READ FROM ENSEMBLE");
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         System.out.println("PROCESSED EVENT IS " + context.getEvent().toString());
@@ -228,13 +233,11 @@ public class Application implements CommandLineRunner {
         System.out.println("Common variable between events: " + extendedState.get("common", Integer.class) );
         System.out.println("Local variable for Waiting State: " + extendedState.get("localVarForWaiting", Integer.class));
         System.out.println("Local variable for Done State: " + extendedState.get("localVarForDone",Integer.class));
-        /* Read from mongodb database */
         System.out.println("PrintCurrentStatus()::READ FROM MONGODB");
         Message<String> getMessage = MessageBuilder
                 .withPayload("PAYLOAD")
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
-        /* If list is not empty, iterate over list*/
         if (list != null && !list.isEmpty()) {
             System.out.println("# checkpoints inserted on database = " + list.size());
             for (CheckpointDbObject dbObject : list) {
@@ -243,16 +246,11 @@ public class Application implements CommandLineRunner {
                 System.out.printf("Target state: %s\n", dbObject.getTargetState());
             }
         }
-        /* IPC operations
-        System.out.println(" ********* RPC STARTED *********");
-        String reply = sender.send();
-        System.out.println("********* Response from receiver = " + reply);
-        System.out.println(" ********* RPC FINISHED *********");
-         */
-
     }
+    */
 
-    public static void sendPayEvent(@NotNull String event, int timeSleep){
+    /*
+    public void sendPayEvent(@NotNull String event, int timeSleep){
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
@@ -269,7 +267,6 @@ public class Application implements CommandLineRunner {
         else {
             System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.",numberOfEvents);
             numberOfEvents = 0;
-            /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("PAY")
                     .setHeader("machineId", stateMachine.getUuid())
@@ -281,7 +278,9 @@ public class Application implements CommandLineRunner {
             serviceGateway.setCheckpoint(ckptMessage);
         }
     }
-    public static void sendReceiveEvent(@NotNull String event,int timeSleep){
+
+
+    public void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
@@ -298,7 +297,6 @@ public class Application implements CommandLineRunner {
         else {
             System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.\n", numberOfEvents);
             numberOfEvents = 0;
-            /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("RCV")
                     .setHeader("machineId", stateMachine.getUuid())
@@ -310,7 +308,7 @@ public class Application implements CommandLineRunner {
             serviceGateway.setCheckpoint(ckptMessage);
         }
     }
-    public static void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
+    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
@@ -327,7 +325,6 @@ public class Application implements CommandLineRunner {
         else {
             System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
             numberOfEvents = 0;
-            /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("SFS")
                     .setHeader("machineId", stateMachine.getUuid())
@@ -340,7 +337,7 @@ public class Application implements CommandLineRunner {
         }
     }
 
-    public static void ProcessEvent(@NotNull String event, int timeSleep){
+    public void ProcessEvent(@NotNull String event, int timeSleep){
         switch(event){
             case "Pay": case "pay": case "PAY":
                 numberOfEvents ++;
@@ -361,7 +358,10 @@ public class Application implements CommandLineRunner {
         }
 
     }
-    public static String serializeStateMachineContext(){
+
+
+
+    public  String serializeStateMachineContext(){
         Kryo kryo = kryoThreadLocal.get();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
@@ -382,6 +382,7 @@ public class Application implements CommandLineRunner {
             return kryo;
         }
     };
+     */
 
     @Bean
     public CuratorFramework sharedCuratorClient() throws Exception {

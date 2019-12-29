@@ -10,6 +10,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.Application;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import org.springframework.messaging.Message;
+import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,6 +23,9 @@ public class Receiver {
 
     @Autowired
     private ServiceGateway serviceGateway;
+
+    @Autowired
+    private StateMachineWorker worker;
 
     public Receiver(){
         logger.info("+++++++++++++++++++++++++++++++++++++++++++++");
@@ -66,7 +70,7 @@ public class Receiver {
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
         /* timesleep should be parametrized */
-        Application.ProcessEvent(event,1000);
+        worker.ProcessEvent(event,1000);
         /* Sleep for 10 seconds */
         sleep((long) 10);
         logger.info("***************");
