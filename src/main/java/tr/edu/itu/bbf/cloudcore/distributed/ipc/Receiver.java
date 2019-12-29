@@ -62,7 +62,7 @@ public class Receiver {
         logger.info("***************");
         logger.info("Message received from loadbalancer process.");
         String event = msg.getEvent();
-        String hostname = System.getProperty("hostname").toString();
+        String hostname = System.getenv("HOSTNAME");
         logger.info("***************");
         logger.info("***************");
         return "This is reply from " + hostname + " after event " + event;
