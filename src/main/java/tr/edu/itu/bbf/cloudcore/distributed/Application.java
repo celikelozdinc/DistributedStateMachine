@@ -72,13 +72,13 @@ public class Application implements CommandLineRunner {
     }
 
     @Autowired
-    private StateMachine<States, Events> stateMachine;
+    private static StateMachine<States, Events> stateMachine;
 
     @Autowired
-    private StateMachineEnsemble<States, Events> stateMachineEnsemble;
+    private static StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
     @Autowired
-    private ServiceGateway serviceGateway;
+    private static ServiceGateway serviceGateway;
 
     @Autowired
     private CuratorFramework sharedCuratorClient;
@@ -86,7 +86,7 @@ public class Application implements CommandLineRunner {
     @Autowired
     private Sender sender;
 
-    private Integer numberOfEvents;
+    private static Integer numberOfEvents;
 
 
     @Override
@@ -141,6 +141,12 @@ public class Application implements CommandLineRunner {
             System.out.println(" --------------------------------");
         }
 
+        while(true){
+            System.out.println("Waiting events to be processed...");
+            String event = scanner.next();
+        }
+
+        /*
         try {
             while (true) {
                 System.out.print("Event:");
@@ -157,6 +163,9 @@ public class Application implements CommandLineRunner {
             System.out.println("Exiting main loop...");
             e.printStackTrace();
         }
+        */
+
+
         /*
         if (type.equals("sender")){
             sendPayEvent(timeSleep);
@@ -243,7 +252,7 @@ public class Application implements CommandLineRunner {
 
     }
 
-    public void sendPayEvent(@NotNull String event, int timeSleep){
+    public static void sendPayEvent(@NotNull String event, int timeSleep){
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
@@ -272,7 +281,7 @@ public class Application implements CommandLineRunner {
             serviceGateway.setCheckpoint(ckptMessage);
         }
     }
-    public void sendReceiveEvent(@NotNull String event,int timeSleep){
+    public static void sendReceiveEvent(@NotNull String event,int timeSleep){
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
@@ -301,7 +310,7 @@ public class Application implements CommandLineRunner {
             serviceGateway.setCheckpoint(ckptMessage);
         }
     }
-    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
+    public static void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
@@ -330,25 +339,18 @@ public class Application implements CommandLineRunner {
             serviceGateway.setCheckpoint(ckptMessage);
         }
     }
-    public void sleep(Long sleepTime){
-        try {
-            TimeUnit.SECONDS.sleep(sleepTime);
-        } catch (InterruptedException ex) {
-            System.out.println("Exception during sleep in main program --> " + ex.toString());
-        }
 
-    }
-    public void ProcessEvent(@NotNull String event, int timeSleep){
+    public static void ProcessEvent(@NotNull String event, int timeSleep){
         switch(event){
-            case "Pay":
+            case "Pay": case "pay": case "PAY":
                 numberOfEvents ++;
                 sendPayEvent(event, timeSleep);
                 break;
-            case "Receive":
+            case "Receive": case "receive": case "RECEIVE":
                 numberOfEvents ++;
                 sendReceiveEvent(event, timeSleep);
                 break;
-            case "StartFromScratch":
+            case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 numberOfEvents ++;
                 sendStartFromScratchEvent(event, timeSleep);
                 break;
@@ -359,7 +361,7 @@ public class Application implements CommandLineRunner {
         }
 
     }
-    public String serializeStateMachineContext(){
+    public static String serializeStateMachineContext(){
         Kryo kryo = kryoThreadLocal.get();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);

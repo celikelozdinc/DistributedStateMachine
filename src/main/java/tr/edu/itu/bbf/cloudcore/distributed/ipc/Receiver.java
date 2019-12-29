@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+import tr.edu.itu.bbf.cloudcore.distributed.Application;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import org.springframework.messaging.Message;
@@ -13,6 +14,7 @@ import org.springframework.messaging.Message;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class Receiver {
@@ -63,9 +65,24 @@ public class Receiver {
         logger.info("Message received from loadbalancer process.");
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
+        /* timesleep should be parametrized */
+        Application.ProcessEvent(event,1000);
+        /* Sleep for 10 seconds */
+        sleep((long) 10);
         logger.info("***************");
         logger.info("***************");
         return "This is reply from " + hostname + " after event " + event;
     }
+
+
+    public void sleep(Long sleepTime){
+        try {
+            TimeUnit.SECONDS.sleep(sleepTime);
+        } catch (InterruptedException ex) {
+            System.out.println("Exception during sleep in main program --> " + ex.toString());
+        }
+
+    }
+
 }
 
