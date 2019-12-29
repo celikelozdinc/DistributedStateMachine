@@ -56,7 +56,7 @@ public class Receiver {
         }
     }
 
-    @RabbitListener(queues = "${EVENT_QUEUE}")
+    @RabbitListener(queues = "${EVENT_QUEUE_SMOC2}")
     public String handleEvent(EventMessage msg){
         logger.info("***************");
         logger.info("***************");
