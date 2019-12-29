@@ -14,10 +14,10 @@ public class RabbitConfig {
     private String IPC_EXCHANGE;
 
     @Value("${EVENT_QUEUE_SMOC2}")
-    private String EVENT_QUEUE;
+    private String EVENT_QUEUE_SMOC2;
 
     @Value("${EVENT_EXCHANGE_SMOC2}")
-    private String EVENT_EXCHANGE;
+    private String EVENT_EXCHANGE_SMOC2;
 
 
     @Bean
@@ -36,10 +36,10 @@ public class RabbitConfig {
     }
 
     @Bean
-    Queue eventQueue(){ return new Queue(EVENT_QUEUE, false);}
+    Queue eventQueue(){ return new Queue(EVENT_QUEUE_SMOC2, false);}
 
     @Bean
-    DirectExchange eventExchange(){return new DirectExchange(EVENT_EXCHANGE);}
+    DirectExchange eventExchange(){return new DirectExchange(EVENT_EXCHANGE_SMOC2);}
 
     @Bean
     Binding bindingForEvent(Queue eventQueue, DirectExchange eventExchange){
