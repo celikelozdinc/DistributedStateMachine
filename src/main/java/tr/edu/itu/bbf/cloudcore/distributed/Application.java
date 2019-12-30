@@ -37,6 +37,7 @@ import java.net.InetAddress;
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
+    /*
     static class ExitHook extends Thread {
 
         @Autowired
@@ -57,6 +58,7 @@ public class Application implements CommandLineRunner {
 
         }
     }
+    */
 
     @Autowired
     private static ServiceGateway serviceGateway;

@@ -20,11 +20,36 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Base64;
+import java.util.Scanner;
 import java.util.UUID;
 
 @Service
 public class StateMachineWorker {
+
+    static class ExitHook extends Thread {
+        @Autowired
+        private StateMachine<States, Events> stateMachine;
+
+        private Scanner scanner;
+
+        static final Logger logger = LoggerFactory.getLogger(ExitHook.class);
+
+        public ExitHook(StateMachine<States,Events> sm, Scanner sc){
+            this.stateMachine = sm;
+            this.scanner = sc;
+        }
+
+        @Override
+        public void run(){
+            logger.info("**********************************");
+            logger.info("*****Gracefully stopping SMOC*****");
+            logger.info("**********************************");
+            this.scanner.close();
+            this.stateMachine.stop();
+        }
+    }
 
     @Autowired
     private StateMachine<States, Events> stateMachine;
@@ -51,6 +76,11 @@ public class StateMachineWorker {
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         numberOfEvents = 0;
         logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
+        /*Registers an exit hook which runs when the JVM is shut down*/
+        logger.info("Registers an exit hook which runs when the JVM is shut down.");
+        InputStream stream = System.in;
+        Scanner scanner = new Scanner(stream);
+        Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
     }
 
     public void ProcessEvent(String event, int timeSleep){
