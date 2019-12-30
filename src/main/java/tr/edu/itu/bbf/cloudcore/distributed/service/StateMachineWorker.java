@@ -48,8 +48,9 @@ public class StateMachineWorker {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
+        logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         numberOfEvents = 0;
-        logger.info("# of events for this SMOC is initialized to = {}",numberOfEvents);
+        logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
     }
 
     public void ProcessEvent(String event, int timeSleep){

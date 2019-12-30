@@ -1,13 +1,13 @@
 package tr.edu.itu.bbf.cloudcore.distributed;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Output;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,33 +15,20 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.statemachine.kryo.MessageHeadersSerializer;
-import org.springframework.statemachine.kryo.StateMachineContextSerializer;
-import org.springframework.statemachine.kryo.UUIDSerializer;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.statemachine.ExtendedState;
 import org.springframework.statemachine.StateMachine;
-import org.springframework.statemachine.StateMachineContext;
-import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.Sender;
-import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.*;
 import java.net.InetAddress;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @ImportResource({"classpath*:channel-config.xml"})
@@ -71,17 +58,6 @@ public class Application implements CommandLineRunner {
         }
     }
 
-    /*
-    @Autowired
-    private  StateMachine<States, Events> stateMachine;
-
-    @Autowired
-    private  StateMachineEnsemble<States, Events> stateMachineEnsemble;
-
-    private Integer numberOfEvents;
-
-     */
-
     @Autowired
     private static ServiceGateway serviceGateway;
 
@@ -91,8 +67,7 @@ public class Application implements CommandLineRunner {
     @Autowired
     private Sender sender;
 
-
-
+    static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     @Override
     public void run(String... args) throws Exception {
@@ -109,8 +84,6 @@ public class Application implements CommandLineRunner {
         System.out.println("TYPE of SMOC is: " + type);
          */
 
-        //stateMachine.start();
-        //stateMachineEnsemble.join(stateMachine);
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
@@ -119,10 +92,8 @@ public class Application implements CommandLineRunner {
         which starts when the JVM is shut down
         */
         //Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
-        //System.out.printf("SMOC %s is started. From now on, you can send events.\n",stateMachine.getUuid().toString());
 
-        //numberOfEvents = 0;
-        //System.out.printf("# of events for this SMOC is initialized to = %d\n",numberOfEvents);
+
 
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
@@ -249,140 +220,6 @@ public class Application implements CommandLineRunner {
     }
     */
 
-    /*
-    public void sendPayEvent(@NotNull String event, int timeSleep){
-        Message<Events> messagePay = MessageBuilder
-                .withPayload(Events.PAY)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "UNPAID")
-                .setHeader("processedEvent", event)
-                .setHeader("target","WAITING_FOR_RECEIVE")
-                .build();
-        stateMachine.sendEvent(messagePay);
-
-        if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
-        }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.",numberOfEvents);
-            numberOfEvents = 0;
-            Message<String> ckptMessage = MessageBuilder
-                    .withPayload("PAY")
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("source", "UNPAID")
-                    .setHeader("processedEvent", event)
-                    .setHeader("target", "WAITING_FOR_RECEIVE")
-                    .setHeader("context", serializeStateMachineContext())
-                    .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-        }
-    }
-
-
-    public void sendReceiveEvent(@NotNull String event,int timeSleep){
-        Message<Events> messageReceive = MessageBuilder
-                .withPayload(Events.RECEIVE)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "WAITING_FOR_RECEIVE")
-                .setHeader("processedEvent", event)
-                .setHeader("target", "DONE")
-                .build();
-        stateMachine.sendEvent(messageReceive);
-
-        if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.\n",numberOfEvents);
-        }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.\n", numberOfEvents);
-            numberOfEvents = 0;
-            Message<String> ckptMessage = MessageBuilder
-                    .withPayload("RCV")
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("source", "WAITING_FOR_RECEIVE")
-                    .setHeader("processedEvent", event)
-                    .setHeader("target", "DONE")
-                    .setHeader("context", serializeStateMachineContext())
-                    .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-        }
-    }
-    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
-        Message<Events> messageStartFromScratch = MessageBuilder
-                .withPayload(Events.STARTFROMSCRATCH)
-                .setHeader("timeSleep", timeSleep)
-                .setHeader("machineId", stateMachine.getUuid())
-                .setHeader("source", "DONE")
-                .setHeader("processedEvent", event)
-                .setHeader("target","UNPAID")
-                .build();
-        stateMachine.sendEvent(messageStartFromScratch);
-
-        if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
-        }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
-            numberOfEvents = 0;
-            Message<String> ckptMessage = MessageBuilder
-                    .withPayload("SFS")
-                    .setHeader("machineId", stateMachine.getUuid())
-                    .setHeader("source", "DONE")
-                    .setHeader("processedEvent", event)
-                    .setHeader("target", "UNPAID")
-                    .setHeader("context", serializeStateMachineContext())
-                    .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-        }
-    }
-
-    public void ProcessEvent(@NotNull String event, int timeSleep){
-        switch(event){
-            case "Pay": case "pay": case "PAY":
-                numberOfEvents ++;
-                sendPayEvent(event, timeSleep);
-                break;
-            case "Receive": case "receive": case "RECEIVE":
-                numberOfEvents ++;
-                sendReceiveEvent(event, timeSleep);
-                break;
-            case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
-                numberOfEvents ++;
-                sendStartFromScratchEvent(event, timeSleep);
-                break;
-            default:
-                System.out.println("Please send one of the events below.");
-                System.out.println("Pay/Receive/StartFromScratch");
-                break;
-        }
-
-    }
-
-
-
-    public  String serializeStateMachineContext(){
-        Kryo kryo = kryoThreadLocal.get();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Output output = new Output(baos);
-        StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
-        kryo.writeObject(output, context);
-        output.close();
-        return Base64.getEncoder().encodeToString(baos.toByteArray());
-    }
-    private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
-        @NotNull
-        @SuppressWarnings("rawtypes")
-        @Override
-        protected Kryo initialValue() {
-            Kryo kryo = new Kryo();
-            kryo.addDefaultSerializer(StateMachineContext.class, new StateMachineContextSerializer());
-            kryo.addDefaultSerializer(MessageHeaders.class, new MessageHeadersSerializer());
-            kryo.addDefaultSerializer(UUID.class, new UUIDSerializer());
-            return kryo;
-        }
-    };
-     */
 
     @Bean
     public CuratorFramework sharedCuratorClient() throws Exception {
