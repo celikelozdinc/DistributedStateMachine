@@ -62,19 +62,19 @@ public class Receiver {
         }
     }
 
-    @RabbitListener(queues = "${EVENT_QUEUE_SMOC2}")
+    @RabbitListener(queues = {"${EVENT_QUEUE_SMOC1}","${EVENT_QUEUE_SMOC2}"})
     public String handleEvent(EventMessage msg){
         logger.info("***************");
         logger.info("***************");
-        logger.info("Message received from loadbalancer process.");
+        logger.info("Message received from __{}__ process.",msg.getSender());
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
-        /* timesleep should be parametrized */
+        /* sleep should be parametrized */
         worker.ProcessEvent(event,1000);
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
-        logger.info("Send this message back to smoc --> {}",reply);
+        logger.info("Send this message back to smoc __{}__",reply);
         logger.info("***************");
         logger.info("***************");
         return reply;

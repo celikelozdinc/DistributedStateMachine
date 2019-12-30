@@ -19,6 +19,12 @@ public class RabbitConfig {
     @Value("${EVENT_EXCHANGE_SMOC2}")
     private String EVENT_EXCHANGE_SMOC2;
 
+    @Value("${EVENT_QUEUE_SMOC1}")
+    private String EVENT_QUEUE_SMOC1;
+
+    @Value("${EVENT_EXCHANGE_SMOC1}")
+    private String EVENT_EXCHANGE_SMOC1;
+
 
     @Bean
     Queue ipcQueue() {
@@ -44,6 +50,17 @@ public class RabbitConfig {
     @Bean
     Binding bindingForEvent(Queue eventQueue, DirectExchange eventExchange){
         return BindingBuilder.bind(eventQueue).to(eventExchange).with("rpc");
+    }
+
+    @Bean
+    Queue eventQueue_smoc1(){ return new Queue(EVENT_QUEUE_SMOC1, false);}
+
+    @Bean
+    DirectExchange eventExchange_smoc1(){return new DirectExchange(EVENT_EXCHANGE_SMOC1);}
+
+    @Bean
+    Binding bindingForEvent_smoc1(Queue eventQueue_smoc1, DirectExchange eventExchange_smoc1){
+        return BindingBuilder.bind(eventQueue_smoc1).to(eventExchange_smoc1).with("rpc");
     }
 
 }
