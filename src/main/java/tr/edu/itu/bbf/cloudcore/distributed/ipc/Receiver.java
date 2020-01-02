@@ -70,7 +70,9 @@ public class Receiver {
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
         /* sleep should be parametrized */
-        worker.ProcessEvent(event,1000);
+        int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
+        //worker.ProcessEvent(event,1000);
+        worker.ProcessEvent(event,timeSleep);
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
