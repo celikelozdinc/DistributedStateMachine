@@ -1,12 +1,5 @@
 version: "3"
 services:
-  zookeeper:
-    build:
-      context: .
-      dockerfile: zookeeper/Dockerfile
-    networks:
-      - distributedWan
-    hostname: zookeeper
   smoc1:
     build:
       context: .
