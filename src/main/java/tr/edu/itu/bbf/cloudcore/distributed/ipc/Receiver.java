@@ -71,8 +71,8 @@ public class Receiver {
         String hostname = System.getenv("HOSTNAME");
         /* sleep should be parametrized */
         worker.ProcessEvent(event,1000);
-        /* Sleep for 2 seconds */
-        //sleep((long) 2);
+        /* Sleep for 1 seconds */
+        sleep((long) 1);
         String reply = "This is reply from " + hostname + " after event " + event;
         logger.info("Send this message back to smoc __{}__",reply);
         logger.info("***************");
