@@ -89,12 +89,6 @@ public class Application implements CommandLineRunner {
 
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
-        /*
-        Registers an exit hook
-        which starts when the JVM is shut down
-        */
-        //Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
-
 
 
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
