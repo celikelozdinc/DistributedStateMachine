@@ -92,22 +92,22 @@ public class StateMachineWorker {
     public void ProcessEvent(String event, int timeSleep) throws Exception {
         switch(event){
             case "Pay": case "pay": case "PAY":
-                numberOfEvents ++;
                 System.out.print("\n\n\n\n\n");
+                numberOfEvents = numberOfEvents + 1;
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendPayEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "Receive": case "receive": case "RECEIVE":
-                numberOfEvents ++;
                 System.out.print("\n\n\n\n\n");
+                numberOfEvents = numberOfEvents + 1;
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendReceiveEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
-                numberOfEvents ++;
                 System.out.print("\n\n\n\n\n");
+                numberOfEvents = numberOfEvents + 1;
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendStartFromScratchEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
