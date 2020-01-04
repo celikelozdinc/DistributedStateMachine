@@ -93,22 +93,16 @@ public class StateMachineWorker {
         switch(event){
             case "Pay": case "pay": case "PAY":
                 System.out.print("\n\n\n\n\n");
-                numberOfEvents = numberOfEvents + 1;
-                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendPayEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
-                numberOfEvents = numberOfEvents + 1;
-                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendReceiveEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
-                numberOfEvents = numberOfEvents + 1;
-                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendStartFromScratchEvent(event, timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
@@ -121,6 +115,9 @@ public class StateMachineWorker {
     }
 
     public void sendPayEvent(@NotNull String event, int timeSleep) throws Exception {
+        numberOfEvents = numberOfEvents + 1;
+        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
+
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
@@ -157,6 +154,9 @@ public class StateMachineWorker {
     }
 
     public void sendReceiveEvent(@NotNull String event,int timeSleep) throws Exception {
+        numberOfEvents = numberOfEvents + 1;
+        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
+
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
@@ -191,6 +191,9 @@ public class StateMachineWorker {
     }
 
     public void sendStartFromScratchEvent(@NotNull String event,int timeSleep) throws Exception {
+        numberOfEvents = numberOfEvents + 1;
+        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
+
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
