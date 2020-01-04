@@ -72,7 +72,6 @@ public class Receiver {
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         worker.ProcessEvent(event,timeSleep);
-        //worker.MarkCKPT();
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;

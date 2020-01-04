@@ -37,37 +37,8 @@ import java.net.InetAddress;
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
-    /*
-    static class ExitHook extends Thread {
-
-        @Autowired
-        private StateMachine<States, Events> stateMachine;
-        private Scanner scanner;
-
-
-        public ExitHook(StateMachine<States,Events> sm, Scanner sc){
-            this.stateMachine = sm;
-            this.scanner = sc;
-        }
-
-        @Override
-        public void run(){
-            System.out.println("*****Gracefully stopping SMOC*****");
-            this.scanner.close();
-            this.stateMachine.stop();
-
-        }
-    }
-    */
-
     @Autowired
     private static ServiceGateway serviceGateway;
-
-    /*
-    @Autowired
-    private CuratorFramework sharedCuratorClient;
-     */
-
 
     @Autowired
     private Sender sender;
@@ -219,54 +190,6 @@ public class Application implements CommandLineRunner {
     }
     */
 
-
-    /*
-    @Bean
-    public CuratorFramework sharedCuratorClient() throws Exception {
-        String zkConnectionString = "zookeeper:2181";
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-        CuratorFramework client = CuratorFrameworkFactory.builder()
-                .defaultData(new byte[0])
-                .retryPolicy(retryPolicy)
-                .connectString(zkConnectionString)
-                .build();
-        client.start();
-        CuratorFrameworkState state = client.getState();
-        System.out.println("**********************");
-        System.out.println("**********************");
-        System.out.println("***********sharedCuratorClient state after initialization ----> " + state.name());
-        System.out.println("**********************");
-        System.out.println("**********************");
-        return client;
-    }
-    */
-
-    /*
-    public void MarkCheckpoint() throws Exception {
-        InetAddress inetAddress = InetAddress.getLocalHost();
-        String ipAddress = inetAddress.getHostAddress();
-        String hostname = inetAddress.getHostName();
-        String str_data = "CKPT information:" + getTimeStamp() + "__" + ipAddress +"__" + hostname ;
-        byte[] data = str_data.getBytes();
-        String path = "/" + hostname;
-        if(sharedCuratorClient.checkExists().forPath(path)!=null) {
-            //node exists
-            System.out.println(path+"  : EXISTS*********");
-            byte[] bytes = sharedCuratorClient.getData().forPath(path);
-            System.out.println("----------zkNode data:" + new String(bytes) + "------------");
-            System.out.println("----------zkNode will be changed.");
-            sharedCuratorClient.setData().forPath(path, data);
-        } else {
-            //node does not exist, create new
-            System.out.println(path+ "  : DOES NOT EXIST*********");
-            sharedCuratorClient.create().creatingParentsIfNeeded()
-                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
-        }
-
-    }
-
-    */
-
     /*
     public void ReadMarkedCheckpoints() throws Exception {
         List<String> paths = new ArrayList<String>();
@@ -284,20 +207,5 @@ public class Application implements CommandLineRunner {
     }
     */
 
-    /*
-    public String getTimeStamp(){
-        Calendar now = Calendar.getInstance();
-        int year = now.get(Calendar.YEAR);
-        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
-        int day = now.get(Calendar.DAY_OF_MONTH);
-        int hour = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
-        int second = now.get(Calendar.SECOND);
-        int ms = now.get(Calendar.MILLISECOND);
-
-        String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
-        return ts;
-    }
-    */
 }
 

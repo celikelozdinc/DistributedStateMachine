@@ -93,18 +93,24 @@ public class StateMachineWorker {
         switch(event){
             case "Pay": case "pay": case "PAY":
                 numberOfEvents ++;
+                System.out.print("\n\n\n\n\n");
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendPayEvent(event, timeSleep);
+                System.out.print("\n\n\n\n\n");
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 numberOfEvents ++;
+                System.out.print("\n\n\n\n\n");
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendReceiveEvent(event, timeSleep);
+                System.out.print("\n\n\n\n\n");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 numberOfEvents ++;
+                System.out.print("\n\n\n\n\n");
                 logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendStartFromScratchEvent(event, timeSleep);
+                System.out.print("\n\n\n\n\n");
                 break;
             default:
                 System.out.println("Please send one of the events below.");
