@@ -1,6 +1,7 @@
 package tr.edu.itu.bbf.cloudcore.distributed.service;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import org.apache.curator.framework.CuratorFramework;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,9 @@ public class StateMachineWorker {
 
     @Autowired
     private ServiceGateway serviceGateway;
+
+    @Autowired
+    private CuratorFramework sharedCuratorClient;
 
     private Integer numberOfEvents;
 
@@ -219,5 +223,9 @@ public class StateMachineWorker {
             return kryo;
         }
     };
+
+    public void MarkCKPT(){
+
+    }
 
 }

@@ -63,8 +63,11 @@ public class Application implements CommandLineRunner {
     @Autowired
     private static ServiceGateway serviceGateway;
 
+    /*
     @Autowired
     private CuratorFramework sharedCuratorClient;
+     */
+
 
     @Autowired
     private Sender sender;
@@ -217,6 +220,7 @@ public class Application implements CommandLineRunner {
     */
 
 
+    /*
     @Bean
     public CuratorFramework sharedCuratorClient() throws Exception {
         String zkConnectionString = "zookeeper:2181";
@@ -235,7 +239,9 @@ public class Application implements CommandLineRunner {
         System.out.println("**********************");
         return client;
     }
+    */
 
+    /*
     public void MarkCheckpoint() throws Exception {
         InetAddress inetAddress = InetAddress.getLocalHost();
         String ipAddress = inetAddress.getHostAddress();
@@ -259,6 +265,9 @@ public class Application implements CommandLineRunner {
 
     }
 
+    */
+
+    /*
     public void ReadMarkedCheckpoints() throws Exception {
         List<String> paths = new ArrayList<String>();
         paths.add("/smoc1");
@@ -272,9 +281,8 @@ public class Application implements CommandLineRunner {
             }
 
         }
-
-
     }
+    */
 
     public String getTimeStamp(){
         Calendar now = Calendar.getInstance();

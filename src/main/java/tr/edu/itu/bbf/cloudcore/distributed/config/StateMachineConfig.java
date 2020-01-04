@@ -66,6 +66,25 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         return client;
     }
 
+    @Bean
+    public CuratorFramework sharedCuratorClient() throws Exception {
+        String zkConnectionString = "zookeeper:2181";
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client = CuratorFrameworkFactory.builder()
+                .defaultData(new byte[0])
+                .retryPolicy(retryPolicy)
+                .connectString(zkConnectionString)
+                .build();
+        client.start();
+        CuratorFrameworkState state = client.getState();
+        logger.info("**********************");
+        logger.info("**********************");
+        logger.info("***********sharedCuratorClient state after initialization ----> " + state.name());
+        logger.info("**********************");
+        logger.info("**********************");
+        return client;
+    }
+
     @Override
     public void configure(StateMachineStateConfigurer<States, Events> states)
             throws Exception {
