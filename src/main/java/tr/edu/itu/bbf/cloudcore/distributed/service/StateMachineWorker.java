@@ -256,15 +256,18 @@ public class StateMachineWorker {
     };
 
     public void MarkCKPT() throws Exception {
-        /* Print processed events */
+        /* Get processed events */
+        String str_data = "";
         for (Enumeration keys = event_eventNumber.keys(); keys.hasMoreElements();)
         {
             Integer key = (Integer) keys.nextElement();
-            logger.info("Eventnumber {} belongs to event {}",key,event_eventNumber.get(key).toString());
+            String value = event_eventNumber.get(key).toString();
+            logger.info("Eventnumber {} belongs to event {}",key,value);
+            str_data = str_data + key + "-->"+ value + "...";
         }
         /*Read hostname from env */
         String hostname = System.getenv("HOSTNAME");
-        String str_data = "CKPT information:" + getTimeStamp() + "__"  + hostname ;
+        //String str_data = "CKPT information:" + getTimeStamp() + "__"  + hostname ;
         byte[] data = str_data.getBytes();
         String path = "/" + hostname;
         if(sharedCuratorClient.checkExists().forPath(path)!=null) {
