@@ -23,10 +23,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class StateMachineWorker {
@@ -68,6 +65,8 @@ public class StateMachineWorker {
 
     private Integer numberOfEvents;
 
+    private Dictionary event_eventNumber;
+
     static final Logger logger = LoggerFactory.getLogger(StateMachineWorker.class);
 
     public StateMachineWorker(){
@@ -82,6 +81,7 @@ public class StateMachineWorker {
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         numberOfEvents = 0;
         logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
+        event_eventNumber = new Hashtable();
         /*Registers an exit hook which runs when the JVM is shut down*/
         logger.info("Registers an exit hook which runs when the JVM is shut down.");
         InputStream stream = System.in;
@@ -117,6 +117,7 @@ public class StateMachineWorker {
     public void sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
+        event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messagePay = MessageBuilder
@@ -157,6 +158,7 @@ public class StateMachineWorker {
     public void sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
+        event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messageReceive = MessageBuilder
@@ -195,6 +197,7 @@ public class StateMachineWorker {
     public void sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
+        event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messageStartFromScratch = MessageBuilder
@@ -253,6 +256,12 @@ public class StateMachineWorker {
     };
 
     public void MarkCKPT() throws Exception {
+        /* Print processed events */
+        for (Enumeration keys = event_eventNumber.keys(); keys.hasMoreElements();)
+        {
+            Integer key = (Integer) keys.nextElement();
+            logger.info("Eventnumber {} belongs to event {}",key,event_eventNumber.get(key).toString());
+        }
         /*Read hostname from env */
         String hostname = System.getenv("HOSTNAME");
         String str_data = "CKPT information:" + getTimeStamp() + "__"  + hostname ;

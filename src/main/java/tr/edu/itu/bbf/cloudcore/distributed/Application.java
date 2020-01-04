@@ -1,15 +1,8 @@
 package tr.edu.itu.bbf.cloudcore.distributed;
 
-import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.imps.CuratorFrameworkState;
-import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.zookeeper.CreateMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
@@ -19,16 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.statemachine.StateMachine;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.Sender;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.InputStream;
 import java.util.*;
-import java.net.InetAddress;
 
 @SpringBootApplication
 @ImportResource({"classpath*:channel-config.xml"})
