@@ -81,9 +81,9 @@ public class Receiver {
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         worker.ProcessEvent(numberOfEvents, event,eventNumber,timeSleep);
         /* Sleep for 2 seconds */
-        sleep((long) 2);
+        //sleep((long) 2);
         numberOfEvents = numberOfEvents + 1;
-        logger.info("#numberOfEvents of __{}__ is __{}__",hostname,numberOfEvents);
+        logger.info("From now on, numberOfEvents of __{}__ is __{}__",hostname,numberOfEvents);
         String reply = "This is reply from " + hostname + " after event " + event;
         logger.info("Send this message back to smoc __{}__",reply);
         logger.info("***************");
