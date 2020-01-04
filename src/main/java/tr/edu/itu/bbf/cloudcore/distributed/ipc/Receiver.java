@@ -69,9 +69,10 @@ public class Receiver {
         logger.info("Message received from __{}__ process.",msg.getSender());
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
+        Integer eventNumber = msg.getEventNumber();
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
-        worker.ProcessEvent(event,timeSleep);
+        worker.ProcessEvent(event,eventNumber,timeSleep);
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
