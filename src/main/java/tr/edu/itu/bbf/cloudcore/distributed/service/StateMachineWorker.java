@@ -63,7 +63,7 @@ public class StateMachineWorker {
     @Autowired
     private CuratorFramework sharedCuratorClient;
 
-    private Integer numberOfEvents;
+    //private Integer numberOfEvents;
 
     private Dictionary event_eventNumber;
 
@@ -79,8 +79,8 @@ public class StateMachineWorker {
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
-        numberOfEvents = 0;
-        logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
+        //numberOfEvents = 0;
+        //logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
         event_eventNumber = new Hashtable();
         /*Registers an exit hook which runs when the JVM is shut down*/
         logger.info("Registers an exit hook which runs when the JVM is shut down.");
@@ -89,21 +89,21 @@ public class StateMachineWorker {
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
     }
 
-    public void ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
+    public void ProcessEvent(Integer numberOfEvents, String event, Integer eventNumber, int timeSleep) throws Exception {
         switch(event){
             case "Pay": case "pay": case "PAY":
                 System.out.print("\n\n\n\n\n");
-                sendPayEvent(event, eventNumber,timeSleep);
+                sendPayEvent(numberOfEvents,event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
-                sendReceiveEvent(event, eventNumber,timeSleep);
+                sendReceiveEvent(numberOfEvents,event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
-                sendStartFromScratchEvent(event, eventNumber,timeSleep);
+                sendStartFromScratchEvent(numberOfEvents,event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             default:
@@ -114,8 +114,8 @@ public class StateMachineWorker {
 
     }
 
-    public void sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
-        numberOfEvents = numberOfEvents + 1;
+    public void sendPayEvent(Integer numberOfEvents,@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+        //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
@@ -131,12 +131,12 @@ public class StateMachineWorker {
         stateMachine.sendEvent(messagePay);
 
 
-        if (numberOfEvents < 3 ){
+        if (numberOfEvents < 2 ){
             logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else if (numberOfEvents == 3){
+        else if (numberOfEvents == 2){
             logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.",numberOfEvents);
-            numberOfEvents = 0;
+            //numberOfEvents = 0;
             /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("PAY")
@@ -155,8 +155,8 @@ public class StateMachineWorker {
         }
     }
 
-    public void sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
-        numberOfEvents = numberOfEvents + 1;
+    public void sendReceiveEvent(Integer numberOfEvents, @NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+        //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
@@ -171,12 +171,12 @@ public class StateMachineWorker {
                 .build();
         stateMachine.sendEvent(messageReceive);
 
-        if (numberOfEvents < 3 ){
+        if (numberOfEvents < 2 ){
            logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT",numberOfEvents);
         }
-        else if (numberOfEvents == 3){
+        else if (numberOfEvents == 2){
             logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
-            numberOfEvents = 0;
+            //numberOfEvents = 0;
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("RCV")
                     .setHeader("machineId", stateMachine.getUuid())
@@ -194,8 +194,8 @@ public class StateMachineWorker {
         }
     }
 
-    public void sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
-        numberOfEvents = numberOfEvents + 1;
+    public void sendStartFromScratchEvent(Integer numberOfEvents, @NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+        //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
         logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
@@ -210,12 +210,12 @@ public class StateMachineWorker {
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
 
-        if (numberOfEvents < 3 ){
+        if (numberOfEvents < 2 ){
            logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else if (numberOfEvents == 3) {
+        else if (numberOfEvents == 2) {
             logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
-            numberOfEvents = 0;
+            //numberOfEvents = 0;
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("SFS")
                     .setHeader("machineId", stateMachine.getUuid())
