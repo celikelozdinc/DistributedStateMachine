@@ -28,7 +28,6 @@ public class Receiver {
     @Autowired
     private StateMachineWorker worker;
 
-    private Integer numberOfEvents;
 
     public Receiver(){
         logger.info(" +++++++++ CONSTRUCTOR of RECEIVER ++++++++++");
@@ -37,7 +36,6 @@ public class Receiver {
     @PostConstruct
     public void init() {
         logger.info(" +++++++++ POSTCONTRUCT of RECEIVER ++++++++++");
-        numberOfEvents = 0;
     }
 
     @RabbitListener(queues = "${QUEUE}")
@@ -79,11 +77,9 @@ public class Receiver {
         Integer eventNumber = msg.getEventNumber();
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
-        worker.ProcessEvent(numberOfEvents, event,eventNumber,timeSleep);
+        worker.ProcessEvent(event,eventNumber,timeSleep);
         /* Sleep for 2 seconds */
-        //sleep((long) 2);
-        numberOfEvents = numberOfEvents + 1;
-        logger.info("From now on, numberOfEvents of __{}__ is __{}__",hostname,numberOfEvents);
+        sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
         logger.info("Send this message back to smoc __{}__",reply);
         logger.info("***************");

@@ -89,21 +89,21 @@ public class StateMachineWorker {
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
     }
 
-    public void ProcessEvent(Integer numberOfEvents, String event, Integer eventNumber, int timeSleep) throws Exception {
+    public void ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
         switch(event){
             case "Pay": case "pay": case "PAY":
                 System.out.print("\n\n\n\n\n");
-                sendPayEvent(numberOfEvents,event, eventNumber,timeSleep);
+                sendPayEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
-                sendReceiveEvent(numberOfEvents,event, eventNumber,timeSleep);
+                sendReceiveEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
-                sendStartFromScratchEvent(numberOfEvents,event, eventNumber,timeSleep);
+                sendStartFromScratchEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
                 break;
             default:
@@ -114,11 +114,10 @@ public class StateMachineWorker {
 
     }
 
-    public void sendPayEvent(Integer numberOfEvents,@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public void sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
-        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
@@ -130,15 +129,14 @@ public class StateMachineWorker {
                 .build();
         stateMachine.sendEvent(messagePay);
 
-
+        /*
         if (numberOfEvents < 2 ){
             logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else if (numberOfEvents == 2){
-            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.",numberOfEvents);
-            //numberOfEvents = 0;
-            /* Prepare message for CKPT */
-            Message<String> ckptMessage = MessageBuilder
+        */
+
+        /* Prepare message for CKPT */
+        Message<String> ckptMessage = MessageBuilder
                     .withPayload("PAY")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "UNPAID")
@@ -146,20 +144,16 @@ public class StateMachineWorker {
                     .setHeader("target", "WAITING_FOR_RECEIVE")
                     .setHeader("context", serializeStateMachineContext())
                     .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-            logger.info("Mark CKPT in the Zookeeper");
-            MarkCKPT();
-        }
-        else{
-            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
-        }
+        serviceGateway.setCheckpoint(ckptMessage);
+        logger.info("Mark CKPT in the Zookeeper");
+        MarkCKPT();
+
     }
 
-    public void sendReceiveEvent(Integer numberOfEvents, @NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public void sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
-        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
@@ -171,13 +165,12 @@ public class StateMachineWorker {
                 .build();
         stateMachine.sendEvent(messageReceive);
 
+        /*
         if (numberOfEvents < 2 ){
            logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT",numberOfEvents);
         }
-        else if (numberOfEvents == 2){
-            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
-            //numberOfEvents = 0;
-            Message<String> ckptMessage = MessageBuilder
+        */
+        Message<String> ckptMessage = MessageBuilder
                     .withPayload("RCV")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "WAITING_FOR_RECEIVE")
@@ -185,20 +178,15 @@ public class StateMachineWorker {
                     .setHeader("target", "DONE")
                     .setHeader("context", serializeStateMachineContext())
                     .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-            logger.info("Mark CKPT in the Zookeeper");
-            MarkCKPT();
-        }
-        else{
-            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
-        }
+        serviceGateway.setCheckpoint(ckptMessage);
+        logger.info("Mark CKPT in the Zookeeper");
+        MarkCKPT();
     }
 
-    public void sendStartFromScratchEvent(Integer numberOfEvents, @NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public void sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
-        logger.info("{} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
 
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
@@ -210,13 +198,13 @@ public class StateMachineWorker {
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
 
+        /*
         if (numberOfEvents < 2 ){
            logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else if (numberOfEvents == 2) {
-            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
-            //numberOfEvents = 0;
-            Message<String> ckptMessage = MessageBuilder
+        */
+        //numberOfEvents = 0;
+        Message<String> ckptMessage = MessageBuilder
                     .withPayload("SFS")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "DONE")
@@ -224,13 +212,9 @@ public class StateMachineWorker {
                     .setHeader("target", "UNPAID")
                     .setHeader("context", serializeStateMachineContext())
                     .build();
-            serviceGateway.setCheckpoint(ckptMessage);
-            logger.info("Mark CKPT in the Zookeeper");
-            MarkCKPT();
-        }
-        else{
-            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
-        }
+        serviceGateway.setCheckpoint(ckptMessage);
+        logger.info("Mark CKPT in the Zookeeper");
+        MarkCKPT();
     }
 
     public  String serializeStateMachineContext(){
