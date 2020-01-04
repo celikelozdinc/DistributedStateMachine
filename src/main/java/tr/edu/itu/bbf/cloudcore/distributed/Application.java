@@ -284,6 +284,7 @@ public class Application implements CommandLineRunner {
     }
     */
 
+    /*
     public String getTimeStamp(){
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
@@ -297,5 +298,6 @@ public class Application implements CommandLineRunner {
         String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
         return ts;
     }
+    */
 }
 

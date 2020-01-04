@@ -77,11 +77,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 .build();
         client.start();
         CuratorFrameworkState state = client.getState();
-        logger.info("**********************");
-        logger.info("**********************");
         logger.info("***********sharedCuratorClient state after initialization ----> " + state.name());
-        logger.info("**********************");
-        logger.info("**********************");
         return client;
     }
 

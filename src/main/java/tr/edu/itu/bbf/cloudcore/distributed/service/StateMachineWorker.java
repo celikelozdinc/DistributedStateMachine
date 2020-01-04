@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed.service;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.zookeeper.CreateMode;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -87,18 +89,21 @@ public class StateMachineWorker {
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
     }
 
-    public void ProcessEvent(String event, int timeSleep){
+    public void ProcessEvent(String event, int timeSleep) throws Exception {
         switch(event){
             case "Pay": case "pay": case "PAY":
                 numberOfEvents ++;
+                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendPayEvent(event, timeSleep);
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 numberOfEvents ++;
+                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendReceiveEvent(event, timeSleep);
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 numberOfEvents ++;
+                logger.info("SMOC {} will process its {}. event, which is {}",System.getenv("HOSTNAME"),numberOfEvents,event);
                 sendStartFromScratchEvent(event, timeSleep);
                 break;
             default:
@@ -109,7 +114,7 @@ public class StateMachineWorker {
 
     }
 
-    public void sendPayEvent(@NotNull String event, int timeSleep){
+    public void sendPayEvent(@NotNull String event, int timeSleep) throws Exception {
         Message<Events> messagePay = MessageBuilder
                 .withPayload(Events.PAY)
                 .setHeader("timeSleep", timeSleep)
@@ -118,14 +123,14 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
-        this.stateMachine.sendEvent(messagePay);
+        stateMachine.sendEvent(messagePay);
 
 
         if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+            logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.",numberOfEvents);
+        else if (numberOfEvents == 3){
+            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.",numberOfEvents);
             numberOfEvents = 0;
             /* Prepare message for CKPT */
             Message<String> ckptMessage = MessageBuilder
@@ -137,13 +142,15 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
             serviceGateway.setCheckpoint(ckptMessage);
+            logger.info("Mark CKPT in the Zookeeper");
+            MarkCKPT();
         }
-
-
-
+        else{
+            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
+        }
     }
 
-    public void sendReceiveEvent(@NotNull String event,int timeSleep){
+    public void sendReceiveEvent(@NotNull String event,int timeSleep) throws Exception {
         Message<Events> messageReceive = MessageBuilder
                 .withPayload(Events.RECEIVE)
                 .setHeader("timeSleep", timeSleep)
@@ -155,10 +162,10 @@ public class StateMachineWorker {
         stateMachine.sendEvent(messageReceive);
 
         if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.\n",numberOfEvents);
+           logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT",numberOfEvents);
         }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.\n", numberOfEvents);
+        else if (numberOfEvents == 3){
+            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
             numberOfEvents = 0;
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("RCV")
@@ -169,11 +176,15 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
             serviceGateway.setCheckpoint(ckptMessage);
+            logger.info("Mark CKPT in the Zookeeper");
+            MarkCKPT();
+        }
+        else{
+            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
         }
     }
 
-
-    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep){
+    public void sendStartFromScratchEvent(@NotNull String event,int timeSleep) throws Exception {
         Message<Events> messageStartFromScratch = MessageBuilder
                 .withPayload(Events.STARTFROMSCRATCH)
                 .setHeader("timeSleep", timeSleep)
@@ -185,10 +196,10 @@ public class StateMachineWorker {
         stateMachine.sendEvent(messageStartFromScratch);
 
         if (numberOfEvents < 3 ){
-            System.out.printf("Number of events processed by this SMOC is %d. No need to persist a CKPT.",numberOfEvents);
+           logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
-        else {
-            System.out.printf("Number of events processed by this SMOC is %d. Persist a CKPT, initialize counter again.", numberOfEvents);
+        else if (numberOfEvents == 3) {
+            logger.info("Number of events processed by this SMOC is {}. Persist a CKPT, initialize counter again.", numberOfEvents);
             numberOfEvents = 0;
             Message<String> ckptMessage = MessageBuilder
                     .withPayload("SFS")
@@ -199,6 +210,11 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
             serviceGateway.setCheckpoint(ckptMessage);
+            logger.info("Mark CKPT in the Zookeeper");
+            MarkCKPT();
+        }
+        else{
+            logger.warn("!!!!! Number of events processed by this SMOC is {} !!!!!",numberOfEvents);
         }
     }
 
@@ -224,8 +240,39 @@ public class StateMachineWorker {
         }
     };
 
-    public void MarkCKPT(){
+    public void MarkCKPT() throws Exception {
+        /*Read hostname from env */
+        String hostname = System.getenv("HOSTNAME");
+        String str_data = "CKPT information:" + getTimeStamp() + "__"  + hostname ;
+        byte[] data = str_data.getBytes();
+        String path = "/" + hostname;
+        if(sharedCuratorClient.checkExists().forPath(path)!=null) {
+            //node exists
+            logger.info("++++++++++ PATH {} EXISTS ++++++++++",path);
+            byte[] bytes = sharedCuratorClient.getData().forPath(path);
+            logger.info("+++++++++ Current data in zkNode =  {} ++++++++++",new String(bytes));
+            logger.info("+++++++++ zkNode will be changed ++++++++++");
+            sharedCuratorClient.setData().forPath(path, data);
+        } else {
+            //node does not exist, create new zknode
+            logger.info("+++++++++ PATH {} DOES NOT EXIST, WILL BE CREATED FOR NOW ++++++++++",path);
+            sharedCuratorClient.create().creatingParentsIfNeeded()
+                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
+        }
+    }
 
+    public String getTimeStamp(){
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        int minute = now.get(Calendar.MINUTE);
+        int second = now.get(Calendar.SECOND);
+        int ms = now.get(Calendar.MILLISECOND);
+
+        String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
+        return ts;
     }
 
 }

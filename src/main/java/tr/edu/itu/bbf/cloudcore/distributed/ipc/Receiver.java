@@ -63,7 +63,7 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "${EVENT_QUEUE}")
-    public String handleEvent(EventMessage msg){
+    public String handleEvent(EventMessage msg) throws Exception {
         logger.info("***************");
         logger.info("***************");
         logger.info("Message received from __{}__ process.",msg.getSender());
@@ -72,7 +72,7 @@ public class Receiver {
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         worker.ProcessEvent(event,timeSleep);
-        worker.MarkCKPT();
+        //worker.MarkCKPT();
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
