@@ -247,7 +247,8 @@ public class StateMachineWorker {
             Integer key = (Integer) keys.nextElement();
             String value = event_eventNumber.get(key).toString();
             logger.info("Eventnumber {} belongs to event {}",key,value);
-            str_data = str_data + key + "-->"+ value + "...";
+            //str_data = str_data + key + "-->"+ value + "...";
+            str_data = str_data + key + ",";
         }
         /*Read hostname from env */
         String hostname = System.getenv("HOSTNAME");
