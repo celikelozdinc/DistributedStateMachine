@@ -21,7 +21,15 @@ Smocs must be started as detached mode, since they are being started with a Mong
 docker-compose up -d smoc1 smoc2 smoc3
 ``
 
-Then, learn the container id via ``docker ps`` command,
+Option1:
+Start entrypoint script with the argument regarding hostname of the smoc, such as:
+``
+./entrypoint.sh smoc1
+``
+
+
+Option2:
+Learn the container id via ``docker ps`` command,
 
 ``
 docker exec -it <HASH> /bin/sh
