@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -40,7 +39,7 @@ public class Sender {
         logger.info("Sender class::send()");
         logger.info("Ip Addr of sender = {}",ipAddr);
         logger.info("Hostname of sender  = {}",hostname);
-        IpcMessage msg = new IpcMessage();
+        CkptMessage msg = new CkptMessage();
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
         //String reply = (String) rabbitTemplate.convertSendAndReceive(IPC_EXCHANGE,"rpc",msg);

@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import tr.edu.itu.bbf.cloudcore.distributed.Application;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import org.springframework.messaging.Message;
@@ -39,14 +38,14 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "${QUEUE}")
-    public String process(IpcMessage msg) throws UnknownHostException {
+    public String process(CkptMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
         logger.info("Receiver::process()");
         logger.info("Ip Addr of receiver  = {}",ipAddr);
         logger.info("Hostname of receiver = {}",hostname);
-        logger.info("IpcMessage Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
+        logger.info("CkptMessage Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
         logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
         Message<String> getMessage = MessageBuilder
                 .withPayload("PAYLOAD")

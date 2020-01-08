@@ -3,13 +3,13 @@ package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class IpcMessage implements Serializable {
+public class CkptMessage implements Serializable {
 
     public String ipAddr;
     public String hostname;
     public UUID smocUuid;
 
-    public IpcMessage(){}
+    public CkptMessage(){}
 
     public String getHostname() {
         return hostname;

@@ -145,8 +145,10 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
+        */
 
     }
 
@@ -179,8 +181,10 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
+         */
     }
 
     public void sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
@@ -213,8 +217,10 @@ public class StateMachineWorker {
                     .setHeader("context", serializeStateMachineContext())
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
+         */
     }
 
     public  String serializeStateMachineContext(){
