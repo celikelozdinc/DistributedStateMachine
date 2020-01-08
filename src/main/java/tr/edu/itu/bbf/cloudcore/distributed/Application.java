@@ -2,18 +2,13 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import tr.edu.itu.bbf.cloudcore.distributed.ipc.Sender;
-import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 
 import java.io.InputStream;
@@ -26,11 +21,13 @@ import java.util.*;
 @EnableMongoRepositories(basePackageClasses=CheckpointRepository.class)
 public class Application implements CommandLineRunner {
 
+    /*
     @Autowired
     private static ServiceGateway serviceGateway;
 
     @Autowired
     private Sender sender;
+    */
 
     static final Logger logger = LoggerFactory.getLogger(Application.class);
 
@@ -49,15 +46,13 @@ public class Application implements CommandLineRunner {
         System.out.println("TYPE of SMOC is: " + type);
          */
 
-
-        InputStream stream = System.in;
-        Scanner scanner = new Scanner(stream);
-
-
+        /*
         ApplicationContext context = new ClassPathXmlApplicationContext("channel-config.xml");
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
+         */
 
         /* Read hostname from ENV of SMOC */
+        /*
         String hostname = System.getenv("HOSTNAME");
         if (hostname.equals("smoc4")){
             String exchange = "";
@@ -75,6 +70,10 @@ public class Application implements CommandLineRunner {
             System.out.println("********* Response from receiver = " + reply);
             System.out.println(" --------------------------------");
         }
+        */
+
+        InputStream stream = System.in;
+        Scanner scanner = new Scanner(stream);
 
         while(true){
             System.out.println("Waiting events to be processed...");
