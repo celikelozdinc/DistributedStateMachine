@@ -246,7 +246,8 @@ public class StateMachineWorker {
         kryo.writeObject(output, context);
         output.close();
         //return encoder.encodeToString(baos.toByteArray());
-        return output.toString();
+        //return output.toString();
+        return baos.toString();
     }
 
     /*
