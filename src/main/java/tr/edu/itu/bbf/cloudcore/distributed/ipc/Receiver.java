@@ -58,8 +58,8 @@ public class Receiver {
             logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
             logger.info(" +++++ Context = {}\n",dbObject.getContext());
             logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-            //return dbObject.getContext();
-            return "---> Receiver is "+hostname ;
+            return "---> SMOC context  is "+dbObject.getContext() ;
+            //return "---> Receiver is "+hostname ;
         }
         else{
             return "NO_CKPT";
