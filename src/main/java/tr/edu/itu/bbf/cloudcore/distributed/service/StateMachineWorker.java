@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.Base64;
 
 @Service
 public class StateMachineWorker {
@@ -238,12 +239,14 @@ public class StateMachineWorker {
 
     public  String serializeStateMachineContext(){
         Kryo kryo = kryoThreadLocal.get();
+        Base64.Encoder encoder = Base64.getEncoder();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
-        return Base64.getEncoder().encodeToString(baos.toByteArray());
+        //return encoder.encodeToString(baos.toByteArray());
+        return output.toString();
     }
 
     /*
