@@ -63,6 +63,19 @@ public class StateMachineWorker {
     @Autowired
     private CuratorFramework sharedCuratorClient;
 
+    private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
+        @NotNull
+        @SuppressWarnings("rawtypes")
+        @Override
+        protected Kryo initialValue() {
+            Kryo kryo = new Kryo();
+            kryo.addDefaultSerializer(StateMachineContext.class, new StateMachineContextSerializer());
+            kryo.addDefaultSerializer(MessageHeaders.class, new MessageHeadersSerializer());
+            kryo.addDefaultSerializer(UUID.class, new UUIDSerializer());
+            return kryo;
+        }
+    };
+
     //private Integer numberOfEvents;
 
     private Dictionary event_eventNumber;
@@ -232,6 +245,8 @@ public class StateMachineWorker {
         output.close();
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
+
+    /*
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
         @NotNull
         @SuppressWarnings("rawtypes")
@@ -244,6 +259,7 @@ public class StateMachineWorker {
             return kryo;
         }
     };
+     */
 
     public void MarkCKPT() throws Exception {
         /* Get processed events */
