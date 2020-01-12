@@ -156,7 +156,8 @@ public class StateMachineWorker {
                     .setHeader("source", "UNPAID")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "WAITING_FOR_RECEIVE")
-                    .setHeader("context", serializeStateMachineContext())
+                    //.setHeader("context", serializeStateMachineContext())
+                    .setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -192,7 +193,8 @@ public class StateMachineWorker {
                     .setHeader("source", "WAITING_FOR_RECEIVE")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "DONE")
-                    .setHeader("context", serializeStateMachineContext())
+                    //.setHeader("context", serializeStateMachineContext())
+                    .setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -228,7 +230,8 @@ public class StateMachineWorker {
                     .setHeader("source", "DONE")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "UNPAID")
-                    .setHeader("context", serializeStateMachineContext())
+                    //.setHeader("context", serializeStateMachineContext())
+                    .setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -237,7 +240,7 @@ public class StateMachineWorker {
          */
     }
 
-    public  String serializeStateMachineContext(){
+    public  byte[] serializeStateMachineContext(){
         Kryo kryo = kryoThreadLocal.get();
         Base64.Encoder encoder = Base64.getEncoder();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -246,8 +249,10 @@ public class StateMachineWorker {
         kryo.writeObject(output, context);
         output.close();
         //return encoder.encodeToString(baos.toByteArray());
+
         //return output.toString();
-        return baos.toString();
+        //return baos.toString();
+        return baos.toByteArray();
     }
 
     /*
