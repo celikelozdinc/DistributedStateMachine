@@ -248,7 +248,9 @@ public class StateMachineWorker {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
-        return encoder.encodeToString(baos.toByteArray());
+        String serializedContext = encoder.encodeToString(baos.toByteArray());
+        logger.warn("Serialized context = {}",serializedContext);
+        return serializedContext;
 
         //return output.toString();
         //return baos.toString();
