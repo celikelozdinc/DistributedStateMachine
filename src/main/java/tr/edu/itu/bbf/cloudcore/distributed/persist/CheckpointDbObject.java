@@ -36,6 +36,11 @@ public class CheckpointDbObject {
         this.context = context;
     }
 
+    @PersistenceConstructor
+    public CheckpointDbObject(String context){
+        this.context = context;
+    }
+
     public String getProcessedEvent(){return this.processedEvent;}
     public UUID getUuid(){return this.uuid;}
     public String getSourceState(){return this.sourceState;}
