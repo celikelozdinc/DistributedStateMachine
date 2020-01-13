@@ -156,8 +156,8 @@ public class StateMachineWorker {
                     .setHeader("source", "UNPAID")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "WAITING_FOR_RECEIVE")
-                    //.setHeader("context", serializeStateMachineContext())
-                    .setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("context", serializeStateMachineContext())
+                   //.setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -193,8 +193,8 @@ public class StateMachineWorker {
                     .setHeader("source", "WAITING_FOR_RECEIVE")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "DONE")
-                    //.setHeader("context", serializeStateMachineContext())
-                    .setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("context", serializeStateMachineContext())
+                    //.setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -230,8 +230,8 @@ public class StateMachineWorker {
                     .setHeader("source", "DONE")
                     .setHeader("processedEvent", event)
                     .setHeader("target", "UNPAID")
-                    //.setHeader("context", serializeStateMachineContext())
-                    .setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("context", serializeStateMachineContext())
+                    //.setHeader("context", new String(serializeStateMachineContext()))
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -240,7 +240,7 @@ public class StateMachineWorker {
          */
     }
 
-    public  byte[] serializeStateMachineContext(){
+    public  String serializeStateMachineContext(){
         Kryo kryo = kryoThreadLocal.get();
         Base64.Encoder encoder = Base64.getEncoder();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -248,27 +248,13 @@ public class StateMachineWorker {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
-        //return encoder.encodeToString(baos.toByteArray());
+        return encoder.encodeToString(baos.toByteArray());
 
         //return output.toString();
         //return baos.toString();
-        return baos.toByteArray();
+        //return baos.toByteArray();
     }
 
-    /*
-    private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
-        @NotNull
-        @SuppressWarnings("rawtypes")
-        @Override
-        protected Kryo initialValue() {
-            Kryo kryo = new Kryo();
-            kryo.addDefaultSerializer(StateMachineContext.class, new StateMachineContextSerializer());
-            kryo.addDefaultSerializer(MessageHeaders.class, new MessageHeadersSerializer());
-            kryo.addDefaultSerializer(UUID.class, new UUIDSerializer());
-            return kryo;
-        }
-    };
-     */
 
     public void MarkCKPT() throws Exception {
         /* Get processed events */
