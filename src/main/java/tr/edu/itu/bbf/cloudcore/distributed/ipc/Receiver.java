@@ -54,16 +54,19 @@ public class Receiver {
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
         ArrayList<Response> responseList = new ArrayList<>();
         if(list!=null && !list.isEmpty()){
-            CheckpointDbObject dbObject = list.get(0);
-            logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
-            logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
-            logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
-            logger.info(" +++++ Context = {}\n",dbObject.getContext());
-            logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-            Response response = new Response(dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
-            responseList.add(response);
-            //return "---> SMOC context  is "+dbObject.getContext() ;
-            //return "---> Receiver is "+hostname ;
+            for(CheckpointDbObject dbObject: list){
+                logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
+                logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
+                logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
+                logger.info(" +++++ Context = {}\n",dbObject.getContext());
+                logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
+                Response response = new Response(dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
+                responseList.add(response);
+            }
+            /*
+            return "---> SMOC context  is "+dbObject.getContext() ;
+            return "---> Receiver is "+hostname ;
+             */
         }
         else{
            logger.info(" ---- EMPTY CKPT LIST WILL BE RETURNED ----");
