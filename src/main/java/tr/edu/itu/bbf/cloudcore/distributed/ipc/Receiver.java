@@ -66,9 +66,9 @@ public class Receiver {
             //return "---> Receiver is "+hostname ;
         }
         else{
-            return new ArrayList<Response>();
+           logger.info(" ---- EMPTY CKPT LIST WILL BE RETURNED ----");
         }
-        return null;
+        return responseList;
     }
 
     @RabbitListener(queues = "${EVENT_QUEUE}")
