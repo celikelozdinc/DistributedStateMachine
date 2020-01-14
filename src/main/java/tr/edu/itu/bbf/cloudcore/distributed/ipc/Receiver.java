@@ -14,6 +14,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +39,7 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "${QUEUE}")
-    public Response process(CkptMessage msg) throws UnknownHostException {
+    public ArrayList<Response> process(CkptMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
@@ -51,6 +52,7 @@ public class Receiver {
                 .withPayload("PAYLOAD")
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
+        ArrayList<Response> responseList = new ArrayList<>();
         if(list!=null && !list.isEmpty()){
             CheckpointDbObject dbObject = list.get(0);
             logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
@@ -59,13 +61,14 @@ public class Receiver {
             logger.info(" +++++ Context = {}\n",dbObject.getContext());
             logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
             Response response = new Response(dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
-            return response;
+            responseList.add(response);
             //return "---> SMOC context  is "+dbObject.getContext() ;
             //return "---> Receiver is "+hostname ;
         }
         else{
-            return new Response();
+            return new ArrayList<Response>();
         }
+        return null;
     }
 
     @RabbitListener(queues = "${EVENT_QUEUE}")
