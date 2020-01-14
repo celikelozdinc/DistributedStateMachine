@@ -23,6 +23,8 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Base64;
 
@@ -248,7 +250,16 @@ public class StateMachineWorker {
         StateMachineContext<States, Events> context = stateMachineEnsemble.getState();
         kryo.writeObject(output, context);
         output.close();
-        String serializedContext = encoder.encodeToString(baos.toByteArray());
+        byte[] byteArr = baos.toByteArray();
+        logger.info("bytearray = {}",byteArr);
+        String str_with_UTF_8 = new String(byteArr, StandardCharsets.UTF_8);
+        logger.info("str_with_UTF_8 = {}",str_with_UTF_8);
+        logger.info("bytes_with_UTF_8 = {}",str_with_UTF_8.getBytes());
+        String str_with_ISO = new String(byteArr, StandardCharsets.ISO_8859_1);
+        logger.info("str_with_ISO = {}",str_with_ISO);
+        logger.info("bytes_with_ISO = {}",str_with_ISO.getBytes());
+        // daha sonra tekrar byte[] <- String
+        String serializedContext = encoder.encodeToString(byteArr);
         logger.warn("Serialized context = {}",serializedContext);
         return serializedContext;
 
