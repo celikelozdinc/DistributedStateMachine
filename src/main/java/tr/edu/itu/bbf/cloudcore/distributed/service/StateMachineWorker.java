@@ -262,7 +262,6 @@ public class StateMachineWorker {
         String serializedContext = encoder.encodeToString(byteArr);
         logger.warn("Serialized context = {}",serializedContext);
         return serializedContext;
-
         //return output.toString();
         //return baos.toString();
         //return baos.toByteArray();

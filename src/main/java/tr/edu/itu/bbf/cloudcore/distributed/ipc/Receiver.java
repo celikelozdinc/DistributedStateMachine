@@ -38,7 +38,7 @@ public class Receiver {
     }
 
     @RabbitListener(queues = "${QUEUE}")
-    public String process(CkptMessage msg) throws UnknownHostException {
+    public Response process(CkptMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
@@ -58,11 +58,13 @@ public class Receiver {
             logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
             logger.info(" +++++ Context = {}\n",dbObject.getContext());
             logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-            return "---> SMOC context  is "+dbObject.getContext() ;
+            Response response = new Response(dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
+            return response;
+            //return "---> SMOC context  is "+dbObject.getContext() ;
             //return "---> Receiver is "+hostname ;
         }
         else{
-            return "NO_CKPT";
+            return new Response();
         }
     }
 
