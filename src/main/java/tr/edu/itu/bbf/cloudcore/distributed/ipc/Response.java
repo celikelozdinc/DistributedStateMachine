@@ -1,17 +1,18 @@
 package tr.edu.itu.bbf.cloudcore.distributed.ipc;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Response implements Serializable {
 
     private String sourceState;
     private String processedEvent;
     private String targetState;
+    private Integer eventNumber;
 
     public Response(){}
 
-    public Response(String ss,String pe,String ds){
+    public Response(Integer eventNumber,String ss,String pe,String ds){
+        this.eventNumber = eventNumber;
         this.sourceState = ss;
         this.processedEvent = pe;
         this.targetState = ds;
@@ -41,5 +42,11 @@ public class Response implements Serializable {
         this.sourceState = sourceState;
     }
 
+    public void setEventNumber(Integer eventNumber) {
+        this.eventNumber = eventNumber;
+    }
 
+    public Integer getEventNumber() {
+        return eventNumber;
+    }
 }

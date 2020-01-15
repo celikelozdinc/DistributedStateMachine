@@ -55,12 +55,13 @@ public class Receiver {
         ArrayList<Response> responseList = new ArrayList<>();
         if(list!=null && !list.isEmpty()){
             for(CheckpointDbObject dbObject: list){
+                logger.info(" +++++ Event number = {}\n", dbObject.getEventNumber());
                 logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
                 logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
                 logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
                 logger.info(" +++++ Context = {}\n",dbObject.getContext());
                 logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
-                Response response = new Response(dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
+                Response response = new Response(dbObject.getEventNumber(),dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
                 responseList.add(response);
             }
             /*
