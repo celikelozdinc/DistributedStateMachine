@@ -24,16 +24,19 @@ public class CheckpointDbObject {
     private String sourceState;
     @Field("target")
     private String targetState;
+    @Field("number")
+    private Integer eventNumber;
 
 
     @PersistenceConstructor
-    public CheckpointDbObject(String timestamp, UUID uuid, String sourceState, String processedEvent, String targetState, String context) {
+    public CheckpointDbObject(String timestamp, UUID uuid, String sourceState, String processedEvent, String targetState, String context,Integer eventNumber) {
         this.timestamp = timestamp;
         this.uuid = uuid;
         this.sourceState = sourceState;
         this.processedEvent=processedEvent;
         this.targetState = targetState;
         this.context = context;
+        this.eventNumber = eventNumber;
     }
 
     @PersistenceConstructor

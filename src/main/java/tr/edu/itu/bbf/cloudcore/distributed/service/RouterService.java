@@ -27,8 +27,10 @@ public class RouterService {
         String targetState =  ckptMessage.getHeaders().get("target").toString();
         /* Get SMOC context */
         String context = ckptMessage.getHeaders().get("context").toString();
+        /* Get eventNumber */
+        Integer eventNumber = Integer.valueOf(ckptMessage.getHeaders().get("eventNumber").toString());
         /* Insert to database */
-        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context);
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context,eventNumber);
         //CheckpointDbObject dbObject = new CheckpointDbObject(context);
         dbObjectHandler.insertCheckpoint(dbObject);
     }

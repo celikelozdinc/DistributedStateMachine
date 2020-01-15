@@ -160,6 +160,7 @@ public class StateMachineWorker {
                     .setHeader("target", "WAITING_FOR_RECEIVE")
                     .setHeader("context", serializeStateMachineContext())
                    //.setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -197,6 +198,7 @@ public class StateMachineWorker {
                     .setHeader("target", "DONE")
                     .setHeader("context", serializeStateMachineContext())
                     //.setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
@@ -234,6 +236,7 @@ public class StateMachineWorker {
                     .setHeader("target", "UNPAID")
                     .setHeader("context", serializeStateMachineContext())
                     //.setHeader("context", new String(serializeStateMachineContext()))
+                    .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
         /*
