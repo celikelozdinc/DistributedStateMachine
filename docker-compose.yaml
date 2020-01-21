@@ -36,16 +36,18 @@ services:
       - QUEUE=${IPC_QUEUE_FOR_SMOC3}
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC3}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC3}
-  smoc4:
+  smoc5:
     build:
       context: .
       dockerfile: smoc/Dockerfile
     networks:
       - distributedWan
-    hostname:  ${HOSTNAME_SMOC4}
+    hostname:  ${HOSTNAME_SMOC5}
     environment:
-      - EXCHANGE=DUMMY_EXCHANGE
-      - QUEUE=DUMMY_QUEUE
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC5}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC5}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC5}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC5}
 
 networks:
   distributedWan:
