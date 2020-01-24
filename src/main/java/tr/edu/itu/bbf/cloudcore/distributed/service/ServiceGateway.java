@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public interface ServiceGateway {

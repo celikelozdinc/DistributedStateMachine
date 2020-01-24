@@ -48,6 +48,43 @@ services:
       - QUEUE=${IPC_QUEUE_FOR_SMOC5}
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC5}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC5}
+  smoc4:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC4}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC4}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC4}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC4}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC4}
+  smoc6:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC6}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC6}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC6}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC6}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC6}
+  smoc7:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC7}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC7}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC7}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC7}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC7}
+
 
 networks:
   distributedWan:
