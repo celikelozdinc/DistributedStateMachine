@@ -85,7 +85,8 @@ public class Receiver {
         Integer eventNumber = msg.getEventNumber();
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
-        worker.ProcessEvent(event,eventNumber,timeSleep);
+        //pass timeSleep = 0
+        worker.ProcessEvent(event,eventNumber,0);
         /* Sleep for 2 seconds */
         sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
