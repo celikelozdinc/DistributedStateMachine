@@ -88,7 +88,7 @@ public class Receiver {
         //pass timeSleep = 0
         worker.ProcessEvent(event,eventNumber,0);
         /* Sleep for 2 seconds */
-        sleep((long) 2);
+        //sleep((long) 2);
         String reply = "This is reply from " + hostname + " after event " + event;
         logger.info("Send this message back to smoc __{}__",reply);
         logger.info("***************");
