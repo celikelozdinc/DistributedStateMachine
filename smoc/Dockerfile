@@ -38,4 +38,9 @@ COPY out/artifacts/DistributedStateMachine_jar/ $SPRINGBOOT_HOME/DistributedStat
 # Copy entrypoint script #
 COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
 RUN chmod +x $SPRINGBOOT_HOME/start_services.sh
+# Copy reporting tools #
+COPY newclient/duration_report.sh  $SPRINGBOOT_HOME/
+COPY newclient/memory_report.sh $SPRINGBOOT_HOME/
+RUN chmod +x $SPRINGBOOT_HOME/duration_report.sh
+RUN chmod +x $SPRINGBOOT_HOME/memory_report.sh
 WORKDIR $SPRINGBOOT_HOME
