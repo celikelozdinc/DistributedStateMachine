@@ -144,54 +144,54 @@ services:
       - QUEUE=${IPC_QUEUE_FOR_SMOC12}
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC12}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC12}
-#  smoc13:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC13}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC13}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC13}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC13}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC13}
-#  smoc14:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC14}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC14}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC14}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC14}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC14}
-#  smoc15:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC15}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC15}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC15}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC15}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC15}
-#  smoc16:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC16}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC16}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC16}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC16}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC16}
+  smoc13:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC13}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC13}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC13}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC13}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC13}
+  smoc14:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC14}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC14}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC14}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC14}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC14}
+  smoc15:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC15}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC15}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC15}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC15}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC15}
+  smoc16:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC16}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC16}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC16}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC16}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC16}
 
 networks:
   distributedWan:
