@@ -96,54 +96,54 @@ services:
       - QUEUE=${IPC_QUEUE_FOR_SMOC8}
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC8}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC8}
-#  smoc9:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC9}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC9}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC9}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC9}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC9}
-#  smoc10:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC10}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC10}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC10}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC10}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC10}
-#  smoc11:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC11}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC11}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC11}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC11}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC11}
-#  smoc12:
-#    build:
-#      context: .
-#      dockerfile: smoc/Dockerfile
-#    networks:
-#      - distributedWan
-#    hostname:  ${HOSTNAME_SMOC12}
-#    environment:
-#      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC12}
-#      - QUEUE=${IPC_QUEUE_FOR_SMOC12}
-#      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC12}
-#      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC12}
+  smoc9:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC9}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC9}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC9}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC9}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC9}
+  smoc10:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC10}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC10}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC10}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC10}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC10}
+  smoc11:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC11}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC11}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC11}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC11}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC11}
+  smoc12:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC12}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC12}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC12}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC12}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC12}
 #  smoc13:
 #    build:
 #      context: .
