@@ -35,12 +35,14 @@ EXPOSE 27017
 # Spring Boot #
 ARG SPRINGBOOT_HOME=/opt/statemachineapp
 COPY out/artifacts/DistributedStateMachine_jar/ $SPRINGBOOT_HOME/DistributedStateMachine_jar/
-# Copy entrypoint script #
-COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
-RUN chmod +x $SPRINGBOOT_HOME/start_services.sh
 # Copy reporting tools #
 COPY smoc/duration_report.sh  $SPRINGBOOT_HOME/
 COPY smoc/memory_report.sh $SPRINGBOOT_HOME/
 RUN chmod +x $SPRINGBOOT_HOME/duration_report.sh
 RUN chmod +x $SPRINGBOOT_HOME/memory_report.sh
+# Change Directory #
 WORKDIR $SPRINGBOOT_HOME
+# Copy entrypoint script #
+COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
+RUN chmod +x $SPRINGBOOT_HOME/start_services.sh
+ENTRYPOINT ["start_services.sh"]
