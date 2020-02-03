@@ -30,7 +30,7 @@ RUN \
   rm -rf /var/cache/apk*
 VOLUME ["/data"]
 EXPOSE 27017
-CMD [ "/usr/bin/mongod" , "--bind_ip", "0.0.0.0"]
+#CMD [ "/usr/bin/mongod" , "--bind_ip", "0.0.0.0"]
 
 # Spring Boot #
 ARG SPRINGBOOT_HOME=/opt/statemachineapp
