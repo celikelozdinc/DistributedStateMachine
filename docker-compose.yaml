@@ -12,6 +12,8 @@ services:
       - QUEUE=${IPC_QUEUE_FOR_SMOC1}
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC1}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC1}
+    tty: true
+    stdin_open: true
   smoc2:
     build:
       context: .
