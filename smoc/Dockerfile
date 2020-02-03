@@ -45,4 +45,4 @@ WORKDIR $SPRINGBOOT_HOME
 # Copy entrypoint script #
 COPY smoc/start_services.sh  $SPRINGBOOT_HOME/
 RUN chmod +x $SPRINGBOOT_HOME/start_services.sh
-ENTRYPOINT ["start_services.sh"]
+ENTRYPOINT ["$SPRINGBOOT_HOME/start_services.sh"]
