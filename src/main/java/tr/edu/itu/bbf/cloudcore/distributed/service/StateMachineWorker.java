@@ -161,7 +161,10 @@ public class StateMachineWorker {
                    //.setHeader("context", new String(serializeStateMachineContext()))
                     .setHeader("eventNumber",eventNumber)
                     .build();
+        /*
+        Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
+        */
         serviceGateway.storeCKPTInMemory(ckptMessage);
         /*
         logger.info("Mark CKPT in the Zookeeper");
@@ -200,7 +203,10 @@ public class StateMachineWorker {
                     //.setHeader("context", new String(serializeStateMachineContext()))
                     .setHeader("eventNumber",eventNumber)
                     .build();
+        /*
+        Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
+         */
         serviceGateway.storeCKPTInMemory(ckptMessage);
         /*
         logger.info("Mark CKPT in the Zookeeper");
@@ -239,8 +245,13 @@ public class StateMachineWorker {
                     //.setHeader("context", new String(serializeStateMachineContext()))
                     .setHeader("eventNumber",eventNumber)
                     .build();
+
+        /*
+        Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
+         */
         serviceGateway.storeCKPTInMemory(ckptMessage);
+
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
