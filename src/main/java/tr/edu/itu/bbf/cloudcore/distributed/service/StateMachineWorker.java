@@ -162,6 +162,7 @@ public class StateMachineWorker {
                     .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        serviceGateway.storeCKPTInMemory(ckptMessage);
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
@@ -200,6 +201,7 @@ public class StateMachineWorker {
                     .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        serviceGateway.storeCKPTInMemory(ckptMessage);
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
@@ -238,6 +240,7 @@ public class StateMachineWorker {
                     .setHeader("eventNumber",eventNumber)
                     .build();
         serviceGateway.setCheckpoint(ckptMessage);
+        serviceGateway.storeCKPTInMemory(ckptMessage);
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
