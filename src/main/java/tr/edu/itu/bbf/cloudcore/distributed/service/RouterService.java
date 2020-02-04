@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObjectHandler;
 
+import javax.annotation.PostConstruct;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 
 @Service
 public class RouterService {
@@ -19,6 +21,14 @@ public class RouterService {
 
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
+
+    private ArrayList<CheckpointDbObject> ckptList;
+
+    @PostConstruct
+    public void init() {
+        logger.info("Initializing a new list in order to store CKPTs in memory ...");
+        ckptList = new ArrayList<CheckpointDbObject>();
+    }
 
     public void setCheckpoint(Message<String> ckptMessage) {
         /* Get state machine UUID */
@@ -49,7 +59,22 @@ public class RouterService {
     }
 
     public void storeCKPTInMemory(Message<String> ckptMessage){
-        logger.info("********** STORECKPTINMEMORY **********");
+        /* Get state machine UUID */
+        Object O_UUID = ckptMessage.getHeaders().get("machineId");
+        UUID uuid = UUID.fromString(O_UUID.toString());
+        /* Get processed event */
+        String processedEvent = ckptMessage.getHeaders().get("processedEvent").toString();
+        /* Get source and target states from StateContext */
+        String sourceState  =  ckptMessage.getHeaders().get("source").toString();
+        String targetState =  ckptMessage.getHeaders().get("target").toString();
+        /* Get SMOC context */
+        String context = ckptMessage.getHeaders().get("context").toString();
+        /* Get eventNumber */
+        Integer eventNumber = Integer.valueOf(ckptMessage.getHeaders().get("eventNumber").toString());
+        /* Store in memory */
+        CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context,eventNumber);
+        ckptList.add(dbObject);
+        logger.info("#CKPTs after appending = {}",ckptList.size());
     }
 
     public String getTimeStamp(){
