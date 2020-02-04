@@ -272,7 +272,6 @@ public class StateMachineWorker {
         //return baos.toByteArray();
     }
 
-
     public void MarkCKPT() throws Exception {
         /* Get processed events */
         String str_data = "";

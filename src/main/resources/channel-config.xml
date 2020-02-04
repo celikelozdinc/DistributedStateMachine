@@ -18,4 +18,6 @@
     <service-activator id="getCheckpoint" input-channel="get.channel" ref="routerService" method="getCheckpoint"/>
     <channel id="storeCKPTInMemory.channel"/>
     <service-activator id="storeCKPTInMemory" input-channel="storeCKPTInMemory.channel" ref="routerService" method="storeCKPTInMemory"/>
+    <channel id="getCKPTsFromMemory.channel"/>
+    <service-activator id="getCKPTsFromMemory" input-channel="getCKPTsFromMemory.channel" ref="routerService" method="getCKPTsFromMemory"/>
 </beans:beans>

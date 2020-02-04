@@ -19,5 +19,8 @@ public interface ServiceGateway {
     @Gateway(requestChannel = "storeCKPTInMemory.channel")
     void storeCKPTInMemory(Message<String> ckptMessage);
 
+    @Gateway(requestChannel = "getCKPTsFromMemory.channel")
+    List<CheckpointDbObject> getCKPTsFromMemory(Message<String> getMessage);
+
 
 }

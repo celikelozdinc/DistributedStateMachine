@@ -52,6 +52,11 @@ public class Receiver {
                 .withPayload("PAYLOAD")
                 .build();
         List<CheckpointDbObject> list = serviceGateway.getCheckpoint(getMessage);
+        logger.info("#CKPTs returned from database = {}",list.size());
+
+        List<CheckpointDbObject> newList = serviceGateway.getCKPTsFromMemory(getMessage);
+        logger.info("#CKPTs returned from memory = {}",newList.size());
+
         ArrayList<Response> responseList = new ArrayList<>();
         if(list!=null && !list.isEmpty()){
             for(CheckpointDbObject dbObject: list){

@@ -77,6 +77,10 @@ public class RouterService {
         logger.info("#CKPTs after appending = {}",ckptList.size());
     }
 
+    public List<CheckpointDbObject> getCKPTsFromMemory(Message<String> getMessage){
+        return ckptList;
+    }
+
     public String getTimeStamp(){
         Calendar now = Calendar.getInstance();
         int year = now.get(Calendar.YEAR);
