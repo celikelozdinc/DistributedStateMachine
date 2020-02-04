@@ -1,5 +1,7 @@
 package tr.edu.itu.bbf.cloudcore.distributed.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 @Service
 public class RouterService {
+
+    static final Logger logger = LoggerFactory.getLogger(RouterService.class);
 
     @Autowired
     private CheckpointDbObjectHandler dbObjectHandler;
@@ -42,6 +46,10 @@ public class RouterService {
          */
         /*Read all records from database*/
         return dbObjectHandler.getAllCheckpoints();
+    }
+
+    public void storeCKPTInMemory(Message<String> ckptMessage){
+        logger.info("********** STORECKPTINMEMORY **********");
     }
 
     public String getTimeStamp(){

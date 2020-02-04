@@ -253,16 +253,16 @@ public class StateMachineWorker {
         kryo.writeObject(output, context);
         output.close();
         byte[] byteArr = baos.toByteArray();
-        logger.info("bytearray = {}",byteArr);
+        //logger.info("bytearray = {}",byteArr);
         String str_with_UTF_8 = new String(byteArr, StandardCharsets.UTF_8);
-        logger.info("str_with_UTF_8 = {}",str_with_UTF_8);
-        logger.info("bytes_with_UTF_8 = {}",str_with_UTF_8.getBytes());
+        //logger.info("str_with_UTF_8 = {}",str_with_UTF_8);
+        //logger.info("bytes_with_UTF_8 = {}",str_with_UTF_8.getBytes());
         String str_with_ISO = new String(byteArr, StandardCharsets.ISO_8859_1);
-        logger.info("str_with_ISO = {}",str_with_ISO);
-        logger.info("bytes_with_ISO = {}",str_with_ISO.getBytes());
+        //logger.info("str_with_ISO = {}",str_with_ISO);
+        //logger.info("bytes_with_ISO = {}",str_with_ISO.getBytes());
         // daha sonra tekrar byte[] <- String
         String serializedContext = encoder.encodeToString(byteArr);
-        logger.warn("Serialized context = {}",serializedContext);
+        //logger.warn("Serialized context = {}",serializedContext);
         return serializedContext;
         //return output.toString();
         //return baos.toString();
