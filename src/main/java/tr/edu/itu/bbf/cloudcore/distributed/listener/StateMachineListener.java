@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed.listener;
 
 import org.springframework.statemachine.annotation.OnTransition;
 import org.springframework.statemachine.annotation.WithStateMachine;
+import org.springframework.statemachine.config.EnableWithStateMachine;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -10,7 +11,8 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 @Component
-@WithStateMachine(name = "DistributedStateMachine")
+//@WithStateMachine(name = "DistributedStateMachine")
+@WithStateMachine(name = "factory_with_ZK")
 public class StateMachineListener {
     private File logfile;
     private File jarfile = new File(System.getProperty("java.class.path"));

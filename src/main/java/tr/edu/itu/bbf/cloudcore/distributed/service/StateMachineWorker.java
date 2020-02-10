@@ -64,6 +64,7 @@ public class StateMachineWorker {
 
     @Autowired
     private StateMachineFactory<States, Events> factory_with_zk;
+    private StateMachine<States,Events> stateMachine_with_zk;
 
 
     @Autowired
@@ -103,14 +104,15 @@ public class StateMachineWorker {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
         logger.info("+++++++++++++++++++");
-        //this.stateMachine = factory_with_zk.getStateMachine();
-        //logger.info("UUID from factory with zk is {}",this.stateMachine.getUuid());
+        this.stateMachine_with_zk = factory_with_zk.getStateMachine();
+        logger.info("UUID from factory with zk is {}",this.stateMachine_with_zk.getUuid());
         logger.info("+++++++++++++++++++");
 
 
         logger.info("+++++++++++++++++++");
         this.stateMachine_without_zk = factory_without_zk.getStateMachine("machine-without-zk");
         logger.info("UUID from factory without zk is {}",this.stateMachine_without_zk.getUuid());
+        this.stateMachine_without_zk.start();
         logger.info("+++++++++++++++++++");
 
 
