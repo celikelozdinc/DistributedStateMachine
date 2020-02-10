@@ -298,6 +298,7 @@ public class StateMachineWorker {
     }
 
     public  String serializeStateMachineContext(){
+        /*
         Kryo kryo = kryoThreadLocal.get();
         Base64.Encoder encoder = Base64.getEncoder();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -320,6 +321,8 @@ public class StateMachineWorker {
         //return output.toString();
         //return baos.toString();
         //return baos.toByteArray();
+         */
+        return "MOCK_SMOC_CONTEXT";
     }
 
     public void MarkCKPT() throws Exception {
