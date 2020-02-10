@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 @Component
-//@WithStateMachine(name = "DistributedStateMachine")
+@WithStateMachine(name = "DistributedStateMachine")
 //@WithStateMachine(name = "factory_with_ZK")
 public class StateMachineListener {
     private File logfile;
