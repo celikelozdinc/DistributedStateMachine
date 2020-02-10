@@ -54,7 +54,11 @@ public class StateMachineWorker {
         }
     }
 
+    /*
     @Autowired
+    private StateMachine<States, Events> stateMachine;
+     */
+
     private StateMachine<States, Events> stateMachine;
 
     @Autowired
@@ -100,8 +104,8 @@ public class StateMachineWorker {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
         logger.info("+++++++++++++++++++");
-        stateMachine = factory_with_zk.getStateMachine();
-        logger.info("UUID from factory with zk is {}",stateMachine.getUuid());
+        this.stateMachine = factory_with_zk.getStateMachine();
+        logger.info("UUID from factory with zk is {}",this.stateMachine.getUuid());
         logger.info("+++++++++++++++++++");
 
 
@@ -121,7 +125,7 @@ public class StateMachineWorker {
         logger.info("Registers an exit hook which runs when the JVM is shut down.");
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
-        Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
+        Runtime.getRuntime().addShutdownHook(new ExitHook(this.stateMachine,scanner));
 
 
     }
