@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
@@ -55,6 +56,9 @@ public class StateMachineWorker {
 
     @Autowired
     private StateMachine<States, Events> stateMachine;
+
+    @Autowired
+    private StateMachineFactory<States, Events> factory;
 
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
@@ -102,6 +106,10 @@ public class StateMachineWorker {
         InputStream stream = System.in;
         Scanner scanner = new Scanner(stream);
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
+
+        logger.info("+++++++++++++++++++");
+        StateMachine<States,Events> stateMachine_fromFactory = factory.getStateMachine();
+        logger.info("UUID from factory is {}",stateMachine_fromFactory.getUuid());
     }
 
     public void ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
