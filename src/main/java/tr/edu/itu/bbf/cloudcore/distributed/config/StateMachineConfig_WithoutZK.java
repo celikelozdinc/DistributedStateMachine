@@ -43,11 +43,11 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     public void configure(StateMachineStateConfigurer<States, Events> states)
             throws Exception {
         states.withStates()
-                .initial(States.UNPAID, initializationAction())
-                .stateEntry(States.WAITING_FOR_RECEIVE,entryActionForWaiting())
-                .stateExit(States.WAITING_FOR_RECEIVE, exitActionForWaiting())
-                .stateEntry(States.DONE, entryActionForDone())
-                .stateExit(States.DONE, exitActionForDone());
+                .initial(States.UNPAID, _initializationAction())
+                .stateEntry(States.WAITING_FOR_RECEIVE,_entryActionForWaiting())
+                .stateExit(States.WAITING_FOR_RECEIVE, _exitActionForWaiting())
+                .stateEntry(States.DONE, _entryActionForDone())
+                .stateExit(States.DONE, _exitActionForDone());
     }
 
     @Override
@@ -64,21 +64,21 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
                 .withExternal()
                 .source(States.UNPAID).target(States.WAITING_FOR_RECEIVE)
                 .event(Events.PAY)
-                .action(transitionAction())
+                .action(_transitionAction())
                 .and()
                 .withExternal()
                 .source(States.WAITING_FOR_RECEIVE).target(States.DONE)
                 .event(Events.RECEIVE)
-                .action(transitionAction())
+                .action(_transitionAction())
                 .and()
                 .withExternal()
                 .source(States.DONE).target(States.UNPAID)
                 .event(Events.STARTFROMSCRATCH)
-                .action(transitionAction());
+                .action(_transitionAction());
     }
 
     @Bean
-    public Action<States, Events> entryActionForWaiting() {
+    public Action<States, Events> _entryActionForWaiting() {
         return new Action<States, Events>() {
 
             @Override
@@ -95,7 +95,7 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     }
 
     @Bean
-    public Action<States, Events> exitActionForWaiting() {
+    public Action<States, Events> _exitActionForWaiting() {
         return new Action<States, Events>() {
 
             @Override
@@ -108,7 +108,7 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     }
 
     @Bean
-    public Action<States, Events> entryActionForDone() {
+    public Action<States, Events> _entryActionForDone() {
         return new Action<States, Events>() {
 
             @Override
@@ -125,7 +125,7 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     }
 
     @Bean
-    public Action<States, Events> exitActionForDone() {
+    public Action<States, Events> _exitActionForDone() {
         return new Action<States, Events>() {
 
             @Override
@@ -138,7 +138,7 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     }
 
     @Bean
-    public Action<States, Events> initializationAction() {
+    public Action<States, Events> _initializationAction() {
         return new Action<States, Events>() {
             @Override
             public void execute(StateContext<States, Events> context) {
@@ -153,7 +153,7 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     }
 
     @Bean
-    public Action<States, Events> transitionAction() {
+    public Action<States, Events> _transitionAction() {
         return new Action<States, Events>() {
             @Override
             public void execute(StateContext<States, Events> context) {
