@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.EnableStateMachine;
+import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
@@ -28,7 +29,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.UUID;
 
 @Configuration
-@EnableStateMachine(name = "DistributedStateMachine")
+//@EnableStateMachine(name = "DistributedStateMachine")
+@EnableStateMachineFactory(name = "factory_with_ZK")
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States, Events> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

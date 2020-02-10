@@ -58,7 +58,10 @@ public class StateMachineWorker {
     private StateMachine<States, Events> stateMachine;
 
     @Autowired
-    private StateMachineFactory<States, Events> factory;
+    private StateMachineFactory<States, Events> factory_without_zk;
+
+    @Autowired
+    private StateMachineFactory<States, Events> factory_with_zk;
 
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
@@ -95,6 +98,19 @@ public class StateMachineWorker {
     @PostConstruct
     public void init() {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
+
+        logger.info("+++++++++++++++++++");
+        stateMachine = factory_with_zk.getStateMachine();
+        logger.info("UUID from factory with zk is {}",stateMachine.getUuid());
+        logger.info("+++++++++++++++++++");
+
+
+        logger.info("+++++++++++++++++++");
+        StateMachine<States,Events> stateMachine_fromFactory = factory_without_zk.getStateMachine();
+        logger.info("UUID from factory without zk is {}",stateMachine_fromFactory.getUuid());
+        logger.info("+++++++++++++++++++");
+
+
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
@@ -107,9 +123,7 @@ public class StateMachineWorker {
         Scanner scanner = new Scanner(stream);
         Runtime.getRuntime().addShutdownHook(new ExitHook(stateMachine,scanner));
 
-        logger.info("+++++++++++++++++++");
-        StateMachine<States,Events> stateMachine_fromFactory = factory.getStateMachine();
-        logger.info("UUID from factory is {}",stateMachine_fromFactory.getUuid());
+
     }
 
     public void ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {

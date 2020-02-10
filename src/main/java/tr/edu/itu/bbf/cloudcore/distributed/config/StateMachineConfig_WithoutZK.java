@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableStateMachineFactory(name = "factory2")
+@EnableStateMachineFactory(name = "factory_without_ZK")
 public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdapter<States, Events> {
 
 
