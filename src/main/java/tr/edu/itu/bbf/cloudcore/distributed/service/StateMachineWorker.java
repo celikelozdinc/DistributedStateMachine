@@ -63,6 +63,8 @@ public class StateMachineWorker {
     @Autowired
     private StateMachineFactory<States, Events> factory_with_zk;
 
+    private StateMachine<States,Events> stateMachine_fromFactory_4;
+
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
@@ -112,6 +114,9 @@ public class StateMachineWorker {
         logger.info("UUID from factory without zk is {}",stateMachine_fromFactory_2.getUuid());
         StateMachine<States,Events> stateMachine_fromFactory_3 = factory_without_zk.getStateMachine("machine-without-zk");
         logger.info("UUID from factory without zk is {}",stateMachine_fromFactory_3.getUuid());
+        this.stateMachine_fromFactory_4 = factory_without_zk.getStateMachine("machine-without-zk");
+        logger.info("UUID from factory without zk is {}",this.stateMachine_fromFactory_4.getUuid());
+
 
         logger.info("+++++++++++++++++++");
 
