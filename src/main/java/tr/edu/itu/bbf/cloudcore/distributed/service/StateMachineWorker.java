@@ -173,7 +173,9 @@ public class StateMachineWorker {
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         stateMachine_without_zk.sendEvent(messagePay);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         /*
         if (numberOfEvents < 2 ){
@@ -218,6 +220,9 @@ public class StateMachineWorker {
                 .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        stateMachine_without_zk.sendEvent(messageReceive);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         /*
         if (numberOfEvents < 2 ){
@@ -259,6 +264,9 @@ public class StateMachineWorker {
                 .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        stateMachine_without_zk.sendEvent(messageStartFromScratch);
+        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         /*
         if (numberOfEvents < 2 ){
