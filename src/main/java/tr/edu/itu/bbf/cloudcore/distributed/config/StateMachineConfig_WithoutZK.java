@@ -15,6 +15,7 @@ import org.springframework.statemachine.config.builders.StateMachineStateConfigu
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.listener.StateMachineListener;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;

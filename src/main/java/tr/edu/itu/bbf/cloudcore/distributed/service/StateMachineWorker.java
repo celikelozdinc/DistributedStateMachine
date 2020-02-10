@@ -173,6 +173,7 @@ public class StateMachineWorker {
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
+        stateMachine_without_zk.sendEvent(messagePay);
 
         /*
         if (numberOfEvents < 2 ){
