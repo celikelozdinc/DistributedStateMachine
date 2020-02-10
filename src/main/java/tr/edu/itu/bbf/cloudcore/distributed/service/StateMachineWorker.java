@@ -172,7 +172,7 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
-        stateMachine.sendEvent(messagePay);
+        //stateMachine.sendEvent(messagePay);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         stateMachine_without_zk.sendEvent(messagePay);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -219,7 +219,7 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target", "DONE")
                 .build();
-        stateMachine.sendEvent(messageReceive);
+        //stateMachine.sendEvent(messageReceive);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         stateMachine_without_zk.sendEvent(messageReceive);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -263,7 +263,7 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target","UNPAID")
                 .build();
-        stateMachine.sendEvent(messageStartFromScratch);
+        //stateMachine.sendEvent(messageStartFromScratch);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         stateMachine_without_zk.sendEvent(messageStartFromScratch);
         logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
