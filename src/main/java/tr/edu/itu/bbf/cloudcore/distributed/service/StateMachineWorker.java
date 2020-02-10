@@ -63,7 +63,6 @@ public class StateMachineWorker {
     private StateMachineFactory<States, Events> factory_without_zk;
     private StateMachine<States,Events> stateMachine_without_zk;
 
-
     /*
     @Autowired
     private StateMachineFactory<States, Events> factory_with_zk;
@@ -114,7 +113,7 @@ public class StateMachineWorker {
          */
 
         logger.info("+++++++++++++++++++");
-        this.stateMachine = factory_without_zk.getStateMachine("machine-without-zk");
+        this.stateMachine_without_zk = factory_without_zk.getStateMachine("machine-without-zk");
         logger.info("UUID from factory without zk is {}",this.stateMachine_without_zk.getUuid());
         this.stateMachine_without_zk.start();
         logger.info("+++++++++++++++++++");
