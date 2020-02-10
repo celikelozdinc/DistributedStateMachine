@@ -53,7 +53,8 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
     @Override
     public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
         config
-                .withConfiguration();
+                .withConfiguration()
+                .machineId("machine-without-zk");
     }
 
     @Override
