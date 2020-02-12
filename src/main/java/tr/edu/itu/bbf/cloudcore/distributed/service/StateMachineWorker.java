@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -60,11 +61,13 @@ public class StateMachineWorker {
 
 
     @Autowired
+    @Qualifier("factory_without_ZK")
     private StateMachineFactory<States, Events> factory_without_zk;
     private StateMachine<States,Events> stateMachine_without_zk;
 
 
     @Autowired
+    @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
     private StateMachine<States,Events> stateMachine_with_zk;
 
