@@ -24,6 +24,7 @@ import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.UUID;
@@ -40,7 +41,14 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
 
     /** Default Constructor **/
-    public StateMachineConfig() { }
+    public StateMachineConfig() {
+        logger.info(" ++++++++++ CONSTRUCTOR FOR factory_with_ZK ++++++++++");
+    }
+
+    @PostConstruct
+    public void init() {
+        logger.info(" ++++++++++ POSTCONSTRUCTOR FOR factory_with_ZK ++++++++++");
+    }
 
     @Bean
     public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
@@ -63,7 +71,7 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 .build();
         client.start();
         CuratorFrameworkState state = client.getState();
-        System.out.println("curatorClient state after initialization ----> " + state.name());
+        logger.info("***********curatorClient state after initialization ----> " + state.name());
         return client;
     }
 

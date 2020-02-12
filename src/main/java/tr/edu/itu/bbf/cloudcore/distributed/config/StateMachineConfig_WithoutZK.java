@@ -29,14 +29,14 @@ public class StateMachineConfig_WithoutZK extends EnumStateMachineConfigurerAdap
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    /* Default constructor */
+    /** Default constructor **/
     public void StateMachineConfig_WithoutZK(){
-        logger.info(" +++++ CONSTRUCTOR FOR FACTORY +++++");
+        logger.info(" ++++++++++ CONSTRUCTOR FOR factory_without_ZK ++++++++++");
     }
 
     @PostConstruct
     public void init() {
-        logger.info(" +++++ POSTCONSTRUCTOR FOR FACTORY +++++");
+        logger.info(" ++++++++++ POSTCONSTRUCTOR FOR factory_without_ZK ++++++++++");
     }
 
 
