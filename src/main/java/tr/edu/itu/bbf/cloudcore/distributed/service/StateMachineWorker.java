@@ -56,20 +56,21 @@ public class StateMachineWorker {
     }
 
 
-    //@Autowired
+    /*
+    @Autowired
     private StateMachine<States, Events> stateMachine;
+     */
 
+
+    private StateMachine<States, Events> stateMachine;
 
     @Autowired
     @Qualifier("factory_without_ZK")
     private StateMachineFactory<States, Events> factory_without_zk;
-    private StateMachine<States,Events> stateMachine_without_zk;
-
 
     @Autowired
     @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
-    private StateMachine<States,Events> stateMachine_with_zk;
 
 
     @Autowired
@@ -108,21 +109,19 @@ public class StateMachineWorker {
     public void init() {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
-        logger.info("+++++++++++++++++++");
-        this.stateMachine = factory_with_zk.getStateMachine();
-        logger.info("UUID from factory with zk is {}",this.stateMachine.getUuid());
-        logger.info("+++++++++++++++++++");
-
-
-        logger.info("+++++++++++++++++++");
-        this.stateMachine_without_zk = factory_without_zk.getStateMachine("machine-without-zk");
-        logger.info("UUID from factory without zk is {}",this.stateMachine_without_zk.getUuid());
-        this.stateMachine_without_zk.start();
-        logger.info("+++++++++++++++++++");
-
-
+        /*
+        stateMachine = factory_with_zk.getStateMachine();
+        logger.info("UUID from factory_with_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
+        */
+
+
+        stateMachine = factory_without_zk.getStateMachine();
+        logger.info("UUID from factory_without_zk is {}",stateMachine.getUuid());
+        stateMachine.start();
+
+
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         //numberOfEvents = 0;
         //logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
@@ -174,10 +173,7 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
-        //stateMachine.sendEvent(messagePay);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        stateMachine_without_zk.sendEvent(messagePay);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        stateMachine.sendEvent(messagePay);
 
         /*
         if (numberOfEvents < 2 ){
@@ -221,10 +217,8 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target", "DONE")
                 .build();
-        //stateMachine.sendEvent(messageReceive);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        stateMachine_without_zk.sendEvent(messageReceive);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        stateMachine.sendEvent(messageReceive);
+
 
         /*
         if (numberOfEvents < 2 ){
@@ -265,10 +259,7 @@ public class StateMachineWorker {
                 .setHeader("processedEvent", event)
                 .setHeader("target","UNPAID")
                 .build();
-        //stateMachine.sendEvent(messageStartFromScratch);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        stateMachine_without_zk.sendEvent(messageStartFromScratch);
-        logger.warn("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        stateMachine.sendEvent(messageStartFromScratch);
 
         /*
         if (numberOfEvents < 2 ){
