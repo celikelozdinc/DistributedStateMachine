@@ -5,6 +5,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.CreateMode;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 
 import javax.annotation.PostConstruct;
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.UUID;
@@ -143,6 +145,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 localVar = localVar + 2;
                 System.out.println("-----WAITING_FOR_RECEIVE_STATE.ENTER().PERSIST_LOCAL_VAR()-----");
                 context.getExtendedState().getVariables().put("localVarForWaiting", localVar);
+                try {
+                    MarkCKPT();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -173,6 +180,11 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                 localVar = localVar + 5;
                 System.out.println("-----DONE_STATE.ENTER().PERSIST_LOCAL_VAR()-----");
                 context.getExtendedState().getVariables().put("localVarForDone", localVar);
+                try {
+                    MarkCKPT();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -289,5 +301,25 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         //dbObjectHandler.insertCheckpoint(dbObject);
     }
 
-
+    public void MarkCKPT() throws Exception {
+        CuratorFramework sharedCuratorClient = sharedCuratorClient();
+        /*Read hostname from env */
+        String hostname = System.getenv("HOSTNAME");
+        String str_data = "whoami:" + hostname ;
+        byte[] data = str_data.getBytes();
+        String path = "/" + hostname;
+        if(sharedCuratorClient.checkExists().forPath(path)!=null) {
+            //node exists
+            logger.info("++++++++++ PATH {} EXISTS ++++++++++",path);
+            byte[] bytes = sharedCuratorClient.getData().forPath(path);
+            logger.info("+++++++++ Current data in zkNode =  {} ++++++++++",new String(bytes));
+            logger.info("+++++++++ zkNode will be changed ++++++++++");
+            sharedCuratorClient.setData().forPath(path, data);
+        } else {
+            //node does not exist, create new zknode
+            logger.info("+++++++++ PATH {} DOES NOT EXIST, WILL BE CREATED FOR NOW ++++++++++",path);
+            sharedCuratorClient.create().creatingParentsIfNeeded()
+                    .withMode(CreateMode.PERSISTENT).forPath(path, data);
+        }
+    }
 }
