@@ -29,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.UUID;
 
 @Configuration
-@EnableStateMachine(name = "DistributedStateMachine")
-//@EnableStateMachineFactory(name = "factory_with_ZK")
+//@EnableStateMachine(name = "DistributedStateMachine")
+@EnableStateMachineFactory(name = "factory_with_ZK")
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States, Events> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
