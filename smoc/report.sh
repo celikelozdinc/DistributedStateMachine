@@ -5,7 +5,7 @@ jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
 
 # Learn PID
 # xargs will do trimming
-current_pid=$(grep "PID" log | awk -F "INFO|---" '{print $2}' | xargs)
+current_pid=$(grep "PID" log | awk -F "PID@HOSTNAME is " '{print $2}' | cut -d'@' -f1 | xargs)
 #echo "PID is ""$current_pid"
 
 # Memory Report from /proc/<pid>/status
