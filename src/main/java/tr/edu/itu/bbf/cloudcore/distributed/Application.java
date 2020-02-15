@@ -96,8 +96,8 @@ public class Application implements CommandLineRunner {
             }
             long endTime = System.currentTimeMillis();
             float delta =((float) (endTime - startTime)/1000);
-            logger.warn("Applied all CKPTs in {} seconds",delta);
-            logger.warn("PID@HOSTNAME is {}", ManagementFactory.getRuntimeMXBean().getName());
+            logger.info("Applied all CKPTs in {} seconds",delta);
+            logger.info("PID@HOSTNAME is {}", ManagementFactory.getRuntimeMXBean().getName());
         }
         else {
             InputStream stream = System.in;
