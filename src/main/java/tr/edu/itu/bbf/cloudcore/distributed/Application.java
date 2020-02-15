@@ -14,6 +14,7 @@ import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
 import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
 
 import java.io.InputStream;
+import java.lang.management.ManagementFactory;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -86,18 +87,17 @@ public class Application implements CommandLineRunner {
             long startTime = System.currentTimeMillis();
             try {
                 worker.startCommunication();
-                //worker.prepareCkpts();
-                //worker.applyCkpts();
+                worker.prepareCkpts();
+                worker.applyCkpts();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //long endTime = System.currentTimeMillis();
-            //float delta =((float) (endTime - startTime)/1000);
-            //logger.warn("Applied all CKPTs in {} seconds",delta);
-            //logger.warn("PID@HOSTNAME is {}",ManagementFactory.getRuntimeMXBean().getName());
-
+            long endTime = System.currentTimeMillis();
+            float delta =((float) (endTime - startTime)/1000);
+            logger.warn("Applied all CKPTs in {} seconds",delta);
+            logger.warn("PID@HOSTNAME is {}", ManagementFactory.getRuntimeMXBean().getName());
         }
         else {
             InputStream stream = System.in;

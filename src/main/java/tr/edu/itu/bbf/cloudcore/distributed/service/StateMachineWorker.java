@@ -399,4 +399,53 @@ public class StateMachineWorker {
 
     }
 
+    public void prepareCkpts(){
+
+        Integer size = mixedCkpts.size();
+
+        for(int event=1 ; event<=size; event++){
+            logger.info("Searching for eventnumber {} is started ...",event);
+            for(Response response: mixedCkpts){
+                if(response.getEventNumber() == event){
+                    logger.info("Eventnumber {} is found",event);
+                    sequentialCktps.add(response);
+                }
+            }
+            logger.info("Searching for event {} is finished ...",event);
+        }
+        logger.info("Size of ordered ckpts -> {}",sequentialCktps.size());
+
+        for(Response response:sequentialCktps){
+            logger.warn("{}.event: {} --> {} --> {}",response.getEventNumber(),response.getSourceState(),response.getProcessedEvent(),response.getDestinationState());
+        }
+
+    }
+
+    public void applyCkpts() throws Exception {
+        for(Response response: sequentialCktps){
+            String event = response.getProcessedEvent();
+            Integer eventNumber = response.getEventNumber();
+            switch(event){
+                case "Pay": case "pay": case "PAY":
+                    System.out.print("\n\n\n\n\n");
+                    sendPayEvent(event, eventNumber,0);;
+                    System.out.print("\n\n\n\n\n");
+                    break;
+                case "Receive": case "receive": case "RECEIVE":
+                    System.out.print("\n\n\n\n\n");
+                    sendReceiveEvent(event, eventNumber,0);;
+                    System.out.print("\n\n\n\n\n");
+                    break;
+                case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
+                    System.out.print("\n\n\n\n\n");
+                    sendStartFromScratchEvent(event, eventNumber,0);;
+                    System.out.print("\n\n\n\n\n");
+                    break;
+                default:
+                    System.out.println("Please send one of the events below.");
+                    System.out.println("Pay/Receive/StartFromScratch");
+                    break;
+            }
+        }
+    }
 }
