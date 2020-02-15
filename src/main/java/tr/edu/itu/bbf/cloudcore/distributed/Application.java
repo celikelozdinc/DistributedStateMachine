@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
@@ -10,8 +11,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
+import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
 
 import java.io.InputStream;
+import java.net.UnknownHostException;
 import java.util.*;
 
 @SpringBootApplication
@@ -30,6 +33,9 @@ public class Application implements CommandLineRunner {
     */
 
     static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+    @Autowired
+    private StateMachineWorker worker;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,7 +57,6 @@ public class Application implements CommandLineRunner {
         serviceGateway = (ServiceGateway) context.getBean("serviceGateway");
          */
 
-        /* Read hostname from ENV of SMOC */
         /*
         String hostname = System.getenv("HOSTNAME");
         if (hostname.equals("smoc4")){
@@ -72,12 +77,37 @@ public class Application implements CommandLineRunner {
         }
         */
 
-        InputStream stream = System.in;
-        Scanner scanner = new Scanner(stream);
+        /* Read hostname from ENV of SMOC */
+        String hostname = System.getenv("HOSTNAME");
+        if (hostname.equals("smoc4")){
+            logger.warn("{} read CKPTs from other smocs...",hostname);
+            /* Read CKPT information from other smocs */
 
-        while(true){
-            System.out.println("Waiting events to be processed...");
-            String event = scanner.next();
+            long startTime = System.currentTimeMillis();
+            try {
+                worker.startCommunication();
+                //worker.prepareCkpts();
+                //worker.applyCkpts();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //long endTime = System.currentTimeMillis();
+            //float delta =((float) (endTime - startTime)/1000);
+            //logger.warn("Applied all CKPTs in {} seconds",delta);
+            //logger.warn("PID@HOSTNAME is {}",ManagementFactory.getRuntimeMXBean().getName());
+
+        }
+        else {
+            InputStream stream = System.in;
+            Scanner scanner = new Scanner(stream);
+
+            while (true) {
+                System.out.println("Waiting events to be processed...");
+                String event = scanner.next();
+            }
+
         }
 
         /*

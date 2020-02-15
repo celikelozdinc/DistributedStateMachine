@@ -6,6 +6,7 @@ import org.apache.zookeeper.CreateMode;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.Message;
@@ -21,10 +22,14 @@ import org.springframework.statemachine.kryo.UUIDSerializer;
 import org.springframework.stereotype.Service;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
 import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+import tr.edu.itu.bbf.cloudcore.distributed.ipc.CkptMessage;
+import tr.edu.itu.bbf.cloudcore.distributed.ipc.Response;
 
 import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Base64;
@@ -64,16 +69,21 @@ public class StateMachineWorker {
 
     private StateMachine<States, Events> stateMachine;
 
-    /*
+
     @Autowired
     @Qualifier("factory_without_ZK")
     private StateMachineFactory<States, Events> factory_without_zk;
-    */
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    private ArrayList<Response> mixedCkpts;
+    private ArrayList<Response> sequentialCktps;
 
+/*
     @Autowired
     @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
 
+ */
 
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
@@ -110,17 +120,18 @@ public class StateMachineWorker {
     public void init() {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
+        /*
         stateMachine = factory_with_zk.getStateMachine();
         logger.info("UUID from factory_with_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
+        */
 
 
-        /*
         stateMachine = factory_without_zk.getStateMachine();
         logger.info("UUID from factory_without_zk is {}",stateMachine.getUuid());
         stateMachine.start();
-         */
+
 
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         //numberOfEvents = 0;
@@ -361,6 +372,30 @@ public class StateMachineWorker {
 
         String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
         return ts;
+    }
+
+    public void startCommunication() throws UnknownHostException {
+        logger.info("********* StateMachineWorker::startCommunication()");
+        String ipAddr = InetAddress.getLocalHost().getHostAddress();
+        String hostname = System.getenv("HOSTNAME");
+        logger.info("********* Ip Addr of sender = {}", ipAddr);
+        logger.info("********* Hostname of sender  = {}", hostname);
+        CkptMessage msg = new CkptMessage();
+        msg.setHostname(hostname);
+        msg.setIpAddr(ipAddr);
+
+        ArrayList<Response> smoc1CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC1_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc1 --> {}",smoc1CkptList.size());
+        mixedCkpts.addAll(smoc1CkptList);
+        ArrayList<Response> smoc2CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC2_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc2 --> {}",smoc2CkptList.size());
+        mixedCkpts.addAll(smoc2CkptList);
+        ArrayList<Response> smoc3CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC3_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc3 --> {}",smoc3CkptList.size());
+        mixedCkpts.addAll(smoc3CkptList);
+
+        logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
+
     }
 
 }
