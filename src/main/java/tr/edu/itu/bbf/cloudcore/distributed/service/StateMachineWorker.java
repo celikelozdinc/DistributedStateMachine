@@ -64,18 +64,19 @@ public class StateMachineWorker {
     private StateMachine<States, Events> stateMachine;
      */
 
-    /*
+
     @Autowired
     @Qualifier("factory_without_ZK")
     private StateMachineFactory<States, Events> factory_without_zk;
-    */
 
+
+    /*
     @Autowired
     @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
-
+     */
 
     @Autowired
     private ServiceGateway serviceGateway;
@@ -117,19 +118,20 @@ public class StateMachineWorker {
     public void init() {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
+        /*
         stateMachine = factory_with_zk.getStateMachine();
         logger.info("UUID from factory_with_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
+         */
 
 
-        /*
         stateMachine = factory_without_zk.getStateMachine();
         logger.info("UUID from factory_without_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         mixedCkpts = new ArrayList<Response>();
         sequentialCktps = new ArrayList<Response>();
-         */
+
 
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         //numberOfEvents = 0;
