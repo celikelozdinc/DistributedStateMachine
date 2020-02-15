@@ -80,7 +80,7 @@ public class Application implements CommandLineRunner {
 
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
-        if (hostname.equals("smoc4")){
+        if (hostname.equals("smoc20000")){
             logger.warn("{} read CKPTs from other smocs...",hostname);
             /* Read CKPT information from other smocs */
 
@@ -97,7 +97,6 @@ public class Application implements CommandLineRunner {
             long endTime = System.currentTimeMillis();
             float delta =((float) (endTime - startTime)/1000);
             logger.info("Applied all CKPTs in {} seconds",delta);
-            //logger.info("PID@HOSTNAME is {}", ManagementFactory.getRuntimeMXBean().getName());
         }
         else {
             InputStream stream = System.in;

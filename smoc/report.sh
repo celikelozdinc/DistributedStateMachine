@@ -1,6 +1,6 @@
 #!/bin/bash
 # Duration in order to up a smoc
-if [[ "${HOSTNAME}" == smoc4 ]]; then
+if [[ "${HOSTNAME}" == smoc2000000 ]]; then
   jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   ckpt=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
   sum=$(echo "$jvm" + "$ckpt" | bc)
@@ -11,7 +11,6 @@ fi
 # Learn PID
 # xargs will do trimming
 current_pid=$(grep "PID" log | awk -F "INFO|---" '{print $2}' | xargs)
-#current_pid=$(grep "PID" log | awk -F "PID@HOSTNAME is " '{print $2}' | xargs)
 
 # Memory Report from /proc/<pid>/status
 # xargs will do trimming
