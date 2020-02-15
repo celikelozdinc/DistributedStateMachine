@@ -78,15 +78,14 @@ public class StateMachineWorker {
     private ArrayList<Response> mixedCkpts;
     private ArrayList<Response> sequentialCktps;
 
-/*
+    /*
     @Autowired
     @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
-
- */
-
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
+    */
+
 
     @Autowired
     private ServiceGateway serviceGateway;
