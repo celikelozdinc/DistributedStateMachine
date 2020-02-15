@@ -130,6 +130,8 @@ public class StateMachineWorker {
         stateMachine = factory_without_zk.getStateMachine();
         logger.info("UUID from factory_without_zk is {}",stateMachine.getUuid());
         stateMachine.start();
+        mixedCkpts = new ArrayList<Response>();
+        sequentialCktps = new ArrayList<Response>();
 
 
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
