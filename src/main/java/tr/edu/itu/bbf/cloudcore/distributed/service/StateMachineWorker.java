@@ -65,18 +65,18 @@ public class StateMachineWorker {
      */
 
 
-    /*
     @Autowired
     @Qualifier("factory_without_ZK")
     private StateMachineFactory<States, Events> factory_without_zk;
-     */
 
 
+    /*
     @Autowired
     @Qualifier("factory_with_ZK")
     private StateMachineFactory<States, Events> factory_with_zk;
     @Autowired
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
+     */
 
     @Autowired
     private ServiceGateway serviceGateway;
@@ -118,21 +118,19 @@ public class StateMachineWorker {
     public void init() {
         logger.info("+++++StateMachineWorker::PostConstruct+++++");
 
-
-
+        /*
         stateMachine = factory_with_zk.getStateMachine();
         logger.info("UUID from factory_with_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         stateMachineEnsemble.join(stateMachine);
+         */
 
-
-        /*
         stateMachine = factory_without_zk.getStateMachine();
         logger.info("UUID from factory_without_zk is {}",stateMachine.getUuid());
         stateMachine.start();
         mixedCkpts = new ArrayList<Response>();
         sequentialCktps = new ArrayList<Response>();
-         */
+
 
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         //numberOfEvents = 0;
@@ -406,6 +404,18 @@ public class StateMachineWorker {
         ArrayList<Response> smoc7CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC7_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc7 --> {}",smoc7CkptList.size());
         mixedCkpts.addAll(smoc7CkptList);
+        ArrayList<Response> smoc8CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC8_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc8 --> {}",smoc8CkptList.size());
+        mixedCkpts.addAll(smoc8CkptList);
+        ArrayList<Response> smoc9CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC9_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc9 --> {}",smoc9CkptList.size());
+        mixedCkpts.addAll(smoc9CkptList);
+        ArrayList<Response> smoc10CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC10_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc10 --> {}",smoc10CkptList.size());
+        mixedCkpts.addAll(smoc10CkptList);
+        ArrayList<Response> smoc11CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC11_CKPT_EXCHANGE","rpc",msg);
+        logger.info("Count of ckpts stored by smoc11 --> {}",smoc11CkptList.size());
+        mixedCkpts.addAll(smoc11CkptList);
 
         logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
 
