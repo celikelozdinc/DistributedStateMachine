@@ -80,7 +80,7 @@ public class Application implements CommandLineRunner {
 
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
-        if (hostname.equals("smoc20000000000")){
+        if (hostname.equals("smoc4")){
             logger.warn("{} read CKPTs from other smocs...",hostname);
             /* Read CKPT information from other smocs */
 
