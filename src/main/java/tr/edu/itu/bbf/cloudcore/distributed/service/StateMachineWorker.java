@@ -405,6 +405,7 @@ public class StateMachineWorker {
         ArrayList<Response> smoc7CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC7_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc7 --> {}",smoc7CkptList.size());
         mixedCkpts.addAll(smoc7CkptList);
+        /*
         ArrayList<Response> smoc8CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC8_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc8 --> {}",smoc8CkptList.size());
         mixedCkpts.addAll(smoc8CkptList);
@@ -417,6 +418,7 @@ public class StateMachineWorker {
         ArrayList<Response> smoc11CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC11_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc11 --> {}",smoc11CkptList.size());
         mixedCkpts.addAll(smoc11CkptList);
+        */
 
         logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
 
