@@ -145,31 +145,31 @@ public class StateMachineWorker {
 
     }
 
-    public Message<String> ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
+    public String ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
         Message<String> reply = null;
         switch(event){
             case "Pay": case "pay": case "PAY":
                 System.out.print("\n\n\n\n\n");
                 reply = sendPayEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                return reply;
+                return reply.toString();
                 //break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
                 reply = sendReceiveEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                return reply;
+                return reply.toString();
                 //break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
                 reply = sendStartFromScratchEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                return reply;
+                return reply.toString();
                 //break;
             default:
                 System.out.println("Please send one of the events below.");
                 System.out.println("Pay/Receive/StartFromScratch");
-                return reply;
+                return reply.toString();
                 //break;
         }
 
@@ -198,7 +198,8 @@ public class StateMachineWorker {
 
         /* Prepare message for CKPT */
         Message<String> ckptMessage = MessageBuilder
-                    .withPayload("PAY")
+                    //.withPayload("PAY")
+                    .withPayload(eventNumber+","+"UNPAID"+","+event+","+"WAITING_FOR_RECEIVE")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "UNPAID")
                     .setHeader("processedEvent", event)
@@ -247,7 +248,8 @@ public class StateMachineWorker {
         }
         */
         Message<String> ckptMessage = MessageBuilder
-                    .withPayload("RCV")
+                    //.withPayload("RCV")
+                    .withPayload(eventNumber+","+"WAITING_FOR_RECEIVE"+","+event+","+"DONE")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "WAITING_FOR_RECEIVE")
                     .setHeader("processedEvent", event)
@@ -296,7 +298,8 @@ public class StateMachineWorker {
         */
         //numberOfEvents = 0;
         Message<String> ckptMessage = MessageBuilder
-                    .withPayload("SFS")
+                    //.withPayload("SFS")
+                    .withPayload(eventNumber+","+"DONE"+","+event+","+"UNPAID")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "DONE")
                     .setHeader("processedEvent", event)
