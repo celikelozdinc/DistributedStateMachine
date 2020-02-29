@@ -101,11 +101,13 @@ public class Application implements CommandLineRunner {
                         logger.info("=====CENTRALIZED CKPT STRUCTURE =====");
                         worker.startCommunication(solutionType);
                         worker.applyCkpts();
+                        break;
                     case "distributed:": case "Distributed":
                         logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
                         //worker.startCommunication(solutionType);
                         //worker.prepareCkpts(solutionType);
                         //worker.applyCkpts(solutionType);
+                        break;
                 }
 
             } catch (UnknownHostException e) {
