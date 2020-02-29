@@ -85,6 +85,9 @@ public class Application implements CommandLineRunner {
         /* Read the hostname of smoc which is joining our system */
         String newSmoc = environment.getProperty("smoc.newSmoc");
 
+        /* Read solution type: base or centralized */
+        String solutionType = environment.getProperty("smoc.solutionType");
+
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
         if (hostname.equals(newSmoc)){
@@ -93,9 +96,18 @@ public class Application implements CommandLineRunner {
 
             long startTime = System.currentTimeMillis();
             try {
-                worker.startCommunication();
-                //worker.prepareCkpts();
-                //worker.applyCkpts();
+                switch (solutionType){
+                    case "centralized": case "Centralized":
+                        logger.info("=====CENTRALIZED CKPT STRUCTURE =====");
+                        worker.startCommunication(solutionType);
+                        worker.applyCkpts();
+                    case "distributed:": case "Distributed":
+                        logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
+                        //worker.startCommunication(solutionType);
+                        //worker.prepareCkpts(solutionType);
+                        //worker.applyCkpts(solutionType);
+                }
+
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (Exception e) {

@@ -396,7 +396,7 @@ public class StateMachineWorker {
         return ts;
     }
 
-    public void startCommunication() throws UnknownHostException {
+    public void startCommunication(String solutionType) throws UnknownHostException {
         logger.info("********* StateMachineWorker::startCommunication()");
         String ipAddr = InetAddress.getLocalHost().getHostAddress();
         String hostname = System.getenv("HOSTNAME");
@@ -407,10 +407,13 @@ public class StateMachineWorker {
         msg.setIpAddr(ipAddr);
 
 
-        ArrayList<Response> mixedCkpts = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
-        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!! Printing reply...");
-        for(Response resp : mixedCkpts){
-            logger.info("Eventnumber:{}, Source:{}, Event:{},Target:{}",resp.getEventNumber(),resp.getSourceState(),resp.getProcessedEvent(),resp.getDestinationState());
+        switch (solutionType){
+            case "centralized": case "Centralized":
+                ArrayList<Response> mixedCkpts = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
+                logger.info("Count of ckpts stored by loadbalancer --> {}",mixedCkpts.size());
+                for(Response resp : mixedCkpts){
+                    logger.info("Eventnumber:{}, Source:{}, Event:{},Target:{}",resp.getEventNumber(),resp.getSourceState(),resp.getProcessedEvent(),resp.getDestinationState());
+                }
         }
 
         /*
