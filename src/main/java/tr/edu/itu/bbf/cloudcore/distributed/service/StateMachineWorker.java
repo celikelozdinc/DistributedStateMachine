@@ -411,9 +411,6 @@ public class StateMachineWorker {
             case "centralized": case "Centralized":
                 ArrayList<Response> mixedCkpts = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
                 logger.info("Count of ckpts stored by loadbalancer --> {}",mixedCkpts.size());
-                for(Response resp : mixedCkpts){
-                    logger.info("Eventnumber:{}, Source:{}, Event:{},Target:{}",resp.getEventNumber(),resp.getSourceState(),resp.getProcessedEvent(),resp.getDestinationState());
-                }
         }
 
         /*
