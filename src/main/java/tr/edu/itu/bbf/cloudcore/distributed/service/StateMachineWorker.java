@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -91,6 +92,10 @@ public class StateMachineWorker {
     private ArrayList<Response> sequentialCktps;
 
 
+    @Autowired
+    private Environment environment;
+    private Integer numberOfReplicas;
+
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
         @NotNull
         @SuppressWarnings("rawtypes")
@@ -133,9 +138,9 @@ public class StateMachineWorker {
 
 
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
-        //numberOfEvents = 0;
-        //logger.info("# of events for smoc __{}__ is initialized to = __{}__",stateMachine.getUuid().toString(),numberOfEvents);
         event_eventNumber = new Hashtable();
+        numberOfReplicas = Integer.valueOf(environment.getProperty("smoc.replicas"));
+        logger.info("Experimental setup with ___{}___ smocs",numberOfReplicas);
         /*Registers an exit hook which runs when the JVM is shut down*/
         logger.info("Registers an exit hook which runs when the JVM is shut down.");
         InputStream stream = System.in;
@@ -409,10 +414,17 @@ public class StateMachineWorker {
 
         switch (solutionType){
             case "centralized": case "Centralized":
-                ArrayList<Response> sequentialCktps = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
+                sequentialCktps = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
                 logger.info("Count of ckpts stored by loadbalancer --> {}",sequentialCktps.size());
                 break;
             case "distributed": case "Distributed":
+                for(int smoc=0; smoc < numberOfReplicas; smoc ++){
+                    /* Construct the exchange, in this way: SMOC1_CKPT_EXCHANGE, SMOC2_CKPT_EXCHANGE, so on */
+                    String exchange = "SMOC" + (smoc + 1) +"_CKPT_EXCHANGE";
+                    ArrayList<Response> smocCkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+                    mixedCkpts.addAll(smocCkptList);
+                }
+                logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
                 break;
         }
 
@@ -480,6 +492,7 @@ public class StateMachineWorker {
     }
 
     public void applyCkpts() throws Exception {
+        logger.info("********* StateMachineWorker::applyCkpts()");
         for(Response response: sequentialCktps){
             String event = response.getProcessedEvent();
             Integer eventNumber = response.getEventNumber();

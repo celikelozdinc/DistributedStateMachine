@@ -104,9 +104,9 @@ public class Application implements CommandLineRunner {
                         break;
                     case "distributed:": case "Distributed":
                         logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
-                        //worker.startCommunication(solutionType);
-                        //worker.prepareCkpts(solutionType);
-                        //worker.applyCkpts(solutionType);
+                        worker.startCommunication(solutionType);
+                        worker.prepareCkpts();
+                        worker.applyCkpts();
                         break;
                 }
 
