@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,6 +38,9 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private StateMachineWorker worker;
+
+    @Autowired
+    private Environment environment;
 
     @Override
     public void run(String... args) throws Exception {
@@ -78,9 +82,12 @@ public class Application implements CommandLineRunner {
         }
         */
 
+        /* Read the hostname of smoc which is joining our system */
+        String newSmoc = environment.getProperty("smoc.newSmoc");
+
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
-        if (hostname.equals("smoc4")){
+        if (hostname.equals(newSmoc)){
             logger.warn("{} read CKPTs from other smocs...",hostname);
             /* Read CKPT information from other smocs */
 
