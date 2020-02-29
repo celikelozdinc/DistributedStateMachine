@@ -193,12 +193,10 @@ public class StateMachineWorker {
         }
         */
 
-
         /* Prepare message for CKPT */
         Message<String> ckptMessage = MessageBuilder
                     //.withPayload("PAY")
-                    //.withPayload(eventNumber+","+"UNPAID"+","+event+","+"WAITING_FOR_RECEIVE")
-                    .withPayload(messagePay.toString())
+                    .withPayload(eventNumber+","+  System.getenv("HOSTNAME")+","+"UNPAID"+","+event+","+"WAITING_FOR_RECEIVE")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "UNPAID")
                     .setHeader("processedEvent", event)
@@ -248,8 +246,7 @@ public class StateMachineWorker {
         */
         Message<String> ckptMessage = MessageBuilder
                     //.withPayload("RCV")
-                    //.withPayload(eventNumber+","+"WAITING_FOR_RECEIVE"+","+event+","+"DONE")
-                    .withPayload(messageReceive.toString())
+                    .withPayload(eventNumber+","+  System.getenv("HOSTNAME")+","+"WAITING_FOR_RECEIVE"+","+event+","+"DONE")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "WAITING_FOR_RECEIVE")
                     .setHeader("processedEvent", event)
@@ -299,8 +296,7 @@ public class StateMachineWorker {
         //numberOfEvents = 0;
         Message<String> ckptMessage = MessageBuilder
                     //.withPayload("SFS")
-                    //.withPayload(eventNumber+","+"DONE"+","+event+","+"UNPAID")
-                    .withPayload(messageStartFromScratch.toString())
+                    .withPayload(eventNumber+","+  System.getenv("HOSTNAME")+","+"DONE"+","+event+","+"UNPAID")
                     .setHeader("machineId", stateMachine.getUuid())
                     .setHeader("source", "DONE")
                     .setHeader("processedEvent", event)
