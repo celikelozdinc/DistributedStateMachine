@@ -409,8 +409,11 @@ public class StateMachineWorker {
 
         switch (solutionType){
             case "centralized": case "Centralized":
-                ArrayList<Response> mixedCkpts = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
-                logger.info("Count of ckpts stored by loadbalancer --> {}",mixedCkpts.size());
+                ArrayList<Response> sequentialCktps = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
+                logger.info("Count of ckpts stored by loadbalancer --> {}",sequentialCktps.size());
+                break;
+            case "distributed": case "Distributed":
+                break;
         }
 
         /*
@@ -447,9 +450,10 @@ public class StateMachineWorker {
         ArrayList<Response> smoc11CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC11_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc11 --> {}",smoc11CkptList.size());
         mixedCkpts.addAll(smoc11CkptList);
+         logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
         */
 
-        logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
+
 
     }
 
