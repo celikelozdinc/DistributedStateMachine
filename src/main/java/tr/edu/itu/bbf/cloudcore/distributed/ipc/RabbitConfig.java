@@ -20,6 +20,9 @@ public class RabbitConfig {
     private String EVENT_EXCHANGE;
 
 
+    @Value("${LB_EXCHANGE}")
+    private String LB_EXCHANGE;
+
 
     @Bean
     Queue ipcQueue() {
@@ -50,7 +53,7 @@ public class RabbitConfig {
 
     @Bean
     DirectExchange LbExchange() {
-        return new DirectExchange("LB_EXCHANGE");
+        return new DirectExchange(LB_EXCHANGE);
     }
 
 
