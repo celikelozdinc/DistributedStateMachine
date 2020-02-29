@@ -152,23 +152,26 @@ public class StateMachineWorker {
                 System.out.print("\n\n\n\n\n");
                 reply = sendPayEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
+                return reply;
                 //break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
                 reply = sendReceiveEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
+                return reply;
                 //break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
                 reply = sendStartFromScratchEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
+                return reply;
                 //break;
             default:
                 System.out.println("Please send one of the events below.");
                 System.out.println("Pay/Receive/StartFromScratch");
-                break;
+                return reply;
+                //break;
         }
-        return reply;
 
     }
 
