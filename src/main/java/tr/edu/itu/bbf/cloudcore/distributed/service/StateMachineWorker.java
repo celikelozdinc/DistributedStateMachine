@@ -407,8 +407,11 @@ public class StateMachineWorker {
         msg.setIpAddr(ipAddr);
 
 
-        String reply = (String) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
-        logger.info("!!!!!!!!!!REPLY is {}",reply);
+        ArrayList<Response> mixedCkpts = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
+        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!! Printing reply...");
+        for(Response resp : mixedCkpts){
+            logger.info("Eventnumber:{}, Source:{}, Event:{},Target:{}",resp.getEventNumber(),resp.getSourceState(),resp.getProcessedEvent(),resp.getDestinationState());
+        }
 
         /*
         ArrayList<Response> smoc1CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC1_CKPT_EXCHANGE","rpc",msg);
