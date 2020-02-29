@@ -145,7 +145,7 @@ public class StateMachineWorker {
 
     }
 
-    public String ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
+    public String ProcessEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         Message<String> reply = null;
         switch(event){
             case "Pay": case "pay": case "PAY":
@@ -406,6 +406,11 @@ public class StateMachineWorker {
         msg.setHostname(hostname);
         msg.setIpAddr(ipAddr);
 
+
+        String reply = (String) rabbitTemplate.convertSendAndReceive("LB_EXCHANGE","rpc",msg);
+        logger.info("!!!!!!!!!!REPLY is {}",reply);
+
+        /*
         ArrayList<Response> smoc1CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC1_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc1 --> {}",smoc1CkptList.size());
         mixedCkpts.addAll(smoc1CkptList);
@@ -415,7 +420,6 @@ public class StateMachineWorker {
         ArrayList<Response> smoc3CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC3_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc3 --> {}",smoc3CkptList.size());
         mixedCkpts.addAll(smoc3CkptList);
-        /*
         ArrayList<Response> smoc4CkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC4_CKPT_EXCHANGE","rpc",msg);
         logger.info("Count of ckpts stored by smoc4 --> {}",smoc4CkptList.size());
         mixedCkpts.addAll(smoc4CkptList);

@@ -48,5 +48,10 @@ public class RabbitConfig {
     }
 
 
+    @Bean
+    DirectExchange LbExchange() {
+        return new DirectExchange("LB_EXCHANGE");
+    }
+
 
 }

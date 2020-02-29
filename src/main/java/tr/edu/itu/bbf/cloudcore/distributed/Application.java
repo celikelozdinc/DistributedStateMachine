@@ -87,8 +87,8 @@ public class Application implements CommandLineRunner {
             long startTime = System.currentTimeMillis();
             try {
                 worker.startCommunication();
-                worker.prepareCkpts();
-                worker.applyCkpts();
+                //worker.prepareCkpts();
+                //worker.applyCkpts();
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (Exception e) {
