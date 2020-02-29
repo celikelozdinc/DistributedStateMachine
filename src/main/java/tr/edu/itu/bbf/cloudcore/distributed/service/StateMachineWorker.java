@@ -145,32 +145,34 @@ public class StateMachineWorker {
 
     }
 
-    public void ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> ProcessEvent(String event, Integer eventNumber, int timeSleep) throws Exception {
+        Message<String> reply = null;
         switch(event){
             case "Pay": case "pay": case "PAY":
                 System.out.print("\n\n\n\n\n");
-                sendPayEvent(event, eventNumber,timeSleep);
+                reply = sendPayEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                break;
+                //break;
             case "Receive": case "receive": case "RECEIVE":
                 System.out.print("\n\n\n\n\n");
-                sendReceiveEvent(event, eventNumber,timeSleep);
+                reply = sendReceiveEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                break;
+                //break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 System.out.print("\n\n\n\n\n");
-                sendStartFromScratchEvent(event, eventNumber,timeSleep);
+                reply = sendStartFromScratchEvent(event, eventNumber,timeSleep);
                 System.out.print("\n\n\n\n\n");
-                break;
+                //break;
             default:
                 System.out.println("Please send one of the events below.");
                 System.out.println("Pay/Receive/StartFromScratch");
                 break;
         }
+        return reply;
 
     }
 
-    public void sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -206,15 +208,21 @@ public class StateMachineWorker {
         Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
         */
-        serviceGateway.storeCKPTInMemory(ckptMessage);
+
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
         */
 
+        /*Store CKPT locally */
+        //serviceGateway.storeCKPTInMemory(ckptMessage);
+
+        /* Send CKPT in order to stored externally */
+        return ckptMessage;
+
     }
 
-    public void sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -249,14 +257,21 @@ public class StateMachineWorker {
         Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
          */
-        serviceGateway.storeCKPTInMemory(ckptMessage);
+
         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
          */
+
+        /*Store CKPT locally */
+        //serviceGateway.storeCKPTInMemory(ckptMessage);
+
+        /* Send CKPT in order to stored externally */
+        return ckptMessage;
+
     }
 
-    public void sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -292,12 +307,17 @@ public class StateMachineWorker {
         Stores on mongodb database
         serviceGateway.setCheckpoint(ckptMessage);
          */
-        serviceGateway.storeCKPTInMemory(ckptMessage);
 
-        /*
+         /*
         logger.info("Mark CKPT in the Zookeeper");
         MarkCKPT();
          */
+
+        /*Store CKPT locally */
+        //serviceGateway.storeCKPTInMemory(ckptMessage);
+
+        /* Send CKPT in order to stored externally */
+        return ckptMessage;
     }
 
     public  String serializeStateMachineContext(){
