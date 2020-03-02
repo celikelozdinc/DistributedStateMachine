@@ -431,8 +431,11 @@ public class StateMachineWorker {
             case "distributed": case "Distributed":
                 for(int smoc=0; smoc < numberOfReplicas; smoc ++){
                     /* Construct the exchange, in this way: SMOC1_CKPT_EXCHANGE, SMOC2_CKPT_EXCHANGE, so on */
-                    String exchange = "SMOC" + (smoc + 1) +"_CKPT_EXCHANGE";
+                    Integer index = smoc + 1;
+                    String exchange = "SMOC" + (index) +"_CKPT_EXCHANGE";
+                    logger.info("Exchange is = {}",exchange);
                     ArrayList<Response> smocCkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+                    logger.info("Size of list is = {}",smocCkptList.size());
                     mixedCkpts.addAll(smocCkptList);
                 }
                 logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
