@@ -102,7 +102,7 @@ public class Application implements CommandLineRunner {
                         worker.startCommunication(solutionType);
                         worker.applyCkpts();
                         break;
-                    case "distributed:": case "Distributed":
+                    case "distributed": case "Distributed":
                         logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
                         worker.startCommunication(solutionType);
                         worker.prepareCkpts();
