@@ -95,6 +95,7 @@ public class StateMachineWorker {
     @Autowired
     private Environment environment;
     private Integer numberOfReplicas;
+    private String solutionType;
 
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
         @NotNull
@@ -140,7 +141,8 @@ public class StateMachineWorker {
         logger.info("SMOC __{}__ is started. From now on, events can be processed.",stateMachine.getUuid().toString());
         event_eventNumber = new Hashtable();
         numberOfReplicas = Integer.valueOf(environment.getProperty("smoc.replicas"));
-        logger.info("Experimental setup with ___{}___ smocs",numberOfReplicas);
+        solutionType = environment.getProperty("smoc.solutionType");
+        logger.info("Experimental setup for ___{}___ ckpt structure with ___{}___ smocs",solutionType, numberOfReplicas);
         /*Registers an exit hook which runs when the JVM is shut down*/
         logger.info("Registers an exit hook which runs when the JVM is shut down.");
         InputStream stream = System.in;
@@ -220,10 +222,19 @@ public class StateMachineWorker {
         MarkCKPT();
         */
 
-        /*Store CKPT locally */
-        //serviceGateway.storeCKPTInMemory(ckptMessage);
 
-        /* Send CKPT in order to stored externally */
+        switch(solutionType){
+            case "centralized": case "Centralized":
+                /* Do not store CKPTs locally */
+                logger.info("Centralized CKPTing, do not store locally");
+                break;
+            case "distributed": case "Distributed":
+                /*Store CKPT locally */
+                serviceGateway.storeCKPTInMemory(ckptMessage);
+                break;
+        }
+
+        /* Send CKPT in order to stored externally, if it is needed */
         return ckptMessage;
 
     }
