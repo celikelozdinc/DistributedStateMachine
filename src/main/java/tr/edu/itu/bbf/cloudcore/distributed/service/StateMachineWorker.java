@@ -230,6 +230,7 @@ public class StateMachineWorker {
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
+                logger.info("Distributed CKPTing, stores locally");
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
@@ -281,10 +282,18 @@ public class StateMachineWorker {
         MarkCKPT();
          */
 
-        /*Store CKPT locally */
-        //serviceGateway.storeCKPTInMemory(ckptMessage);
+        switch(solutionType){
+            case "centralized": case "Centralized":
+                /* Do not store CKPTs locally */
+                logger.info("Centralized CKPTing, do not store locally");
+                break;
+            case "distributed": case "Distributed":
+                /*Store CKPT locally */
+                logger.info("Distributed CKPTing, stores locally");
+                serviceGateway.storeCKPTInMemory(ckptMessage);
+                break;
+        }
 
-        /* Send CKPT in order to stored externally */
         return ckptMessage;
 
     }
@@ -332,10 +341,18 @@ public class StateMachineWorker {
         MarkCKPT();
          */
 
-        /*Store CKPT locally */
-        //serviceGateway.storeCKPTInMemory(ckptMessage);
+        switch(solutionType){
+            case "centralized": case "Centralized":
+                /* Do not store CKPTs locally */
+                logger.info("Centralized CKPTing, do not store locally");
+                break;
+            case "distributed": case "Distributed":
+                /*Store CKPT locally */
+                logger.info("Distributed CKPTing, stores locally");
+                serviceGateway.storeCKPTInMemory(ckptMessage);
+                break;
+        }
 
-        /* Send CKPT in order to stored externally */
         return ckptMessage;
     }
 
