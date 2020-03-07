@@ -156,19 +156,25 @@ public class StateMachineWorker {
         Message<String> reply = null;
         switch(event){
             case "Pay": case "pay": case "PAY":
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 reply = sendPayEvent(event, eventNumber,timeSleep);
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 break;
             case "Receive": case "receive": case "RECEIVE":
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 reply = sendReceiveEvent(event, eventNumber,timeSleep);
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 reply = sendStartFromScratchEvent(event, eventNumber,timeSleep);
-                System.out.print("\n\n\n\n\n");
+                logger.info("***************");
+                logger.info("***************");
                 break;
             default:
                 System.out.println("Please send one of the events below.");

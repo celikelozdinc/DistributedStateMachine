@@ -84,8 +84,7 @@ public class Receiver {
 
     @RabbitListener(queues = "${EVENT_QUEUE}")
     public String handleEvent(EventMessage msg) throws Exception {
-        logger.info("***************");
-        logger.info("***************");
+        System.out.print("\n\n\n\n\n");
         logger.info("Message received from __{}__ process.",msg.getSender());
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
@@ -97,8 +96,7 @@ public class Receiver {
         //String reply = "This is reply from distributedstatemachine_" + hostname + " after event " + event;
         //logger.info("Send this message back to smoc __{}__",reply);
         logger.info("Sending reply to ___{}___ process.",msg.getSender());
-        logger.info("***************");
-        logger.info("***************");
+        System.out.print("\n\n\n\n\n");
         return reply;
     }
 
