@@ -108,6 +108,11 @@ public class Application implements CommandLineRunner {
                         worker.prepareCkpts();
                         worker.applyCkpts();
                         break;
+                    case "conventional": case "Conventional":
+                        logger.info("=====CONVENTIONAL CKPT STRUCTURE =====");
+                        worker.startCommunication(solutionType);
+                        worker.applyCkpts();
+                        break;
                 }
 
             } catch (UnknownHostException e) {
