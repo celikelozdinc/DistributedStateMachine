@@ -125,6 +125,8 @@ public class Application implements CommandLineRunner {
             logger.info("Applied all CKPTs in {} seconds",delta);
         }
         else {
+            double currentMemory_t0 = ( (double)((double)(Runtime.getRuntime().totalMemory()/1024)/1024))- ((double)((double)(Runtime.getRuntime().freeMemory()/1024)/1024));
+            logger.info("Current Memory at t=0 : {}",currentMemory_t0);
             InputStream stream = System.in;
             Scanner scanner = new Scanner(stream);
 

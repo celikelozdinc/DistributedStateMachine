@@ -96,6 +96,8 @@ public class Receiver {
         //String reply = "This is reply from distributedstatemachine_" + hostname + " after event " + event;
         //logger.info("Send this message back to smoc __{}__",reply);
         logger.info("Sending reply to ___{}___ process.",msg.getSender());
+        double currentMemory_tn = ( (double)((double)(Runtime.getRuntime().totalMemory()/1024)/1024))- ((double)((double)(Runtime.getRuntime().freeMemory()/1024)/1024));
+        logger.info("Current Memory at t=n : {}",currentMemory_tn);
         System.out.print("\n\n\n\n\n");
         return reply;
     }

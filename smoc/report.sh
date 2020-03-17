@@ -1,6 +1,6 @@
 #!/bin/bash
 # Duration in order to up a smoc
-if [[ "${HOSTNAME}" == smoc12 ]]; then
+if [[ "${HOSTNAME}" == smoc5 ]]; then
   jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   ckpt=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
   sum=$(echo "$jvm" + "$ckpt" | bc)
