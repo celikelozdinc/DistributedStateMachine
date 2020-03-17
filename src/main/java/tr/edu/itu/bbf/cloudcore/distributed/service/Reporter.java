@@ -34,7 +34,7 @@ public class Reporter {
         logger.info("PID of JVM is --> {}",this.PID);
 
         //$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
-        baseCommandForMemoryMetrics = "grep %s /proc/%s/status | awk -F '%s:|kB' '{print $2}' | xargs";
+        baseCommandForMemoryMetrics = "grep %s /proc/%s/status|awk -F '%s:|kB' '{print $2}' | xargs";
     }
 
     public String prepareCommand(String metric){
@@ -50,10 +50,7 @@ public class Reporter {
         Process p = Runtime.getRuntime().exec(VmSizeCommand);
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-        String s = null;
-
-        while ((s = stdInput.readLine()) != null) {
-            logger.info("output --> {}",s);
-        }
+        String VmSize_t0 = stdInput.readLine();
+        logger.info("VmSize_t0 = {}",VmSize_t0);
     }
 }
