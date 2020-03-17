@@ -50,7 +50,11 @@ public class Reporter {
         Process p = Runtime.getRuntime().exec(VmSizeCommand);
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-        String VmSize_t0 = stdInput.readLine();
-        logger.info("VmSize_t0 = {}",VmSize_t0);
+        //String VmSize_t0 = stdInput.readLine();
+        String s = null;
+        while ((s = stdInput.readLine()) != null) {
+            logger.info("line: {}",s);
+        }
+        //logger.info("VmSize_t0 = {}",VmSize_t0);
     }
 }
