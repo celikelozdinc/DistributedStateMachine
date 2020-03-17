@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointDbObject;
+import tr.edu.itu.bbf.cloudcore.distributed.service.Reporter;
 import tr.edu.itu.bbf.cloudcore.distributed.service.ServiceGateway;
 import org.springframework.messaging.Message;
 import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
@@ -27,6 +28,10 @@ public class Receiver {
 
     @Autowired
     private StateMachineWorker worker;
+
+
+    @Autowired
+    private Reporter reporter;
 
 
     public Receiver(){
@@ -96,8 +101,7 @@ public class Receiver {
         //String reply = "This is reply from distributedstatemachine_" + hostname + " after event " + event;
         //logger.info("Send this message back to smoc __{}__",reply);
         logger.info("Sending reply to ___{}___ process.",msg.getSender());
-        double currentMemory_tn = ( (double)((double)(Runtime.getRuntime().totalMemory()/1024)/1024))- ((double)((double)(Runtime.getRuntime().freeMemory()/1024)/1024));
-        logger.info("Current Memory at t=n : {}",currentMemory_tn);
+        reporter.calculateDeltaMemoryFootprint();
         System.out.print("\n\n\n\n\n");
         return reply;
     }
