@@ -24,6 +24,8 @@ public class Reporter {
 
     private String baseCommandForMemoryMetrics;
 
+    private String VmSize_t0, VmPeak_t0;
+
     @PostConstruct
     public void init() {
         logger.info("+++++Reporter::PostConstructor+++++");
@@ -43,13 +45,10 @@ public class Reporter {
         return formattedCommand;
     }
 
-    public void calculateInitialMemoryFootprint() throws IOException, InterruptedException {
-        /* Prepare command */
-        String VmSizeCommand = prepareCommand("VmSize");
-        logger.info("Command for VmSize: {}",VmSizeCommand);
-
+    public String runCommand(String command) throws IOException {
+        //Prepare process
         Process process =
-                new ProcessBuilder(new String[] {"bash", "-c", VmSizeCommand})
+                new ProcessBuilder(new String[] {"bash", "-c", command})
                         .redirectErrorStream(true)
                         .directory(new File("."))
                         .start();
@@ -60,10 +59,23 @@ public class Reporter {
         while ( (line = br.readLine()) != null )
             output.add(line);
 
-        logger.info("OUTPUT --> {}",output);
+        // OUTPUT --> [2497892]
+        return output.get(0);
+    }
+
+    public void calculateInitialMemoryFootprint() throws IOException {
+        /* VmSize */
+        String VmSizeCommand = prepareCommand("VmSize");
+        logger.info("Command for VmSize: {}",VmSizeCommand);
+        this.VmSize_t0 = runCommand(VmSizeCommand);
+        logger.info("VmSize_t0 = {}",this.VmSize_t0);
+
+        /* VmPeak */
+        String VmPeakCommand = prepareCommand("VmPeak");
+        logger.info("Command for VmPeak: {}",VmPeakCommand);
+        this.VmPeak_t0 = runCommand(VmPeakCommand);
+        logger.info("VmPeak_t0 = {}",this.VmPeak_t0);
 
 
-        //String VmSize_t0 = stdInput.readLine();
-        //logger.info("VmSize_t0 = {}",VmSize_t0);
     }
 }
