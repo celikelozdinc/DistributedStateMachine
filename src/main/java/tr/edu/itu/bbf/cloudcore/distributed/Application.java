@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import tr.edu.itu.bbf.cloudcore.distributed.persist.CheckpointRepository;
+import tr.edu.itu.bbf.cloudcore.distributed.service.Reporter;
 import tr.edu.itu.bbf.cloudcore.distributed.service.StateMachineWorker;
 
 import java.io.InputStream;
@@ -41,6 +42,9 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private Environment environment;
+
+    @Autowired
+    private Reporter reporter;
 
     @Override
     public void run(String... args) throws Exception {
@@ -125,8 +129,15 @@ public class Application implements CommandLineRunner {
             logger.info("Applied all CKPTs in {} seconds",delta);
         }
         else {
+
+            /* Store initial memory usage */
+            reporter.calculateInitialMemoryFootprint();
+
+            /*
             double currentMemory_t0 = ( (double)((double)(Runtime.getRuntime().totalMemory()/1024)/1024))- ((double)((double)(Runtime.getRuntime().freeMemory()/1024)/1024));
             logger.info("Current Memory at t=0 : {}",currentMemory_t0);
+            */
+
             InputStream stream = System.in;
             Scanner scanner = new Scanner(stream);
 
