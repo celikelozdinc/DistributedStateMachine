@@ -42,19 +42,30 @@ public class Reporter {
         return formattedCommand;
     }
 
-    public void calculateInitialMemoryFootprint() throws IOException {
+    public void calculateInitialMemoryFootprint() throws IOException, InterruptedException {
         /* Prepare command */
         String VmSizeCommand = prepareCommand("VmSize");
         logger.info("Command for VmSize: {}",VmSizeCommand);
 
-        Process p = Runtime.getRuntime().exec(VmSizeCommand);
-        BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        ProcessBuilder builder = new ProcessBuilder(VmSizeCommand);
+        Process p = builder.start();
+        StringBuilder output = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            output.append(line + "\n");
+        }
+        int exitVal = p.waitFor();
+        if (exitVal == 0) {
+            logger.info("Success!");
+            logger.info("output --> {}",output);
+            //System.exit(0);
+        } else {
+            //abnormal...
+        }
+
 
         //String VmSize_t0 = stdInput.readLine();
-        String s = null;
-        while ((s = stdInput.readLine()) != null) {
-            logger.info("line: {}",s);
-        }
         //logger.info("VmSize_t0 = {}",VmSize_t0);
     }
 }
