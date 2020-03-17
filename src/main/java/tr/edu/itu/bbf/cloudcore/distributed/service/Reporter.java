@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
+import java.util.*;
 
 @Service
 public class Reporter {
@@ -47,22 +48,19 @@ public class Reporter {
         String VmSizeCommand = prepareCommand("VmSize");
         logger.info("Command for VmSize: {}",VmSizeCommand);
 
-        ProcessBuilder builder = new ProcessBuilder(VmSizeCommand);
-        Process p = builder.start();
-        StringBuilder output = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output.append(line + "\n");
-        }
-        int exitVal = p.waitFor();
-        if (exitVal == 0) {
-            logger.info("Success!");
-            logger.info("output --> {}",output);
-            //System.exit(0);
-        } else {
-            //abnormal...
-        }
+        Process process =
+                new ProcessBuilder(new String[] {"bash", "-c", VmSizeCommand})
+                        .redirectErrorStream(true)
+                        .directory(new File("."))
+                        .start();
+
+        ArrayList<String> output = new ArrayList<String>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line = null;
+        while ( (line = br.readLine()) != null )
+            output.add(line);
+
+        logger.info("OUTPUT --> {}",output);
 
 
         //String VmSize_t0 = stdInput.readLine();
