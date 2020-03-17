@@ -66,7 +66,7 @@ public class Reporter {
     }
 
     public void calculateInitialMemoryFootprint() throws IOException {
-        //VmPeak,VmSize,VmHWM,VmRSS,VmData,VmStk,VmExe,VmLib
+        //VmPeak,VmSize,VmHWM,VmRSS,VmData
 
         /* VmPeak */
         String VmPeakCommand = prepareCommand("VmPeak");
@@ -90,16 +90,41 @@ public class Reporter {
 
         logger.info("   ----------InitialMemoryFootprint----------  ");
         logger.info("VmPeak,VmSize,VmHWM,VmRSS,VmData");
-        logger.info(VmPeak_t0,VmSize_t0,VmHWM_t0,VmRSS_t0,VmData_t0);
+        logger.info("{},{},{},{},{}",this.VmPeak_t0,this.VmSize_t0,this.VmHWM_t0,this.VmRSS_t0,this.VmData_t0);
     }
 
     public void calculateDeltaMemoryFootprint() throws IOException {
+        //VmPeak,VmSize,VmHWM,VmRSS,VmData
+
         /* VmPeak */
         String VmPeakCommand = prepareCommand("VmPeak");
         this.VmPeak_current = runCommand(VmPeakCommand);
-        logger.info("VmPeak_current = {}",this.VmPeak_current);
-        Integer delta = Integer.valueOf(this.VmPeak_current) - Integer.valueOf(this.VmPeak_t0);
-        logger.info("DELTA --> {}",delta);
+        Integer delta_VmPeak = Integer.valueOf(this.VmPeak_current) - Integer.valueOf(this.VmPeak_t0);
+
+        /* VmSize */
+        String VmSizeCommand = prepareCommand("VmSize");
+        this.VmSize_current = runCommand(VmSizeCommand);
+        Integer delta_VmSize = Integer.valueOf(this.VmSize_current) - Integer.valueOf(this.VmSize_t0);
+
+        /* VmHWM */
+        String VmHWMCommand = prepareCommand("VmHWM");
+        this.VmHWM_current = runCommand(VmHWMCommand);
+        Integer delta_VmHWM = Integer.valueOf(this.VmHWM_current) - Integer.valueOf(this.VmHWM_t0);
+
+        /* VmRSS */
+        String VmRSSCommand = prepareCommand("VmRSS");
+        this.VmRSS_current = runCommand(VmRSSCommand);
+        Integer delta_VmRSS = Integer.valueOf(this.VmRSS_current) - Integer.valueOf(this.VmRSS_t0);
+
+        /* VmData */
+        String VmDataCommand = prepareCommand("VmData");
+        this.VmData_current = runCommand(VmDataCommand);
+        Integer delta_VmData = Integer.valueOf(this.VmData_current) - Integer.valueOf(this.VmData_t0);
+
+        logger.info("   ----------DeltaMemoryFootprint----------  ");
+        logger.info("VmPeak,VmSize,VmHWM,VmRSS,VmData");
+        logger.info("{},{},{},{},{}",this.VmPeak_current,this.VmSize_current,this.VmHWM_current,this.VmRSS_current,this.VmData_current);
+
     }
 
 }
