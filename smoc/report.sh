@@ -12,16 +12,20 @@ fi
 # xargs will do trimming
 current_pid=$(grep "PID" log | awk -F "INFO|---" '{print $2}' | xargs)
 
+
+#VmSize=$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
+#VmPeak=$(grep "VmPeak" /proc/"$current_pid"/status | awk -F 'VmPeak:|kB' '{print $2}' | xargs)
+#VmHWM=$(grep "VmHWM" /proc/"$current_pid"/status | awk -F 'VmHWM:|kB' '{print $2}' | xargs)
+#VmRSS=$(grep "VmRSS" /proc/"$current_pid"/status | awk -F 'VmRSS:|kB' '{print $2}' | xargs)
+#VmData=$(grep "VmData" /proc/"$current_pid"/status | awk -F 'VmData:|kB' '{print $2}' | xargs)
+#VmStk=$(grep "VmStk" /proc/"$current_pid"/status | awk -F 'VmStk:|kB' '{print $2}' | xargs)
+#VmExe=$(grep "VmExe" /proc/"$current_pid"/status | awk -F 'VmExe:|kB' '{print $2}' | xargs)
+#VmLib=$(grep "VmLib" /proc/"$current_pid"/status | awk -F 'VmLib:|kB' '{print $2}' | xargs)
+
 # Memory Report from /proc/<pid>/status
 # xargs will do trimming
-VmSize=$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
-VmPeak=$(grep "VmPeak" /proc/"$current_pid"/status | awk -F 'VmPeak:|kB' '{print $2}' | xargs)
-VmHWM=$(grep "VmHWM" /proc/"$current_pid"/status | awk -F 'VmHWM:|kB' '{print $2}' | xargs)
-VmRSS=$(grep "VmRSS" /proc/"$current_pid"/status | awk -F 'VmRSS:|kB' '{print $2}' | xargs)
-VmData=$(grep "VmData" /proc/"$current_pid"/status | awk -F 'VmData:|kB' '{print $2}' | xargs)
-VmStk=$(grep "VmStk" /proc/"$current_pid"/status | awk -F 'VmStk:|kB' '{print $2}' | xargs)
-VmExe=$(grep "VmExe" /proc/"$current_pid"/status | awk -F 'VmExe:|kB' '{print $2}' | xargs)
-VmLib=$(grep "VmLib" /proc/"$current_pid"/status | awk -F 'VmLib:|kB' '{print $2}' | xargs)
+# tail : Get the last logging information from log file
+deltaMemoryFootprint=$(grep "DeltaMemoryFootprint" log | tail -n 1 | cut -d'>' -f3 | xargs)
 
 # Memory Report from top command
 # -v for awk : define variable
@@ -29,4 +33,5 @@ VmLib=$(grep "VmLib" /proc/"$current_pid"/status | awk -F 'VmLib:|kB' '{print $2
 from_top=$(top -n 1 | awk -v search="$current_pid" '$1 == search {print $5}' | cut -d'm' -f1)
 
 #echo "Measures in CSV format:"
-echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
+#echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
+echo "$sum","$deltaMemoryFootprint","$from_top"
