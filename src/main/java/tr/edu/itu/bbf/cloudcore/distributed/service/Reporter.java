@@ -88,9 +88,7 @@ public class Reporter {
         String VmDataCommand = prepareCommand("VmData");
         this.VmData_t0 = runCommand(VmDataCommand);
 
-        logger.info("   ----------InitialMemoryFootprint----------  ");
-        logger.info("VmPeak,VmSize,VmHWM,VmRSS,VmData");
-        logger.info("{},{},{},{},{}",this.VmPeak_t0,this.VmSize_t0,this.VmHWM_t0,this.VmRSS_t0,this.VmData_t0);
+        logger.info("InitialMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",this.VmPeak_t0,this.VmSize_t0,this.VmHWM_t0,this.VmRSS_t0,this.VmData_t0);
     }
 
     public void calculateDeltaMemoryFootprint() throws IOException {
@@ -121,9 +119,7 @@ public class Reporter {
         this.VmData_current = runCommand(VmDataCommand);
         Integer delta_VmData = Integer.valueOf(this.VmData_current) - Integer.valueOf(this.VmData_t0);
 
-        logger.info("   ----------DeltaMemoryFootprint----------  ");
-        logger.info("VmPeak,VmSize,VmHWM,VmRSS,VmData");
-        logger.info("{},{},{},{},{}",this.VmPeak_current,this.VmSize_current,this.VmHWM_current,this.VmRSS_current,this.VmData_current);
+        logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",this.VmPeak_current,this.VmSize_current,this.VmHWM_current,this.VmRSS_current,this.VmData_current);
 
     }
 
