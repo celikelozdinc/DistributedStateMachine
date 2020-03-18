@@ -99,6 +99,9 @@ public class Application implements CommandLineRunner {
             /* Read CKPT information from other smocs */
 
             long startTime = System.currentTimeMillis();
+
+            /* Store initial memory usage */
+            reporter.calculateInitialMemoryFootprint();
             try {
                 switch (solutionType){
                     case "centralized": case "Centralized":
@@ -127,6 +130,9 @@ public class Application implements CommandLineRunner {
             long endTime = System.currentTimeMillis();
             float delta =((float) (endTime - startTime)/1000);
             logger.info("Applied all CKPTs in {} seconds",delta);
+
+            /* Store delta memory usage */
+            reporter.calculateDeltaMemoryFootprint();
         }
         else {
 

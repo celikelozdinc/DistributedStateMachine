@@ -10,7 +10,7 @@ fi
 
 # Learn PID
 # xargs will do trimming
-current_pid=$(grep "PID" log | awk -F "INFO|---" '{print $2}' | xargs)
+current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xargs)
 
 
 #VmSize=$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
@@ -24,7 +24,7 @@ current_pid=$(grep "PID" log | awk -F "INFO|---" '{print $2}' | xargs)
 
 # Memory Report from /proc/<pid>/status
 # xargs will do trimming
-# tail : Get the last logging information from log file
+# tail : Get last match from log file
 deltaMemoryFootprint=$(grep "DeltaMemoryFootprint" log | tail -n 1 | cut -d'>' -f3 | xargs)
 
 # Memory Report from top command
