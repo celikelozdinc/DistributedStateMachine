@@ -97,27 +97,27 @@ public class Reporter {
         /* VmPeak */
         String VmPeakCommand = prepareCommand("VmPeak");
         this.VmPeak_current = runCommand(VmPeakCommand);
-        Integer delta_VmPeak = Integer.valueOf(this.VmPeak_current) - Integer.valueOf(this.VmPeak_t0);
+        Integer delta_VmPeak = Integer.parseInt(this.VmPeak_current) - Integer.parseInt(this.VmPeak_t0);
 
         /* VmSize */
         String VmSizeCommand = prepareCommand("VmSize");
         this.VmSize_current = runCommand(VmSizeCommand);
-        Integer delta_VmSize = Integer.valueOf(this.VmSize_current) - Integer.valueOf(this.VmSize_t0);
+        Integer delta_VmSize = Integer.parseInt(this.VmSize_current) - Integer.parseInt(this.VmSize_t0);
 
         /* VmHWM */
         String VmHWMCommand = prepareCommand("VmHWM");
         this.VmHWM_current = runCommand(VmHWMCommand);
-        Integer delta_VmHWM = Integer.valueOf(this.VmHWM_current) - Integer.valueOf(this.VmHWM_t0);
+        Integer delta_VmHWM = Integer.parseInt(this.VmHWM_current) - Integer.parseInt(this.VmHWM_t0);
 
         /* VmRSS */
         String VmRSSCommand = prepareCommand("VmRSS");
         this.VmRSS_current = runCommand(VmRSSCommand);
-        Integer delta_VmRSS = Integer.valueOf(this.VmRSS_current) - Integer.valueOf(this.VmRSS_t0);
+        Integer delta_VmRSS = Integer.parseInt(this.VmRSS_current) - Integer.parseInt(this.VmRSS_t0);
 
         /* VmData */
         String VmDataCommand = prepareCommand("VmData");
         this.VmData_current = runCommand(VmDataCommand);
-        Integer delta_VmData = Integer.valueOf(this.VmData_current) - Integer.valueOf(this.VmData_t0);
+        Integer delta_VmData = Integer.parseInt(this.VmData_current) - Integer.parseInt(this.VmData_t0);
 
         logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",delta_VmPeak,delta_VmSize,delta_VmHWM,delta_VmRSS,delta_VmData);
 
