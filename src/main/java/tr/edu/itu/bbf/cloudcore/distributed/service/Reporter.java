@@ -119,6 +119,7 @@ public class Reporter {
         this.VmData_current = runCommand(VmDataCommand);
         Integer delta_VmData = Integer.parseInt(this.VmData_current) - Integer.parseInt(this.VmData_t0);
 
+        logger.info("CurrentMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",this.VmPeak_current,this.VmSize_current,this.VmHWM_current,this.VmRSS_current,this.VmData_current);
         logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",delta_VmPeak,delta_VmSize,delta_VmHWM,delta_VmRSS,delta_VmData);
 
     }
