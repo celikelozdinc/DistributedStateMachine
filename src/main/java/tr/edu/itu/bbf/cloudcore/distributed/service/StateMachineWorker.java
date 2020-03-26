@@ -301,6 +301,8 @@ public class StateMachineWorker {
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
                 logger.info("Centralized CKPTing, do not store locally");
+                numberOfProcessedEvents = numberOfProcessedEvents + 1;
+                logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
@@ -365,6 +367,8 @@ public class StateMachineWorker {
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
                 logger.info("Centralized CKPTing, do not store locally");
+                numberOfProcessedEvents = numberOfProcessedEvents + 1;
+                logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
