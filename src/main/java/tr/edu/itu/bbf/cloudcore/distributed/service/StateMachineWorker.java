@@ -96,6 +96,7 @@ public class StateMachineWorker {
     private Environment environment;
     private Integer numberOfReplicas;
     private String solutionType;
+    private Integer numberOfProcessedEvents;
 
     private static final ThreadLocal<Kryo> kryoThreadLocal = new ThreadLocal<Kryo>() {
         @NotNull
@@ -149,6 +150,7 @@ public class StateMachineWorker {
         Scanner scanner = new Scanner(stream);
         Runtime.getRuntime().addShutdownHook(new ExitHook(this.stateMachine,scanner));
 
+        numberOfProcessedEvents = 0;
 
     }
 
@@ -233,6 +235,8 @@ public class StateMachineWorker {
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
                 logger.info("Centralized CKPTing, do not store locally");
+                numberOfProcessedEvents = numberOfProcessedEvents + 1;
+                logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
