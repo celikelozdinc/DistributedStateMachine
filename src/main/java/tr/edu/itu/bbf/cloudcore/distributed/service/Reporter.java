@@ -3,6 +3,7 @@ package tr.edu.itu.bbf.cloudcore.distributed.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import tr.edu.itu.bbf.cloudcore.distributed.entity.MemoryLogger;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
@@ -24,6 +25,8 @@ public class Reporter {
 
     private String baseCommandForMemoryMetrics;
 
+    private ArrayList<MemoryLogger> memoryLogger;
+
     private String VmSize_t0, VmPeak_t0, VmHWM_t0, VmRSS_t0, VmData_t0;
 
     private String VmSize_current, VmPeak_current, VmHWM_current, VmRSS_current, VmData_current;
@@ -40,6 +43,8 @@ public class Reporter {
 
         //$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
         baseCommandForMemoryMetrics = "grep %s /proc/%s/status|awk -F '%s:|kB' '{print $2}' | xargs";
+
+        memoryLogger = new ArrayList<MemoryLogger>();
     }
 
     public String prepareCommand(String metric){
@@ -124,4 +129,31 @@ public class Reporter {
 
     }
 
+    public void logMemoryFootprint() throws IOException {
+        //VmPeak,VmSize,VmHWM,VmRSS,VmData
+
+        /* VmPeak */
+        String VmPeakCommand = prepareCommand("VmPeak");
+        String VmPeak = runCommand(VmPeakCommand);
+
+        /* VmSize */
+        String VmSizeCommand = prepareCommand("VmSize");
+        String VmSize = runCommand(VmSizeCommand);
+
+        /* VmSize */
+        String VmHWMCommand = prepareCommand("VmHWM");
+        String VmHWM = runCommand(VmHWMCommand);
+
+        /* VmRSS */
+        String VmRSSCommand = prepareCommand("VmRSS");
+        String VmRSS = runCommand(VmRSSCommand);
+
+        /* VmData */
+        String VmDataCommand = prepareCommand("VmData");
+        String VmData = runCommand(VmDataCommand);
+
+        /* Store */
+        memoryLogger.add(new MemoryLogger(VmPeak,VmSize,VmHWM,VmRSS, VmData));
+        logger.info("Size of the memoryfootprint array --> {}",memoryLogger.size());
+    }
 }

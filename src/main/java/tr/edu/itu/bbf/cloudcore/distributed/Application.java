@@ -102,6 +102,7 @@ public class Application implements CommandLineRunner {
 
             /* Store initial memory usage */
             reporter.calculateInitialMemoryFootprint();
+            reporter.logMemoryFootprint();
             try {
                 switch (solutionType){
                     case "centralized": case "Centralized":
