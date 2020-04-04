@@ -101,7 +101,6 @@ public class Application implements CommandLineRunner {
             long startTime = System.currentTimeMillis();
 
             /* Store initial memory usage */
-            reporter.calculateInitialMemoryFootprint();
             reporter.logMemoryFootprint();
             try {
                 switch (solutionType){
@@ -133,12 +132,12 @@ public class Application implements CommandLineRunner {
             logger.info("Applied all CKPTs in {} seconds",delta);
 
             /* Store delta memory usage */
-            reporter.calculateDeltaMemoryFootprint();
+            reporter.logMemoryFootprint();
         }
         else {
 
             /* Store initial memory usage */
-            reporter.calculateInitialMemoryFootprint();
+            reporter.logMemoryFootprint();
 
             /*
             double currentMemory_t0 = ( (double)((double)(Runtime.getRuntime().totalMemory()/1024)/1024))- ((double)((double)(Runtime.getRuntime().freeMemory()/1024)/1024));

@@ -101,7 +101,6 @@ public class Receiver {
         //String reply = "This is reply from distributedstatemachine_" + hostname + " after event " + event;
         //logger.info("Send this message back to smoc __{}__",reply);
         logger.info("Sending reply to ___{}___ process.",msg.getSender());
-        reporter.calculateDeltaMemoryFootprint();
         reporter.logMemoryFootprint();
         System.out.print("\n\n\n\n\n");
         return reply;

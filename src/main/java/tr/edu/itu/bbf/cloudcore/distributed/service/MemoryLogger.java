@@ -48,9 +48,9 @@ public class MemoryLogger {
         double avg_VmRSS = ((double) this.sum_VmRss) / (this.memoryLogList.size());
         this.sum_VmData = this.sum_VmData + VmData;
         double avg_VmData = ((double) this.sum_VmData) / (this.memoryLogList.size());
-        logger.info("Current of each memory footprint metric: {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
-        logger.info("Sum of each memory footprint metric: {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
-        logger.info("Avg of each memory footprint metric: {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
+        logger.info("Current of each memory footprint metric >  {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
+        logger.info("Sum of each memory footprint metric >  {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
+        logger.info("Avg of each memory footprint metric >  {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
     }
 
     public Integer sizeOfMemoryLog(){ return this.memoryLogList.size(); }
