@@ -35,4 +35,4 @@ from_top=$(top -n 1 | awk -v search="$current_pid" '$1 == search {print $5}' | c
 
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
-echo "$sum","avgMemoryFootprint","$from_top"
+echo "$sum","$avgMemoryFootprint","$from_top"
