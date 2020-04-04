@@ -3,7 +3,6 @@ package tr.edu.itu.bbf.cloudcore.distributed.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.MemoryLogger;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
@@ -25,7 +24,7 @@ public class Reporter {
 
     private String baseCommandForMemoryMetrics;
 
-    private ArrayList<MemoryLogger> memoryLogger;
+    private MemoryLogger memoryLogger;
 
     private String VmSize_t0, VmPeak_t0, VmHWM_t0, VmRSS_t0, VmData_t0;
 
@@ -44,7 +43,6 @@ public class Reporter {
         //$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
         baseCommandForMemoryMetrics = "grep %s /proc/%s/status|awk -F '%s:|kB' '{print $2}' | xargs";
 
-        memoryLogger = new ArrayList<MemoryLogger>();
     }
 
     public String prepareCommand(String metric){
@@ -153,7 +151,10 @@ public class Reporter {
         String VmData = runCommand(VmDataCommand);
 
         /* Store */
-        memoryLogger.add(new MemoryLogger(VmPeak,VmSize,VmHWM,VmRSS, VmData));
-        logger.info("Size of the memoryfootprint array --> {}",memoryLogger.size());
+        memoryLogger.storeMemoryLog(VmPeak,VmSize,VmHWM,VmRSS, VmData);
+        logger.info("Size of memoryfootprint array --> {}",memoryLogger.sizeOfMemoryLog());
+
+
+        //logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",delta_VmPeak,delta_VmSize,delta_VmHWM,delta_VmRSS,delta_VmData);
     }
 }
