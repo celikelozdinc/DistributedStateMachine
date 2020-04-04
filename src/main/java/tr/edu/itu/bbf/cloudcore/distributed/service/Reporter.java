@@ -2,6 +2,7 @@ package tr.edu.itu.bbf.cloudcore.distributed.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +25,7 @@ public class Reporter {
 
     private String baseCommandForMemoryMetrics;
 
+    @Autowired
     private MemoryLogger memoryLogger;
 
     private String VmSize_t0, VmPeak_t0, VmHWM_t0, VmRSS_t0, VmData_t0;

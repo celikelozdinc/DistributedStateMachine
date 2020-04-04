@@ -29,14 +29,20 @@ public class MemoryLogger {
     }
 
     public void storeMemoryLog(String peak, String size, String hwm, String rss, String data){
+        logger.info("+++++MemoryLogger::storeMemoryLog+++++");
         /* Cast to Integer & store it*/
-        memoryLogList.add(new MemoryLog(Integer.parseInt(peak),Integer.parseInt(size),Integer.parseInt(hwm),Integer.parseInt(rss), Integer.parseInt(data)));
+        Integer VmPeak = Integer.parseInt(peak);
+        Integer VmSize = Integer.parseInt(size);
+        Integer VmHWM = Integer.parseInt(hwm);
+        Integer VmRSS = Integer.parseInt(rss);
+        Integer VmData = Integer.parseInt(data);
+        memoryLogList.add(new MemoryLog(VmPeak,VmSize,VmHWM,VmRSS, VmData));
         /* Statistics about memoryfootprint */
-        this.sum_VmPeak =  this.sum_VmPeak + Integer.parseInt(peak);
-        this.sum_VmSize = this.sum_VmSize + Integer.parseInt(size);
-        this.sum_VmHWM = this. sum_VmHWM + Integer.parseInt(hwm);
-        this.sum_VmRss =  this.sum_VmRss + Integer.parseInt(rss);
-        this.sum_VmData = this.sum_VmData + Integer.parseInt(data);
+        this.sum_VmPeak =  this.sum_VmPeak + VmPeak;
+        this.sum_VmSize = this.sum_VmSize + VmSize;
+        this.sum_VmHWM = this. sum_VmHWM + VmHWM;
+        this.sum_VmRss =  this.sum_VmRss + VmRSS;
+        this.sum_VmData = this.sum_VmData + VmData;
         logger.info("Sum of each memoryfootprint metric: {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
     }
 
