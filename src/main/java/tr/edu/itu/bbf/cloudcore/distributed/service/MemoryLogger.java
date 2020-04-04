@@ -39,15 +39,21 @@ public class MemoryLogger {
         memoryLogList.add(new MemoryLog(VmPeak,VmSize,VmHWM,VmRSS, VmData));
         /* Statistics about memoryfootprint */
         this.sum_VmPeak =  this.sum_VmPeak + VmPeak;
+        double avg_VmPeak = ((double) this.sum_VmPeak) / (this.memoryLogList.size());
         this.sum_VmSize = this.sum_VmSize + VmSize;
+        double avg_VmSize = ((double) this.sum_VmSize) /  (this.memoryLogList.size());
         this.sum_VmHWM = this. sum_VmHWM + VmHWM;
+        double avg_VmHWM = ((double) this.sum_VmHWM) /  (this.memoryLogList.size());
         this.sum_VmRss =  this.sum_VmRss + VmRSS;
+        double avg_VmRSS = ((double) this.sum_VmRss) / (this.memoryLogList.size());
         this.sum_VmData = this.sum_VmData + VmData;
-        logger.info("Current memory footprint metrics: {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
-        logger.info("Sum of each memoryfootprint metric: {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
+        double avg_VmData = ((double) this.sum_VmData) / (this.memoryLogList.size());
+        logger.info("Current of each memory footprint metric: {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
+        logger.info("Sum of each memory footprint metric: {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
+        logger.info("Avg of each memory footprint metric: {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
     }
 
-    public Integer sizeOfMemoryLog(){ return memoryLogList.size(); }
+    public Integer sizeOfMemoryLog(){ return this.memoryLogList.size(); }
 
 
 
