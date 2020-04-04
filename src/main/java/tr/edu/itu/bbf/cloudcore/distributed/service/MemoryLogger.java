@@ -43,6 +43,7 @@ public class MemoryLogger {
         this.sum_VmHWM = this. sum_VmHWM + VmHWM;
         this.sum_VmRss =  this.sum_VmRss + VmRSS;
         this.sum_VmData = this.sum_VmData + VmData;
+        logger.info("Current memory footprint metrics: {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
         logger.info("Sum of each memoryfootprint metric: {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
     }
 
