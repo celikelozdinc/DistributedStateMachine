@@ -26,7 +26,7 @@ current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xarg
 # xargs will do trimming
 # tail : Get last match from log file
 #deltaMemoryFootprint=$(grep "DeltaMemoryFootprint" log | tail -n 1 | cut -d'>' -f3 | xargs)
-avgMemoryFootprint=$(grep "Avg of each memory footprint metric" log | tail -n 1 | cut -d'>' -f2 | xargs)
+sumMemoryFootprint=$(grep "Sum of each memory footprint metric" log | tail -n 1 | cut -d'>' -f2 | xargs)
 
 # Memory Report from top command
 # -v for awk : define variable
@@ -35,4 +35,4 @@ from_top=$(top -n 1 | awk -v search="$current_pid" '$1 == search {print $5}' | c
 
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
-echo "$sum","$avgMemoryFootprint","$from_top"
+echo "$sum","$sumMemoryFootprint","$from_top"
