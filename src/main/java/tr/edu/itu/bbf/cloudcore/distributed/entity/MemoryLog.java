@@ -9,12 +9,14 @@ public class MemoryLog {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ArrayList<Integer> memoryLogList;
     private Integer max;
+    private Integer min;
 
     public MemoryLog(){
         /* Initialize footprint */
         memoryLogList = new ArrayList<>();
         /* Initialize max and min values */
-        max = 0;
+        max = Integer.MIN_VALUE;
+        min = Integer.MAX_VALUE;
     }
 
     public void store(Integer footprint){
@@ -24,6 +26,10 @@ public class MemoryLog {
         if(footprint > max){
             logger.info("Updating MAX from {} to {}",max,footprint);
             max = footprint;
+        }
+        if(footprint < min){
+            logger.info("Updating MIN from {} to {}",min,footprint);
+            min = footprint;
         }
     }
 
