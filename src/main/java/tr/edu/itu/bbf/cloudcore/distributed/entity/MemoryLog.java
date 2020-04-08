@@ -10,6 +10,7 @@ public class MemoryLog {
     private ArrayList<Integer> memoryLogList;
     private Integer max;
     private Integer min;
+    private Integer delta;
 
     public MemoryLog(){
         /* Initialize footprint */
@@ -31,6 +32,8 @@ public class MemoryLog {
             logger.info("Updating MIN from {} to {}",min,footprint);
             min = footprint;
         }
+
+        delta = max - min;
     }
 
     public Integer sizeOfMemoryLog(){ return this.memoryLogList.size(); }
@@ -38,6 +41,8 @@ public class MemoryLog {
     public Integer getMax() { return max; }
 
     public Integer getMin() { return min; }
+
+    public Integer getDelta() { return delta; }
 
     public ArrayList<Integer> getMemoryLogList() { return memoryLogList; }
 }
