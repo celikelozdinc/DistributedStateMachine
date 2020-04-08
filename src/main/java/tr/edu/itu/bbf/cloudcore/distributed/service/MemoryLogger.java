@@ -43,14 +43,17 @@ public class MemoryLogger {
 
         logger.info("Size of VmHWM memoryfootprint array --> {}",VmHWM.sizeOfMemoryLog());
         logger.info("Max of VmHWM memoryfootprint array --> {}",VmHWM.getMax());
+        logger.info("Min of VmHWM memoryfootprint array --> {}",VmHWM.getMin());
         logger.info("VmHWM memoryfootprint array --> {}",VmHWM.getMemoryLogList());
 
         logger.info("Size of VmRSS memoryfootprint array --> {}",VmRSS.sizeOfMemoryLog());
         logger.info("Max of VmRSS memoryfootprint array --> {}",VmRSS.getMax());
+        logger.info("Min of VmRSS memoryfootprint array --> {}",VmRSS.getMin());
         logger.info("VmRSS memoryfootprint array --> {}",VmRSS.getMemoryLogList());
 
         logger.info("Size of VmData memoryfootprint array --> {}",VmData.sizeOfMemoryLog());
         logger.info("Max of VmData memoryfootprint array --> {}",VmData.getMax());
+        logger.info("Min of VmData memoryfootprint array --> {}",VmData.getMin());
         logger.info("VmData memoryfootprint array --> {}",VmData.getMemoryLogList());
     }
 

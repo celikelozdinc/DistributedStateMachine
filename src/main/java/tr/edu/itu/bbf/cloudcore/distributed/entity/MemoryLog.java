@@ -37,5 +37,7 @@ public class MemoryLog {
 
     public Integer getMax() { return max; }
 
+    public Integer getMin() { return min; }
+
     public ArrayList<Integer> getMemoryLogList() { return memoryLogList; }
 }
