@@ -39,7 +39,14 @@ public class MemoryLogger {
         //logger.info("Sum of each memory footprint metric >  {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
         //logger.info("Avg of each memory footprint metric >  {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
         logger.info("Size of VmPeak memoryfootprint array --> {}",VmPeak.sizeOfMemoryLog());
+        logger.info("Max of VmPeak memoryfootprint array --> {}",VmPeak.getMax());
+        logger.info("Min of VmPeak memoryfootprint array --> {}",VmPeak.getMin());
+        logger.info("VmPeak memoryfootprint array --> {}",VmPeak.getMemoryLogList());
+
         logger.info("Size of VmSize memoryfootprint array --> {}",VmSize.sizeOfMemoryLog());
+        logger.info("Max of VmSize memoryfootprint array --> {}",VmSize.getMax());
+        logger.info("Min of VmSize memoryfootprint array --> {}",VmSize.getMin());
+        logger.info("VmSize memoryfootprint array --> {}",VmSize.getMemoryLogList());
 
         logger.info("Size of VmHWM memoryfootprint array --> {}",VmHWM.sizeOfMemoryLog());
         logger.info("Max of VmHWM memoryfootprint array --> {}",VmHWM.getMax());
