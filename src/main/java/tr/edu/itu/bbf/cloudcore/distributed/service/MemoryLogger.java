@@ -40,9 +40,18 @@ public class MemoryLogger {
         //logger.info("Avg of each memory footprint metric >  {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
         logger.info("Size of VmPeak memoryfootprint array --> {}",VmPeak.sizeOfMemoryLog());
         logger.info("Size of VmSize memoryfootprint array --> {}",VmSize.sizeOfMemoryLog());
+
         logger.info("Size of VmHWM memoryfootprint array --> {}",VmHWM.sizeOfMemoryLog());
+        logger.info("Max of VmHWM memoryfootprint array --> {}",VmHWM.getMax());
+        logger.info("VmHWM memoryfootprint array --> {}",VmHWM.getMemoryLogList());
+
         logger.info("Size of VmRSS memoryfootprint array --> {}",VmRSS.sizeOfMemoryLog());
+        logger.info("Max of VmRSS memoryfootprint array --> {}",VmRSS.getMax());
+        logger.info("VmRSS memoryfootprint array --> {}",VmRSS.getMemoryLogList());
+
         logger.info("Size of VmData memoryfootprint array --> {}",VmData.sizeOfMemoryLog());
+        logger.info("Max of VmData memoryfootprint array --> {}",VmData.getMax());
+        logger.info("VmData memoryfootprint array --> {}",VmData.getMemoryLogList());
     }
 
 

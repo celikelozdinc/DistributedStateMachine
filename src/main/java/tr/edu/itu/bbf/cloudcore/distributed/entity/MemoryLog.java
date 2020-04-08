@@ -28,4 +28,8 @@ public class MemoryLog {
     }
 
     public Integer sizeOfMemoryLog(){ return this.memoryLogList.size(); }
+
+    public Integer getMax() { return max; }
+
+    public ArrayList<Integer> getMemoryLogList() { return memoryLogList; }
 }
