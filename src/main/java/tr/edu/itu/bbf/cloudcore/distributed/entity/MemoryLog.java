@@ -25,11 +25,11 @@ public class MemoryLog {
         memoryLogList.add(footprint);
         /* Update min, max and delta */
         if(footprint > max){
-            logger.info("Updating MAX from {} to {}",max,footprint);
+            //logger.info("Updating MAX from {} to {}",max,footprint);
             max = footprint;
         }
         if(footprint < min){
-            logger.info("Updating MIN from {} to {}",min,footprint);
+            //logger.info("Updating MIN from {} to {}",min,footprint);
             min = footprint;
         }
 
