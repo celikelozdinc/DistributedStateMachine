@@ -20,7 +20,11 @@ public class MemoryLogger {
     public void init() {
         logger.info("+++++MemoryLogger::PostConstructor+++++");
         /*Initialize Log object for storing each memory footprint metric */
-        VmPeak = VmSize = VmHWM = VmRSS = VmData = new MemoryLog();
+        VmPeak = new MemoryLog();
+        VmSize = new MemoryLog();
+        VmHWM = new MemoryLog();
+        VmRSS = new MemoryLog();
+        VmData = new MemoryLog();
     }
 
     public void storeMemoryLog(String peak, String size, String hwm, String rss, String data){
