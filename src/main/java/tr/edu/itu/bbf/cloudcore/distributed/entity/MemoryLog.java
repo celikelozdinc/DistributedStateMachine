@@ -23,7 +23,7 @@ public class MemoryLog {
     public void store(Integer footprint){
         /* Add current footprint */
         memoryLogList.add(footprint);
-        /* Update min and max */
+        /* Update min, max and delta */
         if(footprint > max){
             logger.info("Updating MAX from {} to {}",max,footprint);
             max = footprint;

@@ -29,7 +29,7 @@ public class MemoryLogger {
 
     public void storeMemoryLog(String peak, String size, String hwm, String rss, String data){
         logger.info("+++++MemoryLogger::storeMemoryLog+++++");
-        /* Cast to Integer & store it*/
+        /* Cast to Integer & store it */
         Integer VmPeak_measure = Integer.parseInt(peak); this.VmPeak.store(VmPeak_measure);
         Integer VmSize_measure = Integer.parseInt(size); this.VmSize.store(VmSize_measure);
         Integer VmHWM_measure = Integer.parseInt(hwm); this.VmHWM.store(VmHWM_measure);
@@ -38,35 +38,8 @@ public class MemoryLogger {
         //logger.info("Current of each memory footprint metric >  {}, {}, {}, {}, {}",VmPeak,VmSize,VmHWM,VmRSS,VmData);
         //logger.info("Sum of each memory footprint metric >  {}, {}, {}, {}, {}", this.sum_VmPeak,this.sum_VmSize,this.sum_VmHWM,this.sum_VmRss,this.sum_VmData);
         //logger.info("Avg of each memory footprint metric >  {}, {}, {}, {}, {}", avg_VmPeak, avg_VmSize,avg_VmHWM,avg_VmRSS,avg_VmData);
-        logger.info("Size of VmPeak memoryfootprint array --> {}",VmPeak.sizeOfMemoryLog());
-        logger.info("Max of VmPeak memoryfootprint array --> {}",VmPeak.getMax());
-        logger.info("Min of VmPeak memoryfootprint array --> {}",VmPeak.getMin());
-        logger.info("Delta of VmPeak memoryfootprint array --> {}",VmPeak.getDelta());
-        logger.info("VmPeak memoryfootprint array --> {}",VmPeak.getMemoryLogList());
+        logger.info("Delta of each memory footprint metric > {},{},{},{},{}",VmPeak.getDelta(),VmSize.getDelta(),VmHWM.getDelta(),VmRSS.getDelta(),VmData.getDelta());
 
-        logger.info("Size of VmSize memoryfootprint array --> {}",VmSize.sizeOfMemoryLog());
-        logger.info("Max of VmSize memoryfootprint array --> {}",VmSize.getMax());
-        logger.info("Min of VmSize memoryfootprint array --> {}",VmSize.getMin());
-        logger.info("Delta of VmSize memoryfootprint array --> {}",VmSize.getDelta());
-        logger.info("VmSize memoryfootprint array --> {}",VmSize.getMemoryLogList());
-
-        logger.info("Size of VmHWM memoryfootprint array --> {}",VmHWM.sizeOfMemoryLog());
-        logger.info("Max of VmHWM memoryfootprint array --> {}",VmHWM.getMax());
-        logger.info("Min of VmHWM memoryfootprint array --> {}",VmHWM.getMin());
-        logger.info("Delta of VmHWM memoryfootprint array --> {}",VmHWM.getDelta());
-        logger.info("VmHWM memoryfootprint array --> {}",VmHWM.getMemoryLogList());
-
-        logger.info("Size of VmRSS memoryfootprint array --> {}",VmRSS.sizeOfMemoryLog());
-        logger.info("Max of VmRSS memoryfootprint array --> {}",VmRSS.getMax());
-        logger.info("Min of VmRSS memoryfootprint array --> {}",VmRSS.getMin());
-        logger.info("Delta of VmRSS memoryfootprint array --> {}",VmRSS.getDelta());
-        logger.info("VmRSS memoryfootprint array --> {}",VmRSS.getMemoryLogList());
-
-        logger.info("Size of VmData memoryfootprint array --> {}",VmData.sizeOfMemoryLog());
-        logger.info("Max of VmData memoryfootprint array --> {}",VmData.getMax());
-        logger.info("Min of VmData memoryfootprint array --> {}",VmData.getMin());
-        logger.info("Delta of VmData memoryfootprint array --> {}",VmData.getDelta());
-        logger.info("VmData memoryfootprint array --> {}",VmData.getMemoryLogList());
     }
 
 
