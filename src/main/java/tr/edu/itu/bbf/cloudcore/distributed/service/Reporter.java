@@ -28,10 +28,6 @@ public class Reporter {
     @Autowired
     private MemoryLogger memoryLogger;
 
-    /*
-    private String VmSize_t0, VmPeak_t0, VmHWM_t0, VmRSS_t0, VmData_t0;
-    private String VmSize_current, VmPeak_current, VmHWM_current, VmRSS_current, VmData_current;
-     */
 
     @PostConstruct
     public void init() {
@@ -71,68 +67,6 @@ public class Reporter {
         return output.get(0);
     }
 
-    /*
-    public void calculateInitialMemoryFootprint() throws IOException {
-        //VmPeak,VmSize,VmHWM,VmRSS,VmData
-
-        // VmPeak
-        String VmPeakCommand = prepareCommand("VmPeak");
-        this.VmPeak_t0 = runCommand(VmPeakCommand);
-
-        // VmSize
-        String VmSizeCommand = prepareCommand("VmSize");
-        this.VmSize_t0 = runCommand(VmSizeCommand);
-
-        // VmHWM
-        String VmHWMCommand = prepareCommand("VmHWM");
-        this.VmHWM_t0 = runCommand(VmHWMCommand);
-
-        // VmRSS
-        String VmRSSCommand = prepareCommand("VmRSS");
-        this.VmRSS_t0 = runCommand(VmRSSCommand);
-
-        // VmData
-        String VmDataCommand = prepareCommand("VmData");
-        this.VmData_t0 = runCommand(VmDataCommand);
-
-        logger.info("InitialMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",this.VmPeak_t0,this.VmSize_t0,this.VmHWM_t0,this.VmRSS_t0,this.VmData_t0);
-    }
-
-
-    public void calculateDeltaMemoryFootprint() throws IOException {
-        //VmPeak,VmSize,VmHWM,VmRSS,VmData
-
-        // VmPeak
-        String VmPeakCommand = prepareCommand("VmPeak");
-        this.VmPeak_current = runCommand(VmPeakCommand);
-        Integer delta_VmPeak = Integer.parseInt(this.VmPeak_current) - Integer.parseInt(this.VmPeak_t0);
-
-        // VmSize
-        String VmSizeCommand = prepareCommand("VmSize");
-        this.VmSize_current = runCommand(VmSizeCommand);
-        Integer delta_VmSize = Integer.parseInt(this.VmSize_current) - Integer.parseInt(this.VmSize_t0);
-
-        // VmHWM
-        String VmHWMCommand = prepareCommand("VmHWM");
-        this.VmHWM_current = runCommand(VmHWMCommand);
-        Integer delta_VmHWM = Integer.parseInt(this.VmHWM_current) - Integer.parseInt(this.VmHWM_t0);
-
-        // VmRSS
-        String VmRSSCommand = prepareCommand("VmRSS");
-        this.VmRSS_current = runCommand(VmRSSCommand);
-        Integer delta_VmRSS = Integer.parseInt(this.VmRSS_current) - Integer.parseInt(this.VmRSS_t0);
-
-        // VmData
-        String VmDataCommand = prepareCommand("VmData");
-        this.VmData_current = runCommand(VmDataCommand);
-        Integer delta_VmData = Integer.parseInt(this.VmData_current) - Integer.parseInt(this.VmData_t0);
-
-        logger.info("CurrentMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",this.VmPeak_current,this.VmSize_current,this.VmHWM_current,this.VmRSS_current,this.VmData_current);
-        logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",delta_VmPeak,delta_VmSize,delta_VmHWM,delta_VmRSS,delta_VmData);
-
-    }
-    */
-
     public void logMemoryFootprint() throws IOException {
         //VmPeak,VmSize,VmHWM,VmRSS,VmData
 
@@ -158,9 +92,5 @@ public class Reporter {
 
         /* Store */
         memoryLogger.storeMemoryLog(VmPeak,VmSize,VmHWM,VmRSS, VmData);
-        logger.info("Size of memoryfootprint array --> {}",memoryLogger.sizeOfMemoryLog());
-
-
-        //logger.info("DeltaMemoryFootprint > VmPeak,VmSize,VmHWM,VmRSS,VmData > {},{},{},{},{}",delta_VmPeak,delta_VmSize,delta_VmHWM,delta_VmRSS,delta_VmData);
     }
 }

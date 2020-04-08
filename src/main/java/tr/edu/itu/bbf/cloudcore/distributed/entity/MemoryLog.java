@@ -1,39 +1,31 @@
 package tr.edu.itu.bbf.cloudcore.distributed.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+
 public class MemoryLog {
-    private Integer VmSize, VmPeak, VmHWM, VmRSS, VmData;
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private ArrayList<Integer> memoryLogList;
+    private Integer max;
 
     public MemoryLog(){
         /* Initialize footprint */
-        VmSize = VmPeak = VmHWM = VmRSS = VmData =  -1;
+        memoryLogList = new ArrayList<>();
+        /* Initialize max and min values */
+        max = 0;
     }
 
-    public MemoryLog(Integer size, Integer peak, Integer hwm, Integer rss, Integer data ){
-        /* Initialize footprint with values */
-        this.VmSize = size;
-        this.VmPeak = peak;
-        this.VmHWM = hwm;
-        this.VmRSS = rss;
-        this.VmData = data;
+    public void store(Integer footprint){
+        /* Add current footprint */
+        memoryLogList.add(footprint);
+        /* Update min and max */
+        if(footprint > max){
+            logger.info("Updating MAX from {} to {}",max,footprint);
+            max = footprint;
+        }
     }
 
-    public Integer getVmData() {
-        return VmData;
-    }
-
-    public Integer getVmHWM() {
-        return VmHWM;
-    }
-
-    public Integer getVmPeak() {
-        return VmPeak;
-    }
-
-    public Integer getVmRSS() {
-        return VmRSS;
-    }
-
-    public Integer getVmSize() {
-        return VmSize;
-    }
+    public Integer sizeOfMemoryLog(){ return this.memoryLogList.size(); }
 }
