@@ -94,6 +94,8 @@ public class Application implements CommandLineRunner {
 
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
+        long start_time, end_time;
+        float delta_time;
         if (hostname.equals(newSmoc)){
             logger.warn("{} read CKPTs from other smocs...",hostname);
             /* Read CKPT information from other smocs */
@@ -106,8 +108,19 @@ public class Application implements CommandLineRunner {
                 switch (solutionType){
                     case "centralized": case "Centralized":
                         logger.info("=====CENTRALIZED CKPT STRUCTURE =====");
+
+                        start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("start_communication finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
                         worker.applyCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("applyCktps finished in {} seconds", delta_time);
+
                         break;
                     case "distributed": case "Distributed":
                         logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
@@ -117,8 +130,19 @@ public class Application implements CommandLineRunner {
                         break;
                     case "conventional": case "Conventional":
                         logger.info("=====CONVENTIONAL CKPT STRUCTURE =====");
+
+                        start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("start_communication finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
                         worker.applyCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("applyCktps finished in {} seconds", delta_time);
+
                         break;
                 }
 
