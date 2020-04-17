@@ -124,9 +124,26 @@ public class Application implements CommandLineRunner {
                         break;
                     case "distributed": case "Distributed":
                         logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
+
+                        start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("start_communication finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
                         worker.prepareCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("prepareCkpts finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
                         worker.applyCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("applyCktps finished in {} seconds", delta_time);
+
+
                         break;
                     case "conventional": case "Conventional":
                         logger.info("=====CONVENTIONAL CKPT STRUCTURE =====");
