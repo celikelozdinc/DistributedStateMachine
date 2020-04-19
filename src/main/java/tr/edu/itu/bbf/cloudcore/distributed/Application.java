@@ -94,6 +94,11 @@ public class Application implements CommandLineRunner {
 
         /* Read hostname from ENV of SMOC */
         String hostname = System.getenv("HOSTNAME");
+
+        String numOfReplicas = environment.getProperty("smoc.replicas");
+
+        logger.info("metadata for reporting > {},{},{}",numOfReplicas,solutionType,hostname);
+
         long start_time, end_time;
         float delta_time;
         if (hostname.equals(newSmoc)){
