@@ -46,3 +46,4 @@ if [[ "${HOSTNAME}" == smoc7 ]]; then
   apply_ckpts=$(grep "applyCktps" log | awk -F 'in | seconds' '{print $2}')
   apply=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
   echo "$start_jvm","$start_communication","$prepare_ckpts","$apply_ckpts","$apply"
+fi
