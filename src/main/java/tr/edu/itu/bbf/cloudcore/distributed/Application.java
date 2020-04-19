@@ -179,6 +179,8 @@ public class Application implements CommandLineRunner {
 
             /* Store delta memory usage */
             reporter.logMemoryFootprint();
+
+
         }
         else {
 
