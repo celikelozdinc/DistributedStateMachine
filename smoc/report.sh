@@ -32,6 +32,8 @@ deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" log | tail -
 # -n for top : exit after n iteration
 from_top=$(top -n 1 | awk -v search="$current_pid" '$1 == search {print $5}' | cut -d'm' -f1)
 
+metadata=$(grep "metadata for reporting" log | cut -d'>' -f2 |  xargs)
+
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
-echo "$sum","$deltaMemoryFootprint","$from_top"
+echo "$metadata","$sum","$deltaMemoryFootprint","$from_top"
