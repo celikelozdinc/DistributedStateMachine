@@ -320,6 +320,166 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
+  smoc17:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC17}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC17}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC17}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC17}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC17}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC17}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc18:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC18}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC18}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC18}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC18}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC18}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC18}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc19:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC19}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC19}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC19}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC19}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC19}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC19}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc20:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC20}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC20}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC20}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC20}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC20}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC20}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc21:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC21}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC21}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC21}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC21}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC21}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC21}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc22:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC22}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC22}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC22}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC22}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC22}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC22}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc23:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC23}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC23}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC23}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC23}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC23}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC23}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+  smoc24:
+    build:
+      context: .
+      dockerfile: smoc/Dockerfile
+    networks:
+      - distributedWan
+    hostname:  ${HOSTNAME_SMOC24}
+    environment:
+      - EXCHANGE=${IPC_EXCHANGE_FOR_SMOC24}
+      - QUEUE=${IPC_QUEUE_FOR_SMOC24}
+      - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC24}
+      - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC24}
+      - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC24}
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
 networks:
   distributedWan:
     external:
