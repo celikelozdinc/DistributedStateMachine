@@ -154,27 +154,27 @@ public class StateMachineWorker {
 
     }
 
-    public String ProcessEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public String ProcessEvent(@NotNull String event, Integer eventNumber, int timeSleep, boolean ckpt) throws Exception {
         Message<String> reply = null;
         switch(event){
             case "Pay": case "pay": case "PAY":
                 logger.info("***************");
                 logger.info("***************");
-                reply = sendPayEvent(event, eventNumber,timeSleep);
+                reply = sendPayEvent(event, eventNumber,timeSleep, ckpt);
                 logger.info("***************");
                 logger.info("***************");
                 break;
             case "Receive": case "receive": case "RECEIVE":
                 logger.info("***************");
                 logger.info("***************");
-                reply = sendReceiveEvent(event, eventNumber,timeSleep);
+                reply = sendReceiveEvent(event, eventNumber,timeSleep, ckpt);
                 logger.info("***************");
                 logger.info("***************");
                 break;
             case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                 logger.info("***************");
                 logger.info("***************");
-                reply = sendStartFromScratchEvent(event, eventNumber,timeSleep);
+                reply = sendStartFromScratchEvent(event, eventNumber,timeSleep, ckpt);
                 logger.info("***************");
                 logger.info("***************");
                 break;
@@ -187,7 +187,7 @@ public class StateMachineWorker {
 
     }
 
-    public Message<String> sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendPayEvent(@NotNull String event, Integer eventNumber, int timeSleep, boolean willCkptTriggered) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -207,6 +207,7 @@ public class StateMachineWorker {
             logger.info("Number of events processed by this SMOC is {}. No need to persist a CKPT.",numberOfEvents);
         }
         */
+
 
         /* Prepare message for CKPT */
         Message<String> ckptMessage = MessageBuilder
@@ -240,8 +241,13 @@ public class StateMachineWorker {
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
-                logger.info("Distributed CKPTing, stores locally");
-                serviceGateway.storeCKPTInMemory(ckptMessage);
+                if(willCkptTriggered) {
+                    logger.info("Distributed CKPTing, stores locally");
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("Distributed CKPTing, does not store locally");
+                }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
@@ -255,7 +261,7 @@ public class StateMachineWorker {
 
     }
 
-    public Message<String> sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendReceiveEvent(@NotNull String event, Integer eventNumber, int timeSleep, boolean willCkptTriggered) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -306,8 +312,13 @@ public class StateMachineWorker {
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
-                logger.info("Distributed CKPTing, stores locally");
-                serviceGateway.storeCKPTInMemory(ckptMessage);
+                if(willCkptTriggered) {
+                    logger.info("Distributed CKPTing, stores locally");
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("Distributed CKPTing, does not store locally");
+                }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
@@ -320,7 +331,7 @@ public class StateMachineWorker {
 
     }
 
-    public Message<String> sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep) throws Exception {
+    public Message<String> sendStartFromScratchEvent(@NotNull String event, Integer eventNumber, int timeSleep, boolean willCkptTriggered) throws Exception {
         //numberOfEvents = numberOfEvents + 1;
         logger.info("{}.event will be processed",eventNumber);
         event_eventNumber.put(eventNumber,event);
@@ -372,8 +383,13 @@ public class StateMachineWorker {
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
-                logger.info("Distributed CKPTing, stores locally");
-                serviceGateway.storeCKPTInMemory(ckptMessage);
+                if(willCkptTriggered) {
+                    logger.info("Distributed CKPTing, stores locally");
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("Distributed CKPTing, does not store locally");
+                }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
@@ -526,17 +542,17 @@ public class StateMachineWorker {
             switch(event){
                 case "Pay": case "pay": case "PAY":
                     System.out.print("\n\n\n\n\n");
-                    sendPayEvent(event, eventNumber,0);;
+                    sendPayEvent(event, eventNumber,0,true);
                     System.out.print("\n\n\n\n\n");
                     break;
                 case "Receive": case "receive": case "RECEIVE":
                     System.out.print("\n\n\n\n\n");
-                    sendReceiveEvent(event, eventNumber,0);;
+                    sendReceiveEvent(event, eventNumber,0, true);
                     System.out.print("\n\n\n\n\n");
                     break;
                 case "StartFromScratch": case "startfromscratch": case"STARTFROMSCRATCH":
                     System.out.print("\n\n\n\n\n");
-                    sendStartFromScratchEvent(event, eventNumber,0);;
+                    sendStartFromScratchEvent(event, eventNumber,0, true);
                     System.out.print("\n\n\n\n\n");
                     break;
                 default:

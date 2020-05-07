@@ -99,7 +99,7 @@ public class Receiver {
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         //pass timeSleep = 0
-        String reply  = worker.ProcessEvent(event,eventNumber,0);
+        String reply  = worker.ProcessEvent(event,eventNumber,0, willCkptTriggered);
         //String reply = "This is reply from distributedstatemachine_" + hostname + " after event " + event;
         //logger.info("Send this message back to smoc __{}__",reply);
         logger.info("Sending reply to ___{}___ process.",msg.getSender());
