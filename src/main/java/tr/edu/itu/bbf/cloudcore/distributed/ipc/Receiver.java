@@ -94,6 +94,8 @@ public class Receiver {
         String event = msg.getEvent();
         String hostname = System.getenv("HOSTNAME");
         Integer eventNumber = msg.getEventNumber();
+        boolean willCkptTriggered = msg.isCkptTriggered();
+        logger.info("WILL CKPT TRIGGERED: {}",willCkptTriggered);
         /* sleep time is parametrized */
         int timeSleep = Integer.parseInt(System.getProperty("timesleep"));
         //pass timeSleep = 0

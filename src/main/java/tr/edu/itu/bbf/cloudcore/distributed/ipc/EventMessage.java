@@ -7,6 +7,7 @@ public class EventMessage implements Serializable {
     public String event;
     public Integer eventNumber;
     public String sender;
+    public boolean ckptTriggered;
 
     public EventMessage(){}
 
@@ -28,5 +29,13 @@ public class EventMessage implements Serializable {
 
     public void setEventNumber(Integer eventNumber) {
         this.eventNumber = eventNumber;
+    }
+
+    public boolean isCkptTriggered() {
+        return ckptTriggered;
+    }
+
+    public void setCkptTriggered(boolean ckptTriggered) {
+        this.ckptTriggered = ckptTriggered;
     }
 }
