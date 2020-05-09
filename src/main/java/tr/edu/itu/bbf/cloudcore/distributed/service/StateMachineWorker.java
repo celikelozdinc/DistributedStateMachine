@@ -201,6 +201,7 @@ public class StateMachineWorker {
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
+        logger.info("Current variables : {}",stateMachine.getExtendedState().getVariables());
         logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.PAY.toString(),"UNPAID","WAITING_FOR_RECEIVE");
 
         /*
@@ -252,7 +253,7 @@ public class StateMachineWorker {
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
@@ -276,6 +277,7 @@ public class StateMachineWorker {
                 .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
+        logger.info("Current variables : {}",stateMachine.getExtendedState().getVariables());
         logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.RECEIVE.toString(),"WAITING_FOR_RECEIVE","DONE");
 
         /*
@@ -323,7 +325,7 @@ public class StateMachineWorker {
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
@@ -346,6 +348,7 @@ public class StateMachineWorker {
                 .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
+        logger.info("Current variables : {}",stateMachine.getExtendedState().getVariables());
         logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.STARTFROMSCRATCH.toString(),"DONE","UNPAID");
 
         /*
@@ -395,7 +398,7 @@ public class StateMachineWorker {
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
