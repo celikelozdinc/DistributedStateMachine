@@ -43,16 +43,16 @@ public class Receiver {
         logger.info(" +++++++++ POSTCONTRUCT of RECEIVER ++++++++++");
     }
 
+    /* Returns the list of current CKPT snapshots */
     @RabbitListener(queues = "${QUEUE}")
     public ArrayList<Response> process(CkptMessage msg) throws UnknownHostException {
         InetAddress localhost = InetAddress.getLocalHost();
         String ipAddr = localhost.getHostAddress();
         String hostname = localhost.getHostName();
-        logger.info("Receiver::process()");
+        logger.info("Receiver::process() START");
         logger.info("Ip Addr of receiver  = {}",ipAddr);
         logger.info("Hostname of receiver = {}",hostname);
         logger.info("CkptMessage Received from sender. Hostname of sender={}, IP of sender={}",msg.getHostname(),msg.getIpAddr());
-        logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
         Message<String> getMessage = MessageBuilder
                 .withPayload("PAYLOAD")
                 .build();
@@ -67,12 +67,8 @@ public class Receiver {
         ArrayList<Response> responseList = new ArrayList<>();
         if(list!=null && !list.isEmpty()){
             for(CheckpointDbObject dbObject: list){
-                logger.info(" +++++ Event number = {}\n", dbObject.getEventNumber());
-                logger.info(" +++++ Source state = {}\n", dbObject.getSourceState());
-                logger.info(" +++++ Processed event = {}\n", dbObject.getProcessedEvent());
-                logger.info(" +++++ Target state = {}\n", dbObject.getTargetState());
-                logger.info(" +++++ Context = {}\n",dbObject.getContext());
-                logger.info(" +++++ Receiver:: READ FROM DATABASE +++++");
+                logger.info("Receiver::Returns the CKPT snapshot above:");
+                logger.info("Event number = {} :  {} >>> {} >>> {}",dbObject.getEventNumber(),dbObject.getSourceState(), dbObject.getProcessedEvent(),dbObject.getTargetState());
                 Response response = new Response(dbObject.getEventNumber(),dbObject.getSourceState(),dbObject.getProcessedEvent(),dbObject.getTargetState());
                 responseList.add(response);
             }
@@ -82,8 +78,9 @@ public class Receiver {
              */
         }
         else{
-           logger.info(" ---- EMPTY CKPT LIST WILL BE RETURNED ----");
+           logger.info("!!!!! EMPTY CKPT LIST WILL BE RETURNED !!!!!");
         }
+        logger.info("Receiver::process() END");
         return responseList;
     }
 
