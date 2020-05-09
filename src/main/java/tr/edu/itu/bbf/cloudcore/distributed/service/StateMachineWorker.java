@@ -201,6 +201,7 @@ public class StateMachineWorker {
                 .setHeader("target","WAITING_FOR_RECEIVE")
                 .build();
         stateMachine.sendEvent(messagePay);
+        logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.PAY.toString(),"UNPAID","WAITING_FOR_RECEIVE");
 
         /*
         if (numberOfEvents < 2 ){
@@ -235,23 +236,23 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("Centralized CKPTing, do not store locally");
+                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
-                    logger.info("Distributed CKPTing, stores locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
                     serviceGateway.storeCKPTInMemory(ckptMessage);
                 }
                 else{
-                    logger.info("Distributed CKPTing, does not store locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("Conventional CKPTing, all smocs stores locally all CKPTs");
+                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
@@ -275,7 +276,7 @@ public class StateMachineWorker {
                 .setHeader("target", "DONE")
                 .build();
         stateMachine.sendEvent(messageReceive);
-
+        logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.RECEIVE.toString(),"WAITING_FOR_RECEIVE","DONE");
 
         /*
         if (numberOfEvents < 2 ){
@@ -306,23 +307,23 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("Centralized CKPTing, do not store locally");
+                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
-                    logger.info("Distributed CKPTing, stores locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
                     serviceGateway.storeCKPTInMemory(ckptMessage);
                 }
                 else{
-                    logger.info("Distributed CKPTing, does not store locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("Conventional CKPTing, all smocs stores locally all CKPTs");
+                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
@@ -345,6 +346,7 @@ public class StateMachineWorker {
                 .setHeader("target","UNPAID")
                 .build();
         stateMachine.sendEvent(messageStartFromScratch);
+        logger.info("AFTER EVENT {} : Previous state = {}, Current state = {}",Events.STARTFROMSCRATCH.toString(),"DONE","UNPAID");
 
         /*
         if (numberOfEvents < 2 ){
@@ -377,23 +379,23 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("Centralized CKPTing, do not store locally");
+                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
             case "distributed": case "Distributed":
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
-                    logger.info("Distributed CKPTing, stores locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
                     serviceGateway.storeCKPTInMemory(ckptMessage);
                 }
                 else{
-                    logger.info("Distributed CKPTing, does not store locally");
+                    logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
-                logger.info("Conventional CKPTing, all smocs stores locally all CKPTs");
+                logger.info("WillCheckpoint be triggered:{}Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
                 break;
         }
