@@ -89,7 +89,7 @@ public class Application implements CommandLineRunner {
         /* Read the hostname of smoc which is joining our system */
         String newSmoc = environment.getProperty("smoc.newSmoc");
 
-        /* Read solution type: base or centralized */
+        /* Read solution type */
         String solutionType = environment.getProperty("smoc.solutionType");
 
         /* Read hostname from ENV of SMOC */
@@ -164,6 +164,31 @@ public class Application implements CommandLineRunner {
                         end_time = System.currentTimeMillis();
                         delta_time = ((float) (end_time - start_time)/1000);
                         logger.info("applyCktps finished in {} seconds", delta_time);
+
+                        break;
+
+                    case "mirrored": case "MIRRORED":
+                        logger.info("=====MIRRORED CKPT STRUCTURE =====");
+
+                        /* DO NOT GATHER FROM ALL REPLICAS, READ FROM ONE OF THE PEERS */
+                        start_time = System.currentTimeMillis();
+                        worker.startCommunication(solutionType);
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("start_communication finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
+                        worker.prepareCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("prepareCkpts finished in {} seconds", delta_time);
+
+                        start_time = System.currentTimeMillis();
+                        worker.applyCkpts();
+                        end_time = System.currentTimeMillis();
+                        delta_time = ((float) (end_time - start_time)/1000);
+                        logger.info("applyCktps finished in {} seconds", delta_time);
+
 
                         break;
                 }

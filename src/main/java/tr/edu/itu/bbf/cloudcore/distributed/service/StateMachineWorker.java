@@ -1,6 +1,5 @@
 package tr.edu.itu.bbf.cloudcore.distributed.service;
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Output;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.CreateMode;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +15,6 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.config.StateMachineFactory;
-import org.springframework.statemachine.ensemble.StateMachineEnsemble;
 import org.springframework.statemachine.kryo.MessageHeadersSerializer;
 import org.springframework.statemachine.kryo.StateMachineContextSerializer;
 import org.springframework.statemachine.kryo.UUIDSerializer;
@@ -27,13 +25,10 @@ import tr.edu.itu.bbf.cloudcore.distributed.ipc.CkptMessage;
 import tr.edu.itu.bbf.cloudcore.distributed.ipc.Response;
 
 import javax.annotation.PostConstruct;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.Base64;
 
 @Service
 public class StateMachineWorker {
@@ -237,7 +232,7 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{} BUT Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
@@ -251,6 +246,17 @@ public class StateMachineWorker {
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
+            case "mirrored": case "MIRRORED":
+                /*Store CKPT locally */
+                if(willCkptTriggered) {
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, does not store locally",willCkptTriggered);
+                }
+                break;
+
             case "conventional": case "Conventional":
                 /*Store CKPT locally */
                 logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
@@ -309,7 +315,7 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{} BUT Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
@@ -321,6 +327,16 @@ public class StateMachineWorker {
                 }
                 else{
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
+                }
+                break;
+            case "mirrored": case "MIRRORED":
+                /*Store CKPT locally */
+                if(willCkptTriggered) {
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
             case "conventional": case "Conventional":
@@ -382,7 +398,7 @@ public class StateMachineWorker {
         switch(solutionType){
             case "centralized": case "Centralized":
                 /* Do not store CKPTs locally */
-                logger.info("WillCheckpoint be triggered:{}, Centralized CKPTing, do not store locally",willCkptTriggered);
+                logger.info("WillCheckpoint be triggered:{} BUT Centralized CKPTing, do not store locally",willCkptTriggered);
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 break;
@@ -394,6 +410,16 @@ public class StateMachineWorker {
                 }
                 else{
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, does not store locally",willCkptTriggered);
+                }
+                break;
+            case "mirrored": case "MIRRORED":
+                /*Store CKPT locally */
+                if(willCkptTriggered) {
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
+                    serviceGateway.storeCKPTInMemory(ckptMessage);
+                }
+                else{
+                    logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, does not store locally",willCkptTriggered);
                 }
                 break;
             case "conventional": case "Conventional":
