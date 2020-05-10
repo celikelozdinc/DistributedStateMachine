@@ -112,7 +112,7 @@ public class Application implements CommandLineRunner {
             try {
                 switch (solutionType){
                     case "centralized": case "Centralized":
-                        logger.info("=====CENTRALIZED CKPT STRUCTURE =====");
+                        logger.info("===== CENTRALIZED CKPT STRUCTURE =====");
 
                         start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
@@ -128,7 +128,7 @@ public class Application implements CommandLineRunner {
 
                         break;
                     case "distributed": case "Distributed":
-                        logger.info("=====DISTRIBUTED CKPT STRUCTURE =====");
+                        logger.info("===== DISTRIBUTED CKPT STRUCTURE =====");
 
                         start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
@@ -151,7 +151,7 @@ public class Application implements CommandLineRunner {
 
                         break;
                     case "conventional": case "Conventional":
-                        logger.info("=====CONVENTIONAL CKPT STRUCTURE =====");
+                        logger.info("===== CONVENTIONAL CKPT STRUCTURE =====");
 
                         start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
@@ -168,9 +168,9 @@ public class Application implements CommandLineRunner {
                         break;
 
                     case "mirrored": case "MIRRORED":
-                        logger.info("=====MIRRORED CKPT STRUCTURE =====");
-
-                        /* DO NOT GATHER FROM ALL REPLICAS, READ FROM ONE OF THE PEERS */
+                        logger.info("===== MIRRORED CKPT STRUCTURE =====");
+                        /* DOES NOT GATHER FROM ALL REPLICAS, READ FROM ONE OF THE PEERS */
+                        /* such as SMOC6, SMOC4, SMOC2 ... */
                         start_time = System.currentTimeMillis();
                         worker.startCommunication(solutionType);
                         end_time = System.currentTimeMillis();
