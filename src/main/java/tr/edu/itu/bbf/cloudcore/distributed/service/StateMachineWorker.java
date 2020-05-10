@@ -533,6 +533,20 @@ public class StateMachineWorker {
                 }
                 logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
                 break;
+            case "mirrored": case "MIRRORED":
+                String newSmoc = environment.getProperty("smoc.newSmoc");
+                /* example: newSmocNumber <- 9 <- smoc9 */
+                Integer newSmocNumber = Integer.parseInt(newSmoc.substring(4));
+                for(int smoc=newSmocNumber-1; smoc >= 2; smoc -= 2 ){
+                    /* Construct the exchange, in this way: SMOC6_CKPT_EXCHANGE, SMOC4_CKPT_EXCHANGE, so on */
+                    String exchange = "SMOC" + (smoc) +"_CKPT_EXCHANGE";
+                    logger.info("Exchange is = {}",exchange);
+                    ArrayList<Response> smocCkptList = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive(exchange,"rpc",msg);
+                    logger.info("Size of list is = {}",smocCkptList.size());
+                    mixedCkpts.addAll(smocCkptList);
+                }
+                logger.info("Count of ckpts stored by all smocs --> {}",mixedCkpts.size());
+                break;
             case "conventional": case "Conventional":
                 sequentialCktps = (ArrayList<Response>) rabbitTemplate.convertSendAndReceive("SMOC1_CKPT_EXCHANGE","rpc",msg);
                 logger.info("Count of ckpts stored by any of smocs, e.g.: smoc1 --> {}",sequentialCktps.size());
