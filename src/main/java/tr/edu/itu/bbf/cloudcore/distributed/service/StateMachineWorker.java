@@ -78,8 +78,11 @@ public class StateMachineWorker {
     @Autowired
     private ServiceGateway serviceGateway;
 
+    /*
     @Autowired
     private CuratorFramework sharedCuratorClient;
+     */
+
 
     private StateMachine<States, Events> stateMachine;
 
@@ -512,8 +515,9 @@ public class StateMachineWorker {
         return "MOCK_SMOC_CONTEXT";
     }
 
+    /*
     public void MarkCKPT() throws Exception {
-        /* Get processed events */
+        // Get processed events
         String str_data = "";
         for (Enumeration keys = event_eventNumber.keys(); keys.hasMoreElements();)
         {
@@ -523,7 +527,7 @@ public class StateMachineWorker {
             //str_data = str_data + key + "-->"+ value + "...";
             str_data = str_data + key + ",";
         }
-        /*Read hostname from env */
+        //Read hostname from env
         String hostname = System.getenv("HOSTNAME");
         //String str_data = "CKPT information:" + getTimeStamp() + "__"  + hostname ;
         byte[] data = str_data.getBytes();
@@ -556,6 +560,8 @@ public class StateMachineWorker {
         String ts = year + "." + month + "." +  day + "_" + hour + "." + minute + "." + second + "." + ms;
         return ts;
     }
+     */
+
 
     public void startCommunication(String solutionType) throws UnknownHostException {
         logger.info("********* StateMachineWorker::startCommunication()");
