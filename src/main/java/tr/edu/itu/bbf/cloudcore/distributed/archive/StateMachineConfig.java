@@ -1,35 +1,41 @@
-package tr.edu.itu.bbf.cloudcore.distributed.config;
+package tr.edu.itu.bbf.cloudcore.distributed.archive;
+
+public class StateMachineConfig {
+}
+
+
+/*
 
 import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.framework.imps.CuratorFrameworkState;
-import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.zookeeper.CreateMode;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.statemachine.StateContext;
-import org.springframework.statemachine.action.Action;
-import org.springframework.statemachine.config.EnableStateMachine;
-import org.springframework.statemachine.config.EnableStateMachineFactory;
-import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
-import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
-import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
-import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.ensemble.StateMachineEnsemble;
-import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
-import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
+        import org.apache.curator.framework.CuratorFramework;
+        import org.apache.curator.framework.CuratorFrameworkFactory;
+        import org.apache.curator.framework.imps.CuratorFrameworkState;
+        import org.apache.curator.retry.ExponentialBackoffRetry;
+        import org.apache.zookeeper.CreateMode;
+        import org.jetbrains.annotations.NotNull;
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.context.annotation.Bean;
+        import org.springframework.context.annotation.Configuration;
+        import org.springframework.statemachine.StateContext;
+        import org.springframework.statemachine.action.Action;
+        import org.springframework.statemachine.config.EnableStateMachine;
+        import org.springframework.statemachine.config.EnableStateMachineFactory;
+        import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
+        import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
+        import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
+        import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+        import org.springframework.statemachine.ensemble.StateMachineEnsemble;
+        import org.springframework.statemachine.zookeeper.ZookeeperStateMachineEnsemble;
+        import tr.edu.itu.bbf.cloudcore.distributed.entity.Events;
+        import tr.edu.itu.bbf.cloudcore.distributed.entity.States;
 
-import javax.annotation.PostConstruct;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.UUID;
+        import javax.annotation.PostConstruct;
+        import java.util.Enumeration;
+        import java.util.Map;
+        import java.util.concurrent.TimeUnit;
+        import java.util.UUID;
 
 @Configuration
 //@EnableStateMachine(name = "DistributedStateMachine")
@@ -42,7 +48,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     private StateMachineEnsemble<States, Events> stateMachineEnsemble;
 
 
-    /** Default Constructor **/
+    */
+/** Default Constructor **//*
+
     public StateMachineConfig() {
         logger.info(" ++++++++++ CONSTRUCTOR FOR factory_with_ZK ++++++++++");
     }
@@ -54,10 +62,12 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
     @Bean
     public StateMachineEnsemble<States, Events> stateMachineEnsemble() throws Exception {
-        /*
+        */
+/*
         stateMachineEnsemble =  new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
         return stateMachineEnsemble;
-        */
+        *//*
+
         return new ZookeeperStateMachineEnsemble<States, Events>(curatorClient(), "/zkPath");
     }
 
@@ -114,7 +124,9 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
     @Override
     public void configure(StateMachineTransitionConfigurer<States, Events> transitions)
             throws Exception {
-        /** Defines "EXTERNAL" type of transitions **/
+        */
+/** Defines "EXTERNAL" type of transitions **//*
+
         transitions
                 .withExternal()
                 .source(States.UNPAID).target(States.WAITING_FOR_RECEIVE)
@@ -208,9 +220,13 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             @Override
             public void execute(StateContext<States, Events> context) {
                 System.out.println("-----TRANSITION ACTION FOR INITIALIZATION for state machine-----> " + context.getStateMachine().getUuid());
-                /** Define extended state variable as common variable used inside transition actions **/
+                */
+/** Define extended state variable as common variable used inside transition actions **//*
+
                 context.getExtendedState().getVariables().put("common", 0);
-                /** Define extended state variable as private/local variable used inside state actions **/
+                */
+/** Define extended state variable as private/local variable used inside state actions **//*
+
                 context.getExtendedState().getVariables().put("localVarForWaiting",10);
                 context.getExtendedState().getVariables().put("localVarForDone",50);
             }
@@ -223,18 +239,25 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
             @Override
             public void execute(StateContext<States, Events> context) {
                 System.out.println("-----TRANSITION ACTION BETWEEN STATES for statemachine-----> " + context.getStateMachine().getUuid());
-                /* Get timeSleep from StateContext */
+                */
+/* Get timeSleep from StateContext *//*
+
                 Object sleep = context.getMessageHeaders().get("timeSleep");
                 long longSleep = ((Number) sleep).longValue();
-                /* Get processed event from StateContext */
+                */
+/* Get processed event from StateContext *//*
+
                 Object O_event = context.getMessageHeaders().get("processedEvent");
                 String processedEvent = O_event.toString();
-                /* Get UUID from StateContext and then print */
+                */
+/* Get UUID from StateContext and then print *//*
+
                 Object O_UUID = context.getMessageHeaders().get("machineId");
                 UUID uuid = UUID.fromString(O_UUID.toString());
                 System.out.printf("Event %s is processed by SMOC ---> %s\n",processedEvent,uuid.toString());
                 System.out.println("My UUID --> " + context.getStateMachine().getUuid());
-                /*
+                */
+/*
                 try {
                     Object O_statemachine = context.getMessageHeaders().get("stateMachine");
                     StateMachine<States, Events> sm = StateMachine.class.cast(O_statemachine);
@@ -245,7 +268,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
                     System.out.println("MESSAGE: " + e.getMessage());
                     System.out.println("CLASS: " + e.getClass());
                 }
-                */
+                *//*
+
                 Map<Object, Object> variables = context.getExtendedState().getVariables();
                 Integer commonVar = context.getExtendedState().get("common", Integer.class);
 
@@ -285,25 +309,35 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         //System.out.println("----- PERFORM CKPT -----");
         //Map<Object, Object> variables = context.getExtendedState().getVariables();
         //Map<String, ___Checkpoint> checkpoints = (Map<String, ___Checkpoint>) context.getExtendedState().getVariables().get("CKPT");
-        /* Get state machine UUID from StateContext */
+        */
+/* Get state machine UUID from StateContext *//*
+
         Object O_UUID = context.getMessageHeaders().get("machineId");
         UUID uuid = UUID.fromString(O_UUID.toString());
-        /* Get source and target states from StateContext */
+        */
+/* Get source and target states from StateContext *//*
+
         Object O_source = context.getMessageHeaders().get("source");
         String sourceState = O_source.toString();
         Object O_target = context.getMessageHeaders().get("target");
         String targetState = O_target.toString();
-        /* Get processed event from StateContext */
+        */
+/* Get processed event from StateContext *//*
+
         Object O_event = context.getMessageHeaders().get("processedEvent");
         String processedEvent = O_event.toString();
-        /* Create a new CKPT db object */
+        */
+/* Create a new CKPT db object *//*
+
         //CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState,processedEvent, targetState);
         //dbObjectHandler.insertCheckpoint(dbObject);
     }
 
     public void MarkCKPT() throws Exception {
         CuratorFramework sharedCuratorClient = sharedCuratorClient();
-        /*Read hostname from env */
+        */
+/*Read hostname from env *//*
+
         String hostname = System.getenv("HOSTNAME");
         String str_data = "whoami:" + hostname ;
         byte[] data = str_data.getBytes();
@@ -323,3 +357,5 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
         }
     }
 }
+
+*/
