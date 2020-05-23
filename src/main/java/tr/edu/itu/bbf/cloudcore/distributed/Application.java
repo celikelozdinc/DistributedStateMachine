@@ -97,7 +97,10 @@ public class Application implements CommandLineRunner {
 
         String numOfReplicas = environment.getProperty("smoc.replicas");
 
-        logger.info("metadata for reporting > {},{},{}",numOfReplicas,solutionType,hostname);
+        /* Read experiment number from ENV */
+        String experimentNumber = System.getenv("EXPERIMENT");
+
+        logger.info("metadata for reporting > {},{},{},{}",numOfReplicas,solutionType,experimentNumber,hostname);
 
         long start_time, end_time;
         float delta_time;

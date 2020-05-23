@@ -13,6 +13,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC1}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC1}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC1}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -33,6 +34,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC2}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC2}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC2}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -53,6 +55,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC3}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC3}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC3}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -73,6 +76,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC4}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC4}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC4}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -93,6 +97,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC5}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC5}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC5}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -113,6 +118,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC6}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC6}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC6}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -133,6 +139,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC7}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC7}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC7}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -153,6 +160,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC8}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC8}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC8}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -173,6 +181,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC9}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC9}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC9}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -193,6 +202,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC10}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC10}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC10}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -213,6 +223,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC11}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC11}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC11}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -233,6 +244,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC12}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC12}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC12}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -253,6 +265,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC13}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC13}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC13}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -273,6 +286,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC14}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC14}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC14}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -293,6 +307,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC15}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC15}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC15}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -313,6 +328,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC16}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC16}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC16}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -333,6 +349,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC17}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC17}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC17}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -353,6 +370,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC18}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC18}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC18}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -373,6 +391,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC19}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC19}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC19}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -393,6 +412,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC20}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC20}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC20}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -413,6 +433,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC21}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC21}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC21}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -433,6 +454,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC22}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC22}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC22}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -453,6 +475,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC23}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC23}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC23}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
@@ -473,6 +496,7 @@ services:
       - EVENT_EXCHANGE=${EVENT_EXCHANGE_FOR_SMOC24}
       - EVENT_QUEUE=${EVENT_QUEUE_FOR_SMOC24}
       - LB_EXCHANGE=${LB_EXCHANGE_FOR_SMOC24}
+      - EXPERIMENT=${EXPERIMENT}
     tty: true
     stdin_open: true
     healthcheck:
