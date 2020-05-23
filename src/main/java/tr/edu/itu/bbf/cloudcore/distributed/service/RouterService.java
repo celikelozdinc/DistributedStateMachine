@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
+import itu.distributed.ObjectSizeFetcher;
 
 @Service
 public class RouterService {
@@ -75,6 +76,7 @@ public class RouterService {
         CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context,eventNumber);
         ckptList.add(dbObject);
         logger.info("#CKPTs after appending = {}",ckptList.size());
+        logger.info("Object size = {]",ObjectSizeFetcher.getObjectSize(ckptList));
     }
 
     public List<CheckpointDbObject> getCKPTsFromMemory(Message<String> getMessage){

@@ -37,6 +37,7 @@ ARG SPRINGBOOT_HOME=/opt/statemachineapp
 COPY out/artifacts/DistributedStateMachine_jar/ $SPRINGBOOT_HOME/DistributedStateMachine_jar/
 # Copy reporting tools #
 COPY smoc/report.sh  $SPRINGBOOT_HOME/
+COPY smoc/ObjectSizeFetcher.jar $SPRINGBOOT_HOME/
 RUN chmod +x $SPRINGBOOT_HOME/report.sh
 # Change Directory #
 WORKDIR $SPRINGBOOT_HOME
