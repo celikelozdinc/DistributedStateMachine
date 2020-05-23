@@ -76,7 +76,7 @@ public class RouterService {
         CheckpointDbObject dbObject = new CheckpointDbObject(getTimeStamp(), uuid, sourceState, processedEvent, targetState, context,eventNumber);
         ckptList.add(dbObject);
         logger.info("#CKPTs after appending = {}",ckptList.size());
-        logger.info("Object size = {]",ObjectSizeFetcher.getObjectSize(ckptList));
+        logger.info("Object size = {}",ObjectSizeFetcher.getObjectSize(ckptList));
     }
 
     public List<CheckpointDbObject> getCKPTsFromMemory(Message<String> getMessage){
