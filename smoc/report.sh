@@ -28,6 +28,10 @@ current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xarg
 # tail : Get last match from log file
 deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" log | tail -n 1 | cut -d'>' -f2 | xargs)
 
+StateMachineObjectSize=$(grep "Current State Machine Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
+CheckpointObjectSize=$(grep  "Current Checkpoint Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
+TotalObjectSize=$(echo "$StateMachineObjectSize" + "$CheckpointObjectSize" | bc)
+
 # Memory Report from top command
 # -v for awk : define variable
 # -n for top : exit after n iteration
@@ -37,7 +41,7 @@ metadata=$(grep "metadata for reporting" log | cut -d'>' -f2 |  xargs)
 
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
-echo "$metadata","$sum","$deltaMemoryFootprint","$from_top"
+echo "$metadata","$sum","$deltaMemoryFootprint","$from_top","$TotalObjectSize"
 if [[ "${HOSTNAME}" == smoc5 ]]; then
   # Breakdown of the restore duration of new smoc #
   start_jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
