@@ -78,7 +78,7 @@ public class RouterService {
         logger.info("#CKPTs after appending = {}",ckptList.size());
         logger.info("DbObject size = {}",ObjectSizeFetcher.getObjectSize(dbObject));
         long currMemoryFootprint = (ckptList.size()) * (ObjectSizeFetcher.getObjectSize(dbObject));
-        logger.info("Current Memory Footprint via Instrumentation = {}", currMemoryFootprint);
+        logger.info("Current Checkpoint Object Size = {}", currMemoryFootprint);
     }
 
     public List<CheckpointDbObject> getCKPTsFromMemory(Message<String> getMessage){

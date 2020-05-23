@@ -240,13 +240,13 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 break;
             case "distributed": case "Distributed":
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
@@ -260,7 +260,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
@@ -275,7 +275,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
@@ -340,13 +340,13 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 break;
             case "distributed": case "Distributed":
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
@@ -360,7 +360,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
@@ -374,7 +374,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
@@ -440,13 +440,13 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 break;
             case "distributed": case "Distributed":
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Distributed CKPTing, stores locally",willCkptTriggered);
@@ -460,7 +460,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 if(willCkptTriggered) {
                     logger.info("WillCheckpoint be triggered:{},Mirrored CKPTing, stores locally",willCkptTriggered);
@@ -474,7 +474,7 @@ public class StateMachineWorker {
                 numberOfProcessedEvents = numberOfProcessedEvents + 1;
                 logger.info("Processed = {}",numberOfProcessedEvents);
                 currStateMachineSize = numberOfProcessedEvents * objectSize ;
-                logger.info("Current State Machine Size = {}",currStateMachineSize);
+                logger.info("Current State Machine Object Size = {}",currStateMachineSize);
                 /*Store CKPT locally */
                 logger.info("WillCheckpoint be triggered:{},Conventional CKPTing, all smocs stores locally all CKPTs",willCkptTriggered);
                 serviceGateway.storeCKPTInMemory(ckptMessage);
