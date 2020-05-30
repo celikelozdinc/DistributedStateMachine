@@ -1,6 +1,6 @@
 #!/bin/bash
 # Duration in order to up a smoc
-if [[ "${HOSTNAME}" == smoc9 ]]; then
+if [[ "${HOSTNAME}" == smoc11 ]]; then
   jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   ckpt=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
   sum=$(echo "$jvm" + "$ckpt" | bc)
@@ -29,8 +29,11 @@ current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xarg
 deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" log | tail -n 1 | cut -d'>' -f2 | xargs)
 
 StateMachineObjectSize=$(grep "Current State Machine Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
-CheckpointObjectSize=0
 CheckpointObjectSize=$(grep  "Current Checkpoint Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
+# for centralized solution, no checkpoint object will be stored
+if [[ -z $CheckCheckpointObjectSize ]]; then
+  CheckpointObjectSize=0
+fi
 TotalObjectSize=$(echo "$StateMachineObjectSize" + "$CheckpointObjectSize" | bc)
 
 # Memory Report from top command
@@ -43,7 +46,7 @@ metadata=$(grep "metadata for reporting" log | cut -d'>' -f2 |  xargs)
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
 echo "$metadata","$sum","$deltaMemoryFootprint","$from_top","$TotalObjectSize"
-if [[ "${HOSTNAME}" == smoc9 ]]; then
+if [[ "${HOSTNAME}" == smoc11 ]]; then
   # Breakdown of the restore duration of new smoc #
   start_jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   start_communication=$(grep "start_communication" log | awk -F 'in | seconds' '{print $2}')
