@@ -1,6 +1,6 @@
 #!/bin/bash
 # Duration in order to up a smoc
-if [[ "${HOSTNAME}" == smoc11 ]]; then
+if [[ "${HOSTNAME}" == smoc5 ]]; then
   jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   ckpt=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
   sum=$(echo "$jvm" + "$ckpt" | bc)
@@ -46,7 +46,7 @@ metadata=$(grep "metadata for reporting" log | cut -d'>' -f2 |  xargs)
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
 echo "$metadata","$sum","$deltaMemoryFootprint","$from_top","$TotalObjectSize"
-if [[ "${HOSTNAME}" == smoc11 ]]; then
+if [[ "${HOSTNAME}" == smoc5 ]]; then
   # Breakdown of the restore duration of new smoc #
   start_jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
   start_communication=$(grep "start_communication" log | awk -F 'in | seconds' '{print $2}')
