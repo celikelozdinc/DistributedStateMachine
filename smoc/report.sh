@@ -1,17 +1,18 @@
 #!/bin/bash
+# $1 : Log file storing sm execution
 # Duration in order to up a smoc
 if [[ "${HOSTNAME}" == smoc5 ]]; then
-  jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
-  ckpt=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
+  jvm=$(grep "Started" $1 | awk -F 'in | seconds' '{print $2}')
+  ckpt=$(grep "Applied" $1 | awk -F 'in | seconds' '{print $2}')
   sum=$(echo "$jvm" + "$ckpt" | bc)
 
 else
-  sum=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
+  sum=$(grep "Started" $1 | awk -F 'in | seconds' '{print $2}')
 fi
 
 # Learn PID
 # xargs will do trimming
-current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xargs)
+current_pid=$(grep "PID" $1 | tail -n 1 | awk -F "INFO|---" '{print $2}' | xargs)
 
 
 #VmSize=$(grep "VmSize" /proc/"$current_pid"/status | awk -F 'VmSize:|kB' '{print $2}' | xargs)
@@ -25,11 +26,11 @@ current_pid=$(grep "PID" log | tail -n 1 | awk -F "INFO|---" '{print $2}' | xarg
 
 # Memory Report from /proc/<pid>/status
 # xargs will do trimming
-# tail : Get last match from log file
-deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" log | tail -n 1 | cut -d'>' -f2 | xargs)
+# tail : Get last match from $1 file
+deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" $1 | tail -n 1 | cut -d'>' -f2 | xargs)
 
-StateMachineObjectSize=$(grep "Current State Machine Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
-CheckpointObjectSize=$(grep  "Current Checkpoint Object Size" log | tail -n 1 | cut -d'=' -f2 | xargs)
+StateMachineObjectSize=$(grep "Current State Machine Object Size" $1 | tail -n 1 | cut -d'=' -f2 | xargs)
+CheckpointObjectSize=$(grep  "Current Checkpoint Object Size" $1 | tail -n 1 | cut -d'=' -f2 | xargs)
 # for centralized solution, no checkpoint object will be stored
 if [[ -z $CheckCheckpointObjectSize ]]; then
   CheckpointObjectSize=0
@@ -41,17 +42,17 @@ TotalObjectSize=$(echo "$StateMachineObjectSize" + "$CheckpointObjectSize" | bc)
 # -n for top : exit after n iteration
 from_top=$(top -n 1 | awk -v search="$current_pid" '$1 == search {print $5}' | cut -d'm' -f1)
 
-metadata=$(grep "metadata for reporting" log | cut -d'>' -f2 |  xargs)
+metadata=$(grep "metadata for reporting" $1 | cut -d'>' -f2 |  xargs)
 
 #echo "Measures in CSV format:"
 #echo "$sum","$VmPeak","$VmSize","$VmHWM","$VmRSS","$VmData","$VmStk","$VmExe","$VmLib","$from_top"
 echo "$metadata","$sum","$deltaMemoryFootprint","$from_top","$TotalObjectSize"
 if [[ "${HOSTNAME}" == smoc5 ]]; then
   # Breakdown of the restore duration of new smoc #
-  start_jvm=$(grep "Started" log | awk -F 'in | seconds' '{print $2}')
-  start_communication=$(grep "start_communication" log | awk -F 'in | seconds' '{print $2}')
-  prepare_ckpts=$(grep "prepareCkpts" log | awk -F 'in | seconds' '{print $2}')
-  apply_ckpts=$(grep "applyCktps" log | awk -F 'in | seconds' '{print $2}')
-  apply=$(grep "Applied" log | awk -F 'in | seconds' '{print $2}')
+  start_jvm=$(grep "Started" $1 | awk -F 'in | seconds' '{print $2}')
+  start_communication=$(grep "start_communication" $1 | awk -F 'in | seconds' '{print $2}')
+  prepare_ckpts=$(grep "prepareCkpts" $1 | awk -F 'in | seconds' '{print $2}')
+  apply_ckpts=$(grep "applyCktps" $1 | awk -F 'in | seconds' '{print $2}')
+  apply=$(grep "Applied" $1 | awk -F 'in | seconds' '{print $2}')
   echo "$start_jvm","$start_communication","$prepare_ckpts","$apply_ckpts","$apply"
 fi
