@@ -32,10 +32,14 @@ deltaMemoryFootprint=$(grep "Delta of each memory footprint metric" $1 | tail -n
 StateMachineObjectSize=$(grep "Current State Machine Object Size" $1 | tail -n 1 | cut -d'=' -f2 | xargs)
 CheckpointObjectSize=$(grep  "Current Checkpoint Object Size" $1 | tail -n 1 | cut -d'=' -f2 | xargs)
 # for centralized solution, no checkpoint object will be stored
-if [[ -z $CheckCheckpointObjectSize ]]; then
-  CheckpointObjectSize=0
-fi
+#if [[ -z $CheckCheckpointObjectSize ]]; then
+#  CheckpointObjectSize=0
+#fi
+echo "StateMachineObjectSize = "$StateMachineObjectSize
+echo "CheckpointObjectSize = "$CheckpointObjectSize
 TotalObjectSize=$(echo "$StateMachineObjectSize" + "$CheckpointObjectSize" | bc)
+echo "TotalObjectSize = "$TotalObjectSize
+
 
 # Memory Report from top command
 # -v for awk : define variable
